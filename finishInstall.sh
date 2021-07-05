@@ -3,6 +3,7 @@
 python3 -m venv mindsdb
 source mindsdb/bin/activate
 
-pip install -r requirements.txt
+pip3 install wheel
+pip3 install -r requirements.txt
 
 python3 setup.py --verbose develop

@@ -1,7 +1,7 @@
 FROM ubuntu:20.04 as dev
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y update && apt-get -y install curl git
-RUN apt-get -y install python3.8 python3.8-venv python3-pip python3-wheel
+RUN apt-get -y install python3.8 python3.8-venv python3-pip
 
 RUN useradd --uid 5000 --create-home --shell /bin/bash -p '' dev
 RUN adduser dev sudo
