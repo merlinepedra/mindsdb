@@ -19,4 +19,3 @@ flask-compress >= 1.0.0
 kafka-python >= 2.0.0
 pyarrow >= 4.00
 appdirs >= 1.0.0
-wheel
