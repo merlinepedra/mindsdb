@@ -1,6 +1,7 @@
+lightwood == 0.63.0
+mindsdb-native == 2.38.2
 torch == 1.8.0
 transformers == 4.2.1
-mindsdb_native >= 2.47.0, < 2.48.0
 flask-restx >= 0.2.0
 flask >= 1.0, < 2.0
 python-multipart >= 0.0.5
