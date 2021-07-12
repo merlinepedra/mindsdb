@@ -1,5 +1,6 @@
 FROM ubuntu:20.04 as dev
 ENV DEBIAN_FRONTEND noninteractive
+SHELL ["/bin/bash", "-c"]
 RUN apt-get -y update && apt-get -y install curl git
 RUN apt-get -y install python3.8 python3.8-venv python3-pip
 
@@ -9,21 +10,14 @@ RUN adduser dev sudo
 USER dev
 WORKDIR /home/dev
 
-# RUN git clone https://github.com/mindsdb/mindsdb.git
-# WORKDIR /home/dev/mindsdb
+RUN git clone --branch lewis-dockerfile https://github.com/mindsdb/mindsdb.git
+WORKDIR /home/dev/mindsdb
 
-# # COPY . .
+RUN python3 -m venv mindsdb && source mindsdb/bin/activate && pip install wheel && pip install -r requirements.txt
 
-# RUN python3 -m venv mindsdb
-# RUN bash -c 'source mindsdb/bin/activate'
+RUN echo "python3 -m venv mindsdb" >> /home/dev/.bash_aliases
+RUN echo "source mindsdb/bin/activate" >> /home/dev/.bash_aliases
 
-# COPY requirements.txt .
-# RUN pip install -r requirements.txt
-
-# COPY setup.py .
-# RUN python3 setup.py develop
-
-# 
 #docker run \
 #    --rm \
 #    -it \
