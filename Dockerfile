@@ -11,6 +11,7 @@ USER dev
 WORKDIR /home/dev
 
 RUN git clone --branch lewis-dockerfile https://github.com/mindsdb/mindsdb.git
+#RUN git clone https://github.com/mindsdb/mindsdb.git
 WORKDIR /home/dev/mindsdb
 
 RUN python3 -m venv mindsdb && source mindsdb/bin/activate && pip install wheel && pip install -r requirements.txt

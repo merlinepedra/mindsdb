@@ -1,0 +1,36 @@
+services:
+  mindsdb:
+    image: py-mindsdb
+    depends_on:
+      - mysql
+    volumes:
+      - mindsdb-volume:/home/dev
+    security_opt:
+      #- seccomp:"seccomp-perf.json"
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:size=8g
+    cap_drop:
+      - ALL
+    user: dev
+    cpu_count: 6
+    mem_swappiness: 0
+    mem_limit: 8g
+    memswap_limit: 8g
+    tty: true
+    #command: /bin/bash -c python3 -m mindsdb
+    ports:
+      - "47334:47334"
+  mysql:
+    image: mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+volumes:
+  db_data: {}
+  mindsdb-volume: {}
