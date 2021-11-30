@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 from pandas.core.frame import DataFrame
 import mindsdb_datasources
+import dill
 
 from mindsdb import __version__ as mindsdb_version
 import mindsdb.interfaces.storage.db as db
@@ -28,6 +29,32 @@ from mindsdb.interfaces.model.learn_process import LearnProcess, GenerateProcess
 from mindsdb.interfaces.datastore.datastore import DataStore
 
 IS_PY36 = sys.version_info[1] <= 6
+
+if Config().get('cloud', False) is True:
+    import ray
+
+    @ray.remote
+    def remote_predict(predictor_dump, df, code, module_name):
+        from lightwood.api.high_level import _module_from_code
+        _module_from_code(code, module_name)
+        predictor = dill.loads(predictor_dump)
+        predictions = predictor.predict(df)
+        return predictions
+
+    def do_predict(predictor, df, predictor_code):
+        module_name = str(predictor).lstrip('<').split('.')[0]
+        future = remote_predict.remote(
+            dill.dumps(predictor),
+            df,
+            predictor_code,
+            module_name
+        )
+        predictions = ray.get(future)
+        return predictions
+else:
+    def do_predict(predictor, df, _predictor_code):
+        predictions = predictor.predict(df)
+        return predictions
 
 
 class ModelController():
@@ -215,7 +242,7 @@ class ModelController():
                 when_data = [when_data]
             df = pd.DataFrame(when_data)
 
-        predictions = self.predictor_cache[name]['predictor'].predict(df)
+        predictions = do_predict(self.predictor_cache[name]['predictor'], df, predictor_record.code)
         predictions = predictions.to_dict(orient='records')
         # Bellow is useful for debugging caching and storage issues
         # del self.predictor_cache[name]

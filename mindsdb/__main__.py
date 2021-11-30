@@ -52,6 +52,10 @@ if __name__ == '__main__':
     args = args_parse()
     config = Config()
 
+    if config.get('cloud', False) is True:
+        import ray
+        ray.init('ray://127.0.0.1:10001')
+
     if args.verbose is True:
         # Figure this one out later
         pass

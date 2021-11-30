@@ -10,6 +10,7 @@ import torch.multiprocessing as mp
 import lightwood
 from lightwood.api.types import ProblemDefinition
 from lightwood import __version__ as lightwood_version
+import dill
 
 from mindsdb import __version__ as mindsdb_version
 import mindsdb.interfaces.storage.db as db
@@ -22,6 +23,50 @@ from mindsdb.utilities.config import Config
 from mindsdb.utilities.functions import mark_process
 from mindsdb.utilities.log import log
 from mindsdb.utilities.with_kwargs_wrapper import WithKWArgsWrapper
+
+
+if Config().get('cloud', False) is True:
+    import ray
+    from lightwood.api.high_level import _module_from_code
+
+    @ray.remote
+    def remote_generate(df, problem_definition):
+        import lightwood
+        json_ai = lightwood.json_ai_from_problem(df, problem_definition)
+        code = lightwood.code_from_json_ai(json_ai)
+        return json_ai, code
+
+    def do_generate(df, problem_definition):
+        future = remote_generate.remote(df, problem_definition)
+        return ray.get(future)
+
+    @ray.remote
+    def remote_fit(predictor_code, df):
+        import lightwood
+        predictor: lightwood.PredictorInterface = lightwood.predictor_from_code(predictor_code)
+        predictor.learn(df)
+        return dill.dumps(predictor)
+
+    def do_fit(predictor_code, df):
+        future = remote_fit.remote(predictor_code, df)
+        predictor_dump = ray.get(future)
+        try:
+            predictor = dill.loads(predictor_dump)
+        except Exception as e:
+            module_name = str(e).lstrip("No module named '").split("'")[0]
+            _module_from_code(predictor_code, module_name)
+            predictor = dill.loads(predictor_dump)
+        return predictor
+else:
+    def do_generate(df, problem_definition):
+        json_ai = lightwood.json_ai_from_problem(df, problem_definition)
+        code = lightwood.code_from_json_ai(json_ai)
+        return json_ai, code
+
+    def do_fit(predictor_code, df):
+        predictor: lightwood.PredictorInterface = lightwood.predictor_from_code(predictor_code)
+        predictor.learn(df)
+        return predictor
 
 
 ctx = mp.get_context('spawn')
@@ -43,8 +88,7 @@ def delete_learn_mark():
 
 @mark_process(name='learn')
 def run_generate(df: DataFrame, problem_definition: ProblemDefinition, predictor_id: int) -> int:
-    json_ai = lightwood.json_ai_from_problem(df, problem_definition)
-    code = lightwood.code_from_json_ai(json_ai)
+    json_ai, code = do_generate(df, problem_definition)
 
     predictor_record = Predictor.query.with_for_update().get(predictor_id)
     predictor_record.json_ai = json_ai.to_dict()
@@ -63,8 +107,7 @@ def run_fit(predictor_id: int, df: pd.DataFrame) -> None:
 
         predictor_record.data = {'training_log': 'training'}
         session.commit()
-        predictor: lightwood.PredictorInterface = lightwood.predictor_from_code(predictor_record.code)
-        predictor.learn(df)
+        predictor = do_fit(predictor_record.code, df)
 
         session.refresh(predictor_record)
 
