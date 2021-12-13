@@ -102,14 +102,14 @@ class MySqlApiTest(unittest.TestCase):
         return res
 
     def create_datasource(self, db_type):
-        _query = "CREATE DATASOURCE %s WITH ENGINE='%s',PARAMETERS='%s';" % (db_type.upper(),
+        _query = "CREATE DATASOURCE %s WITH ENGINE = '%s', PARAMETERS = %s;" % (db_type.upper(),
                                                                              db_type,
                                                                              json.dumps(self.db_creds[db_type]))
         return self.query(_query)
 
     def validate_datasource_creation(self, ds_type):
         self.create_datasource(ds_type.lower())
-        res = self.query("SELECT * FROM datasources WHERE name='{}';".format(ds_type.upper()))
+        res = self.query("SELECT * FROM mindsdb.datasources WHERE name='{}';".format(ds_type.upper()))
         self.assertTrue("name" in res and res.get_record("name", ds_type.upper()),
                 f"Expected datasource is not found after creation - {ds_type.upper()}: {res}")
 
