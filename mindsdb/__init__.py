@@ -53,6 +53,8 @@ if not is_ray_worker:
         config_path = args.config
         with open(config_path, 'r') as fp:
             user_config = json.load(fp)
+    elif os.environ.get('MINDSDB_CONFIG_PATH') is not None:
+        config_path = os.environ['MINDSDB_CONFIG_PATH']
     else:
         user_config = {}
         config_path = 'absent'
