@@ -69,6 +69,9 @@ class Config():
                     "database": "mindsdb"
                 }
             },
+            "ray_env": {
+                
+            },
             "cache": {
                 "type": "local"
             },
