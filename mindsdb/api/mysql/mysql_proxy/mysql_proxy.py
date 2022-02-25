@@ -991,16 +991,20 @@ class MysqlProxy(SocketServer.BaseRequestHandler):
         prepared_stmt = self.session.prepared_stmts[stmt_id]
 
         sqlquery = prepared_stmt['statement']
+
+        # special queries
+        query = sqlquery.query
+        if query == Select(targets=[Function(op='connection_id', args=())]):
+            self.answer_connection_id()
+            return
+
+
         sqlquery.execute_query(parameters)
         query = sqlquery.query
         if prepared_stmt['type'] == 'select':
             # sql = prepared_stmt['statement'].sql
 
             # +++
-
-            if query == Select(targets=[Function(op='connection_id', args=())]):
-                self.answer_connection_id()
-                return
             # ---
 
             # +++

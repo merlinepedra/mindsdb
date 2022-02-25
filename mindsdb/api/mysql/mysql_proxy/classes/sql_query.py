@@ -58,6 +58,7 @@ from mindsdb.interfaces.ai_table.ai_table import AITableStore
 import mindsdb.interfaces.storage.db as db
 from mindsdb.api.mysql.mysql_proxy.utilities.sql import query_df
 from mindsdb.api.mysql.mysql_proxy.utilities.functions import get_column_in_case
+from mindsdb.api.mysql.mysql_proxy.datahub import information_schema
 
 from mindsdb.api.mysql.mysql_proxy.utilities import (
     SqlApiException,
@@ -603,10 +604,16 @@ class SQLQuery():
         elif type(step) == GetTableColumns:
             table = step.table
             dn = self.datahub.get(step.namespace)
-            ds_query = Select(from_table=Identifier(table), targets=[Star()])
-            dso, _ = dn.data_store.create_datasource(dn.integration_name, {'query': ds_query.to_string()})
+            if isinstance(dn, information_schema.InformationSchema):
+                columns = []
+                if dn.has_table(table):
+                    columns = dn.get_table_columns(table)
+            else:
+                ds_query = Select(from_table=Identifier(table), targets=[Star()])
+                dso, _ = dn.data_store.create_datasource(dn.integration_name, {'query': ds_query.to_string()})
 
-            columns = dso.get_columns()
+                columns = dso.get_columns()
+
             cols = []
             for col in columns:
                 if not isinstance(col, dict):
@@ -840,28 +847,34 @@ class SQLQuery():
 
                 left_columns_map = {}
                 left_columns_map_reverse = {}
+                left_columns = []
                 for i, column_name in enumerate(left_data['columns'][left_key]):
                     left_columns_map[f'a{i}'] = column_name
                     left_columns_map_reverse[column_name] = f'a{i}'
+                    left_columns.append(f'a{i}')
 
                 right_columns_map = {}
                 right_columns_map_reverse = {}
+                right_columns = []
                 for i, column_name in enumerate(right_data['columns'][right_key]):
                     right_columns_map[f'b{i}'] = column_name
                     right_columns_map_reverse[column_name] = f'b{i}'
+                    right_columns.append(f'b{i}')
 
                 left_df_data = []
                 for row in left_data['values']:
                     row = row[left_key]
-                    left_df_data.append({left_columns_map_reverse[key]: value for key, value in row.items()})
+                    left_df_data.append([row[left_columns_map[key]] for key in left_columns])
+                    # left_df_data.append({left_columns_map_reverse[key]: value for key, value in row.items()})
 
                 right_df_data = []
                 for row in right_data['values']:
                     row = row[right_key]
-                    right_df_data.append({right_columns_map_reverse[key]: value for key, value in row.items()})
+                    right_df_data.append([row[right_columns_map[key]] for key in right_columns])
+                    # right_df_data.append({right_columns_map_reverse[key]: value for key, value in row.items()})
 
-                df_a = pd.DataFrame(left_df_data)
-                df_b = pd.DataFrame(right_df_data)
+                df_a = pd.DataFrame(left_df_data, columns=left_columns)
+                df_b = pd.DataFrame(right_df_data, columns=right_columns)
 
                 a_name = f'a{round(time.time() * 1000)}'
                 b_name = f'b{round(time.time() * 1000)}'
@@ -951,6 +964,20 @@ class SQLQuery():
                                            name=column[0],
                                            alias=column[1])
                                 )
+                    elif isinstance(column_identifier, Constant):
+                        if column_identifier.alias is not None:
+                            column_name = column_identifier.alias.to_string()
+                        elif column_identifier.value is None:
+                            column_name = 'NULL'
+                        else:
+                            column_name = str(column_identifier.value)
+                        columns_list.append(
+                            Column(database=None,
+                                   table_name=None,
+                                   table_alias=None,
+                                   name=column_name,
+                                   alias=column_name)
+                        )
                     elif type(column_identifier) == Identifier:
                         column_name_parts = column_identifier.parts
                         column_alias = None if column_identifier.alias is None else '.'.join(
