@@ -2,6 +2,7 @@ from typing import List, Union
 from datetime import datetime
 
 from mindsdb.integrations.libs.base_integration import BaseIntegration
+from mindsdb.interfaces.model.model_controller import ModelController
 
 import mlflow
 from mlflow.tracking import MlflowClient
@@ -9,7 +10,7 @@ import pandas as pd
 
 
 class MLflowIntegration(BaseIntegration):
-    def __init__(self):
+    def __init__(self, controller):
         """
         An MLflow integration needs to have a working connection to work. For this:
             - All models to use should be previously served
@@ -28,6 +29,7 @@ class MLflowIntegration(BaseIntegration):
         self.connection = None
         self.published_model_names = set()
         self.published_models = {}
+        self.controller = controller  # TODO: remove this, just for testing purposes
 
     def connect(self, mlflow_url, model_registry_path):
         """ Connect to the mlflow process using MlflowClient class. """  # noqa
@@ -85,7 +87,20 @@ class MLflowIntegration(BaseIntegration):
             dtypes = dtype_info[1::2]
 
             # with all the gathered information, we now use mindsdb pre-existing logic to register this model as a predictor
-            # TODO
+            self.controller.learn(
+                name=model_name,
+                from_data=None,
+                to_predict=[target],
+                dataset_id=None,
+                kwargs={
+                    'format': 'mlflow',
+                    'dtype_dict': {col: dtype for col, dtype in zip(input_cols, dtypes)},
+                    'target': target,
+                    'url': {'predict': url}
+                },
+                company_id=None,
+                delete_ds_on_fail=True
+            )
 
         else:
             return {"error": "QUERY NOT SUPPORTED"}
@@ -163,12 +178,14 @@ class MLflowIntegration(BaseIntegration):
 
 
 if __name__ == '__main__':
-    cls = MLflowIntegration()
+    controller = ModelController(ray_based=False)
+    cls = MLflowIntegration(controller)
     print(cls.connect(
         mlflow_url='http://127.0.0.1:5000',
         model_registry_path='sqlite:////Users/Pato/Work/MindsDB/temp/experiments/BYOM/mlflow.db'))
     print(cls.get_tables())
     print(cls.describe_table('nlp_kaggle4'))
+    cls.run_native_query("PUBLISH PREDICTOR nlp_kaggle_mlflow PREDICT target INVOKE AT 'http://localhost:5000/invocations' DTYPES text rich_text target binary")
 
 
 
