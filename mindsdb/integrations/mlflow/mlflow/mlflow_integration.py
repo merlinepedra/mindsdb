@@ -27,8 +27,7 @@ class MLflowIntegration(BaseIntegration):
         self.mlflow_url = None
         self.registry_path = None
         self.connection = None
-        self.published_model_names = set()
-        self.published_models = {}
+        self.published_models = set()
         self.controller = controller  # TODO: remove this, just for testing purposes
 
     def connect(self, mlflow_url, model_registry_path):
@@ -64,6 +63,7 @@ class MLflowIntegration(BaseIntegration):
         
         Currently supported:
             1. Publish a predictor: this will link a pre-existing (i.e. trained) mlflow model to a mindsdb table.
+                To query the predictor, make sure you serve it first.
                 ref.: PUBLISH PREDICTOR name PREDICT column INVOKE AT URL DTYPES [col1 type_col1, ...];
          
         """  # noqa
@@ -76,9 +76,9 @@ class MLflowIntegration(BaseIntegration):
 
         # NOTE: this is a barebones parser, we should streamline it based on the work done at mindsdb_sql repo
         if "PUBLISH PREDICTOR" in query:
-            model_stmt, rest = query.split("PREDICT")
-            model_name = model.split(" ")[-1].strip()
-            if model_name in self.published_model_names:
+            model_stmt, rest = query.split(" PREDICT ")
+            model_name = model_stmt.split(" ")[-1].strip()
+            if model_name in self.published_models:
                 return {"error": "A model with that name has already been published!"}
 
             target, rest = [elt.strip() for elt in rest.split("INVOKE AT")] # TODO: multiple target support?
@@ -101,6 +101,8 @@ class MLflowIntegration(BaseIntegration):
                 company_id=None,
                 delete_ds_on_fail=True
             )
+
+            self.published_models.add(model_name)
 
         else:
             return {"error": "QUERY NOT SUPPORTED"}
@@ -175,17 +177,17 @@ class MLflowIntegration(BaseIntegration):
 # TODO: all non-standard methods should be _private
 # TODO: standard formatting in describe?
 # TODO: after this one is done, try a datasource and LightwoodIntegration
-
+# TODO: may want to have an _edit_invocation_url method
 
 if __name__ == '__main__':
     controller = ModelController(ray_based=False)
     cls = MLflowIntegration(controller)
     print(cls.connect(
-        mlflow_url='http://127.0.0.1:5000',
+        mlflow_url='http://127.0.0.1:5001',  # for this test, serve at 5001 and served model at 5000
         model_registry_path='sqlite:////Users/Pato/Work/MindsDB/temp/experiments/BYOM/mlflow.db'))
     print(cls.get_tables())
     print(cls.describe_table('nlp_kaggle4'))
-    cls.run_native_query("PUBLISH PREDICTOR nlp_kaggle_mlflow PREDICT target INVOKE AT 'http://localhost:5000/invocations' DTYPES text rich_text target binary")
+    cls.run_native_query("PUBLISH PREDICTOR nlp_kaggle_mlflow_test_integration3 PREDICT target INVOKE AT 'http://localhost:5001/invocations' DTYPES text rich_text target binary")
 
 
 
