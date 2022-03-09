@@ -26,6 +26,8 @@ class MLflowIntegration(BaseIntegration):
         self.mlflow_url = None
         self.registry_path = None
         self.connection = None
+        self.published_model_names = set()
+        self.published_models = {}
 
     def connect(self, mlflow_url, model_registry_path):
         """ Connect to the mlflow process using MlflowClient class. """  # noqa
@@ -55,14 +57,38 @@ class MLflowIntegration(BaseIntegration):
     def run_native_query(self,
                          query: str  # <- raw
                          ):
-        """ Inside this method, anything is valid because you assume no inter-operability with other integrations """  # noqa
+        """ 
+        Inside this method, anything is valid because you assume no inter-operability with other integrations.
+        
+        Currently supported:
+            1. Publish a predictor: this will link a pre-existing (i.e. trained) mlflow model to a mindsdb table.
+                ref.: PUBLISH PREDICTOR name PREDICT column INVOKE AT URL DTYPES [col1 type_col1, ...];
+         
+        """  # noqa
         # TODO
         # publish predictor
         # create predictor # later. all I/O should be handled by the integration
             # e.g. lightwood: save/load models, store metadata about models, all that is delegated to mdb.
             # mdb should not concern itself with how it is stored, just providing the context to company/users
         # other custom syntax # later
-        return []
+
+        # NOTE: this is a barebones parser, we should streamline it based on the work done at mindsdb_sql repo
+        if "PUBLISH PREDICTOR" in query:
+            model_stmt, rest = query.split("PREDICT")
+            model_name = model.split(" ")[-1].strip()
+            if model_name in self.published_model_names:
+                return {"error": "A model with that name has already been published!"}
+
+            target, rest = [elt.strip() for elt in rest.split("INVOKE AT")] # TODO: multiple target support?
+            url, dtype_info = [elt.strip() for elt in rest.split("DTYPES")]
+            input_cols = dtype_info[::2]
+            dtypes = dtype_info[1::2]
+
+            # with all the gathered information, we now use mindsdb pre-existing logic to register this model as a predictor
+            # TODO
+
+        else:
+            return {"error": "QUERY NOT SUPPORTED"}
 
     def select_query(self,
                      from_stmt: str,
