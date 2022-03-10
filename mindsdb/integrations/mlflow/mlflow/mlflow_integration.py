@@ -1,8 +1,12 @@
 from ast import literal_eval
-from typing import List, Union
+from typing import List, Union, Optional
 from datetime import datetime
 
 from mindsdb.integrations.libs.base_integration import BaseIntegration
+from mindsdb import __version__ as mindsdb_version
+from mindsdb.utilities.functions import mark_process
+from lightwood.api.types import ProblemDefinition
+import mindsdb.interfaces.storage.db as db
 from mindsdb.interfaces.model.model_controller import ModelController
 from mindsdb_sql import parse_sql
 from mindsdb_sql.parser.dialects.mindsdb import (
@@ -102,7 +106,7 @@ class MLflowIntegration(BaseIntegration):
             url = url.split('=')[-1].replace(',', '').strip().replace('\'', '')
             dtype_dict = literal_eval(dtype_info.split('=')[-1])
 
-            kwargs = {
+            pdef = {
                         'format': 'mlflow',
                         'dtype_dict': dtype_dict,
                         'target': target,
@@ -110,9 +114,14 @@ class MLflowIntegration(BaseIntegration):
             }
 
             # with all the gathered information, we now use mindsdb pre-existing logic to register this model as a predictor
-            model_interface.learn(model_name, None, target, None, kwargs=kwargs, delete_ds_on_fail=True)
+            # model_interface.learn(model_name, None, target, None, problem_definition=pdef, delete_ds_on_fail=True)
 
+            # name: str, from_data: dict, to_predict: str, dataset_id: int, problem_definition: dict,
+            #               company_id: int, delete_ds_on_fail: Optional[bool] = False
+
+            self._learn(model_name, None, target, None, problem_definition=pdef, company_id=None, delete_ds_on_fail=True)
             self.published_models.add(model_name)
+
         elif "DROP PREDICTOR" in query:
             pass  # TODO
         else:
@@ -182,46 +191,42 @@ class MLflowIntegration(BaseIntegration):
         }
         return description
 
+    @mark_process(name='learn')
+    def _learn(self, name: str, from_data: dict, to_predict: str, dataset_id: int, problem_definition: dict,
+              company_id: int, delete_ds_on_fail: Optional[bool] = False) -> None:
+        predictor_record = db.session.query(db.Predictor).filter_by(company_id=company_id, name=name).first()
+        if predictor_record is not None:
+            raise Exception('Predictor name must be unique.')
 
-# Some pending stuff:
-# TODO: how are we communicating connection success?
-# TODO: all non-standard methods should be _private
+        predict_url = problem_definition['url'].get('predict', None)
+        com_format = problem_definition['format']
+
+        predictor_record = db.Predictor(
+            company_id=company_id,
+            name=name,
+            dataset_id=dataset_id,
+            mindsdb_version=mindsdb_version,
+            lightwood_version=None,
+            to_predict=problem_definition['target'],
+            learn_args=ProblemDefinition.from_dict(problem_definition).to_dict(),
+            data={'name': name, 'predict_url': predict_url, 'format': com_format, 'status': 'complete'},
+            is_custom=True,
+            dtype_dict=problem_definition['dtype_dict'],
+        )
+
+        db.session.add(predictor_record)
+        db.session.commit()
+        return
+
 # TODO: standard formatting in describe?
 # TODO: after this one is done, try a datasource and LightwoodIntegration
 # TODO: may want to have an _edit_invocation_url method
 
 if __name__ == '__main__':
-    # controller = ModelController(ray_based=False)
-    cls = MLflowIntegration() # controller)
+    cls = MLflowIntegration()
     print(cls.connect(
         mlflow_url='http://127.0.0.1:5001',  # for this test, serve at 5001 and served model at 5000
         model_registry_path='sqlite:////Users/Pato/Work/MindsDB/temp/experiments/BYOM/mlflow.db'))
     print(cls.get_tables())
     print(cls.describe_table('nlp_kaggle4'))
     cls.run_native_query("CREATE PREDICTOR nlp_kaggle_mlflow_test_integration3 PREDICT target USING url.predict='http://localhost:5001/invocations', format='mlflow', data_dtype={'text': 'rich_text', 'target': 'binary'}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
