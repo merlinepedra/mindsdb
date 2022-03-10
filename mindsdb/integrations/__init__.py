@@ -9,6 +9,8 @@ from .kafka.kafkadb import KafkaConnectionChecker
 from .snowflake.snowflake import SnowflakeConnectionChecker
 from .trinodb.trinodb import TrinodbConnectionChecker
 
+from .mlflow.mlflow.mlflow_integration import MLflowIntegration
+
 try:
     from .scylladb.scylladb import ScyllaDBConnectionChecker
 except ImportError:
@@ -40,3 +42,7 @@ if ScyllaDBConnectionChecker is not None:
 
 if CassandraConnectionChecker is not None:
     CHECKERS['cassandra'] = CassandraConnectionChecker
+
+INTEGRATIONS = {
+    "mlflow": MLflowIntegration
+}

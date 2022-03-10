@@ -1,8 +1,18 @@
+from ast import literal_eval
 from typing import List, Union
 from datetime import datetime
 
 from mindsdb.integrations.libs.base_integration import BaseIntegration
 from mindsdb.interfaces.model.model_controller import ModelController
+from mindsdb_sql import parse_sql
+from mindsdb_sql.parser.dialects.mindsdb import (
+    CreateDatasource,
+    RetrainPredictor,
+    CreatePredictor,
+    DropDatasource,
+    DropPredictor,
+    CreateView
+)
 
 import mlflow
 from mlflow.tracking import MlflowClient
@@ -10,14 +20,14 @@ import pandas as pd
 
 
 class MLflowIntegration(BaseIntegration):
-    def __init__(self, controller):
+    def __init__(self):
         """
         An MLflow integration needs to have a working connection to work. For this:
             - All models to use should be previously served
             - An mlflow server should be running, to access the model registry
             
         Example:
-            1. Run `mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./artifacts --host 0.0.0.0`
+            1. Run `mlflow server -p 5001 --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./artifacts --host 0.0.0.0`
             2. Run `mlflow models serve --model-uri ./model_path`
             3. Instance this integration and call the `connect method` passing the relevant urls to mlflow and to the DB
             
@@ -28,7 +38,7 @@ class MLflowIntegration(BaseIntegration):
         self.registry_path = None
         self.connection = None
         self.published_models = set()
-        self.controller = controller  # TODO: remove this, just for testing purposes
+        # self.controller = controller  # TODO: remove this, just for testing purposes
 
     def connect(self, mlflow_url, model_registry_path):
         """ Connect to the mlflow process using MlflowClient class. """  # noqa
@@ -56,7 +66,8 @@ class MLflowIntegration(BaseIntegration):
         return self.connection.list_registered_models()
 
     def run_native_query(self,
-                         query: str  # <- raw
+                         query: str,  # <- raw
+                         session
                          ):
         """ 
         Inside this method, anything is valid because you assume no inter-operability with other integrations.
@@ -74,36 +85,36 @@ class MLflowIntegration(BaseIntegration):
             # mdb should not concern itself with how it is stored, just providing the context to company/users
         # other custom syntax # later
 
-        # NOTE: this is a barebones parser, we should streamline it based on the work done at mindsdb_sql repo
-        if "PUBLISH PREDICTOR" in query:
+        model_interface = session.model_interface
+        data_store = session.data_store
+
+        # TODO: probably better to use parse_sql(query, dialect='mindsdb')
+
+        if "CREATE PREDICTOR" in query:  # TODO support "PUBLISH" instead (possible with parser?)
+            query = query.replace('\n', '')  # .replace('\\', '')
             model_stmt, rest = query.split(" PREDICT ")
             model_name = model_stmt.split(" ")[-1].strip()
             if model_name in self.published_models:
                 return {"error": "A model with that name has already been published!"}
 
-            target, rest = [elt.strip() for elt in rest.split("INVOKE AT")] # TODO: multiple target support?
-            url, dtype_info = [elt.strip() for elt in rest.split("DTYPES")]
-            input_cols = dtype_info[::2]
-            dtypes = dtype_info[1::2]
+            target, rest = [elt.strip().replace('`', '') for elt in rest.split("USING")] # TODO: multiple target support?
+            url, dtype_info = [elt.strip() for elt in rest.split("format='mlflow',")]
+            url = url.split('=')[-1].replace(',', '').strip().replace('\'', '')
+            dtype_dict = literal_eval(dtype_info.split('=')[-1])
+
+            kwargs = {
+                        'format': 'mlflow',
+                        'dtype_dict': dtype_dict,
+                        'target': target,
+                        'url': {'predict': url}
+            }
 
             # with all the gathered information, we now use mindsdb pre-existing logic to register this model as a predictor
-            self.controller.learn(
-                name=model_name,
-                from_data=None,
-                to_predict=[target],
-                dataset_id=None,
-                kwargs={
-                    'format': 'mlflow',
-                    'dtype_dict': {col: dtype for col, dtype in zip(input_cols, dtypes)},
-                    'target': target,
-                    'url': {'predict': url}
-                },
-                company_id=None,
-                delete_ds_on_fail=True
-            )
+            model_interface.learn(model_name, None, target, None, kwargs=kwargs, delete_ds_on_fail=True)
 
             self.published_models.add(model_name)
-
+        elif "DROP PREDICTOR" in query:
+            pass  # TODO
         else:
             return {"error": "QUERY NOT SUPPORTED"}
 
@@ -180,14 +191,14 @@ class MLflowIntegration(BaseIntegration):
 # TODO: may want to have an _edit_invocation_url method
 
 if __name__ == '__main__':
-    controller = ModelController(ray_based=False)
-    cls = MLflowIntegration(controller)
+    # controller = ModelController(ray_based=False)
+    cls = MLflowIntegration() # controller)
     print(cls.connect(
         mlflow_url='http://127.0.0.1:5001',  # for this test, serve at 5001 and served model at 5000
         model_registry_path='sqlite:////Users/Pato/Work/MindsDB/temp/experiments/BYOM/mlflow.db'))
     print(cls.get_tables())
     print(cls.describe_table('nlp_kaggle4'))
-    cls.run_native_query("PUBLISH PREDICTOR nlp_kaggle_mlflow_test_integration3 PREDICT target INVOKE AT 'http://localhost:5001/invocations' DTYPES text rich_text target binary")
+    cls.run_native_query("CREATE PREDICTOR nlp_kaggle_mlflow_test_integration3 PREDICT target USING url.predict='http://localhost:5001/invocations', format='mlflow', data_dtype={'text': 'rich_text', 'target': 'binary'}")
 
 
 

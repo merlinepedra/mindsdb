@@ -121,6 +121,8 @@ from mindsdb.interfaces.model.model_interface import ModelInterface
 from mindsdb.interfaces.database.integrations import IntegrationController
 from mindsdb.interfaces.database.views import ViewController
 
+from mindsdb.integrations import INTEGRATIONS
+
 connection_id = 0
 
 
@@ -1308,453 +1310,461 @@ class MysqlProxy(SocketServer.BaseRequestHandler):
             log.warning(f'SQL statement are not parsed by mindsdb_sql: {sql}')
             pass
 
-        if type(statement) == CreateDatasource:
-            struct = {
-                'datasource_name': statement.name,
-                'database_type': statement.engine,
-                'connection_args': statement.parameters
-            }
-            self.answer_create_datasource(struct)
-            return
-        if type(statement) == DropPredictor:
-            predictor_name = statement.name.parts[-1]
-            self.session.datahub['mindsdb'].delete_predictor(predictor_name)
+        if hasattr(statement, 'using') and statement.using.get('format', None):
+            # TODO: this dispatch should not even call the parser, I think. This is why it passes the raw sql.
+            integration_name = statement.using['format']
+            integration = INTEGRATIONS[integration_name]()
+            integration.run_native_query(sql, self.session)
             self.packet(OkPacket).send()
-        elif keyword == 'create_datasource':
-            # fallback for statement
-            self.answer_create_datasource(struct)
-            return
-        elif type(statement) == DropDatasource:
-            ds_name = statement.name.parts[-1]
-            self.answer_drop_datasource(ds_name)
-            return
-        elif type(statement) == Describe:
-            if statement.value.parts[-1] in self.predictor_attrs:
-                self.answer_describe_predictor(statement.value.parts[-2:])
-            else:
-                self.answer_describe_predictor(statement.value.parts[-1])
-            return
-        elif type(statement) == RetrainPredictor:
-            self.answer_retrain_predictor(statement.name.parts[-1])
-            return
-        elif type(statement) == Show:
-            sql_category = statement.category.lower()
-            if sql_category == 'predictors':
-                where = statement.where
-                if statement.like is not None:
-                    like = BinaryOperation('like', args=[Identifier('name'), Constant(statement.like)])
-                    if where is not None:
-                        where = BinaryOperation('and', args=[where, like])
-                    else:
-                        where = like
-                new_statement = Select(
-                    targets=[Star()],
-                    from_table=Identifier(parts=[self.session.database or 'mindsdb', 'predictors']),
-                    where=where
-                )
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-            elif sql_category == 'views':
-                where = BinaryOperation('and', args=[
-                    BinaryOperation('=', args=[Identifier('table_schema'), Constant('views')]),
-                    BinaryOperation('like', args=[Identifier('table_type'), Constant('BASE TABLE')])
-                ])
-                if statement.where is not None:
-                    where = BinaryOperation('and', args=[where, statement.where])
-                if statement.like is not None:
-                    like = BinaryOperation('like', args=[Identifier('View'), Constant(statement.like)])
-                    where = BinaryOperation('and', args=[where, like])
-
-                new_statement = Select(
-                    targets=[Identifier(parts=['table_name'], alias=Identifier('View'))],
-                    from_table=Identifier(parts=['information_schema', 'TABLES']),
-                    where=where
-                )
-
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            elif sql_category == 'plugins':
-                if statement.where is not None or statement.like:
-                    raise SqlApiException("'SHOW PLUGINS' query should be used without filters")
-                new_statement = Select(
-                    targets=[Star()],
-                    from_table=Identifier(parts=['information_schema', 'PLUGINS'])
-                )
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            elif sql_category in ('databases', 'schemas'):
-                where = statement.where
-                if statement.like is not None:
-                    like = BinaryOperation('like', args=[Identifier('Database'), Constant(statement.like)])
-                    if where is not None:
-                        where = BinaryOperation('and', args=[where, like])
-                    else:
-                        where = like
-
-                new_statement = Select(
-                    targets=[Identifier(parts=["schema_name"], alias=Identifier('Database'))],
-                    from_table=Identifier(parts=['information_schema', 'SCHEMATA']),
-                    where=where
-                )
-                if statement.where is not None:
-                    new_statement.where = statement.where
-
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            elif sql_category == 'datasources':
-                where = statement.where
-                if statement.like is not None:
-                    like = BinaryOperation('like', args=[Identifier('name'), Constant(statement.like)])
-                    if where is not None:
-                        where = BinaryOperation('and', args=[where, like])
-                    else:
-                        where = like
-                new_statement = Select(
-                    targets=[Star()],
-                    from_table=Identifier(parts=['mindsdb', 'datasources']),
-                    where=where
-                )
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            elif sql_category in ('tables', 'full tables'):
-                schema = self.session.database or 'mindsdb'
-                if statement.from_table is not None:
-                    schema = statement.from_table.parts[-1]
-                where = BinaryOperation('and', args=[
-                    BinaryOperation('=', args=[Identifier('table_schema'), Constant(schema)]),
-                    BinaryOperation('like', args=[Identifier('table_type'), Constant('BASE TABLE')])
-                ])
-                if statement.where is not None:
-                    where = BinaryOperation('and', args=[statement.where, where])
-                if statement.like is not None:
-                    like = BinaryOperation('like', args=[Identifier(f'Tables_in_{schema}'), Constant(statement.like)])
-                    if where is not None:
-                        where = BinaryOperation('and', args=[where, like])
-                    else:
-                        where = like
-
-                new_statement = Select(
-                    targets=[Identifier(parts=['table_name'], alias=Identifier(f'Tables_in_{schema}'))],
-                    from_table=Identifier(parts=['information_schema', 'TABLES']),
-                    where=where
-                )
-
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            elif sql_category in ('variables', 'session variables', 'session status', 'global variables'):
-                where = statement.where
-                if statement.like is not None:
-                    like = BinaryOperation('like', args=[Identifier('Variable_name'), Constant(statement.like)])
-                    if where is not None:
-                        where = BinaryOperation('and', args=[where, like])
-                    else:
-                        where = like
-
-                new_statement = Select(
-                    targets=[Identifier(parts=['Variable_name']), Identifier(parts=['Value'])],
-                    from_table=Identifier(parts=['dataframe']),
-                    where=where
-                )
-
-                data = {}
-                is_session = 'session' in sql_category
-                for var_name, var_data in SERVER_VARIABLES.items():
-                    var_name = var_name.replace('@@', '')
-                    if is_session and var_name.startswith('session.') is False:
-                        continue
-                    if var_name.startswith('session.') or var_name.startswith('GLOBAL.'):
-                        name = var_name.replace('session.', '').replace('GLOBAL.', '')
-                        data[name] = var_data[0]
-                    elif var_name not in data:
-                        data[var_name] = var_data[0]
-
-                df = pd.DataFrame(data.items(), columns=['Variable_name', 'Value'])
-                data = query_df(df, new_statement)
-                data = data.values.tolist()
-
-                packages = []
-                packages += self.get_tabel_packets(
-                    columns=[{
-                        'table_name': 'session_variables',
-                        'name': 'Variable_name',
-                        'type': TYPES.MYSQL_TYPE_VAR_STRING
-                    }, {
-                        'table_name': 'session_variables',
-                        'name': 'Value',
-                        'type': TYPES.MYSQL_TYPE_VAR_STRING
-                    }],
-                    data=data
-                )
-
-                packages.append(self.last_packet())
-                self.send_package_group(packages)
-                return
-            elif "show status like 'ssl_version'" in sql_lower:
-                packages = []
-                packages += self.get_tabel_packets(
-                    columns=[{
-                        'table_name': 'session_variables',
-                        'name': 'Variable_name',
-                        'type': TYPES.MYSQL_TYPE_VAR_STRING
-                    }, {
-                        'table_name': 'session_variables',
-                        'name': 'Value',
-                        'type': TYPES.MYSQL_TYPE_VAR_STRING
-                    }],
-                    data=[['Ssl_version', 'TLSv1.1']]   # FIX
-                )
-
-                packages.append(self.last_packet())
-                self.send_package_group(packages)
-                return
-            elif sql_category in ('function status', 'procedure status'):
-                # SHOW FUNCTION STATUS WHERE Db = 'MINDSDB';
-                # SHOW PROCEDURE STATUS WHERE Db = 'MINDSDB'
-                # SHOW FUNCTION STATUS WHERE Db = 'MINDSDB' AND Name LIKE '%';
-                self.answer_function_status()
-                return
-            elif sql_category == 'index':
-                new_statement = Select(
-                    targets=[
-                        Identifier('TABLE_NAME', alias=Identifier('Table')),
-                        Identifier('NON_UNIQUE', alias=Identifier('Non_unique')),
-                        Identifier('INDEX_NAME', alias=Identifier('Key_name')),
-                        Identifier('SEQ_IN_INDEX', alias=Identifier('Seq_in_index')),
-                        Identifier('COLUMN_NAME', alias=Identifier('Column_name')),
-                        Identifier('COLLATION', alias=Identifier('Collation')),
-                        Identifier('CARDINALITY', alias=Identifier('Cardinality')),
-                        Identifier('SUB_PART', alias=Identifier('Sub_part')),
-                        Identifier('PACKED', alias=Identifier('Packed')),
-                        Identifier('NULLABLE', alias=Identifier('Null')),
-                        Identifier('INDEX_TYPE', alias=Identifier('Index_type')),
-                        Identifier('COMMENT', alias=Identifier('Comment')),
-                        Identifier('INDEX_COMMENT', alias=Identifier('Index_comment')),
-                        Identifier('IS_VISIBLE', alias=Identifier('Visible')),
-                        Identifier('EXPRESSION', alias=Identifier('Expression'))
-                    ],
-                    from_table=Identifier(parts=['information_schema', 'STATISTICS']),
-                    where=statement.where
-                )
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            # FIXME if have answer on that request, then DataGrip show warning '[S0022] Column 'Non_unique' not found.'
-            elif 'show create table' in sql_lower:
-                # SHOW CREATE TABLE `MINDSDB`.`predictors`
-                table = sql[sql.rfind('.') + 1:].strip(' .;\n\t').replace('`', '')
-                self.answer_show_create_table(table)
-                return
-            elif sql_category in ('character set', 'charset'):
-                where = statement.where
-                if statement.like is not None:
-                    like = BinaryOperation('like', args=[Identifier('CHARACTER_SET_NAME'), Constant(statement.like)])
-                    if where is not None:
-                        where = BinaryOperation('and', args=[where, like])
-                    else:
-                        where = like
-                new_statement = Select(
-                    targets=[
-                        Identifier('CHARACTER_SET_NAME', alias=Identifier('Charset')),
-                        Identifier('DEFAULT_COLLATE_NAME', alias=Identifier('Description')),
-                        Identifier('DESCRIPTION', alias=Identifier('Default collation')),
-                        Identifier('MAXLEN', alias=Identifier('Maxlen'))
-                    ],
-                    from_table=Identifier(parts=['INFORMATION_SCHEMA', 'CHARACTER_SETS']),
-                    where=where
-                )
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            elif sql_category == 'warnings':
-                self.answer_show_warnings()
-                return
-            elif sql_category == 'engines':
-                new_statement = Select(
-                    targets=[Star()],
-                    from_table=Identifier(parts=['information_schema', 'ENGINES'])
-                )
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            elif sql_category == 'collation':
-                where = statement.where
-                if statement.like is not None:
-                    like = BinaryOperation('like', args=[Identifier('Collation'), Constant(statement.like)])
-                    if where is not None:
-                        where = BinaryOperation('and', args=[where, like])
-                    else:
-                        where = like
-                new_statement = Select(
-                    targets=[
-                        Identifier('COLLATION_NAME', alias=Identifier('Collation')),
-                        Identifier('CHARACTER_SET_NAME', alias=Identifier('Charset')),
-                        Identifier('ID', alias=Identifier('Id')),
-                        Identifier('IS_DEFAULT', alias=Identifier('Default')),
-                        Identifier('IS_COMPILED', alias=Identifier('Compiled')),
-                        Identifier('SORTLEN', alias=Identifier('Sortlen')),
-                        Identifier('PAD_ATTRIBUTE', alias=Identifier('Pad_attribute'))
-                    ],
-                    from_table=Identifier(parts=['INFORMATION_SCHEMA', 'COLLATIONS']),
-                    where=where
-                )
-                query = SQLQuery(
-                    new_statement,
-                    session=self.session
-                )
-                self.answer_select(query)
-                return
-            elif sql_category == 'table status':
-                # TODO improve it
-                # SHOW TABLE STATUS LIKE 'table'
-                table_name = None
-                if statement.like is not None:
-                    table_name = statement.like
-                # elif condition == 'from' and type(expression) == Identifier:
-                #     table_name = expression.parts[-1]
-                if table_name is None:
-                    err_str = f"Can't determine table name in query: {sql}"
-                    log.warning(err_str)
-                    raise ErTableExistError(err_str)
-                self.answer_show_table_status(table_name)
-                return
-            else:
-                raise ErNotSupportedYet(f'Statement not implemented: {sql}')
-        elif type(statement) in (StartTransaction, CommitTransaction, RollbackTransaction):
-            self.packet(OkPacket).send()
-        elif type(statement) == Set:
-            category = (statement.category or '').lower()
-            if category == '' and type(statement.arg) == BinaryOperation:
-                self.packet(OkPacket).send()
-            elif category == 'autocommit':
-                self.packet(OkPacket).send()
-            elif category == 'names':
-                # set names utf8;
-                charsets = {
-                    'utf8': CHARSET_NUMBERS['utf8_general_ci'],
-                    'utf8mb4': CHARSET_NUMBERS['utf8mb4_general_ci']
-                }
-                self.charset = statement.arg.parts[0]
-                self.charset_text_type = charsets.get(self.charset)
-                if self.charset_text_type is None:
-                    log.warning(f"Unknown charset: {self.charset}. Setting up 'utf8_general_ci' as charset text type.")
-                    self.charset_text_type = CHARSET_NUMBERS['utf8_general_ci']
-                self.packet(
-                    OkPacket,
-                    state_track=[
-                        ['character_set_client', self.charset],
-                        ['character_set_connection', self.charset],
-                        ['character_set_results', self.charset]
-                    ]
-                ).send()
-            else:
-                log.warning(f'SQL statement is not processable, return OK package: {sql}')
-                self.packet(OkPacket).send()
-        elif type(statement) == Use:
-            db_name = statement.value.parts[-1]
-            self.change_default_db(db_name)
-            self.packet(OkPacket).send()
-        elif type(statement) == CreatePredictor:
-            self.answer_create_predictor(statement)
-        elif type(statement) == CreateView:
-            self.answer_create_view(statement)
-        elif keyword == 'set':
-            log.warning(f'Unknown SET query, return OK package: {sql}')
-            self.packet(OkPacket).send()
-        elif type(statement) == Delete:
-            if self.session.database != 'mindsdb' and statement.table.parts[0] != 'mindsdb':
-                raise ErBadTableError("Only 'DELETE' from database 'mindsdb' is possible at this moment")
-            if statement.table.parts[-1] != 'predictors':
-                raise ErBadTableError("Only 'DELETE' from table 'mindsdb.predictors' is possible at this moment")
-            self.delete_predictor_query(statement)
-            self.packet(OkPacket).send()
-        elif type(statement) == Insert:
-            self.process_insert(statement)
-        elif keyword in ('update', 'insert'):
-            raise ErNotSupportedYet('Update and Insert are not implemented')
-        elif keyword == 'alter' and ('disable keys' in sql_lower) or ('enable keys' in sql_lower):
-            self.packet(OkPacket).send()
-        elif type(statement) == Select:
-            if statement.from_table is None:
-                self.answer_single_row_select(statement)
-                return
-            if "table_name,table_comment,if(table_type='base table', 'table', table_type)" in sql_lower:
-                # TABLEAU
-                # SELECT TABLE_NAME,TABLE_COMMENT,IF(TABLE_TYPE='BASE TABLE', 'TABLE', TABLE_TYPE),TABLE_SCHEMA FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE 'mindsdb' AND ( TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW' )  ORDER BY TABLE_SCHEMA, TABLE_NAME
-                # SELECT TABLE_NAME,TABLE_COMMENT,IF(TABLE_TYPE='BASE TABLE', 'TABLE', TABLE_TYPE),TABLE_SCHEMA FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND ( TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW' )  ORDER BY TABLE_SCHEMA, TABLE_NAME
-                packages = []
-                if "table_schema like 'mindsdb'" in sql_lower:
-                    data = [
-                        ['predictors', '', 'TABLE', 'mindsdb']
-                    ]
-                else:
-                    data = []
-                packages += self.get_tabel_packets(
-                    columns=[{
-                        'table_name': '',
-                        'name': 'TABLE_NAME',
-                        'type': TYPES.MYSQL_TYPE_VAR_STRING
-                    }, {
-                        'table_name': '',
-                        'name': 'TABLE_COMMENT',
-                        'type': TYPES.MYSQL_TYPE_VAR_STRING
-                    }, {
-                        'table_name': '',
-                        'name': "IF(TABLE_TYPE='BASE TABLE', 'TABLE', TABLE_TYPE)",
-                        'type': TYPES.MYSQL_TYPE_VAR_STRING
-                    }, {
-                        'table_name': '',
-                        'name': 'TABLE_SCHEMA',
-                        'type': TYPES.MYSQL_TYPE_VAR_STRING
-                    }],
-                    data=data
-                )
-
-                packages.append(self.last_packet())
-                self.send_package_group(packages)
-                return
-
-            query = SQLQuery(
-                sql,
-                session=self.session
-            )
-            self.answer_select(query)
-        elif type(statement) == Explain:
-            self.answer_explain_table(statement.target.parts)
         else:
-            log.warning(f'Unknown SQL statement: {sql}')
-            raise ErNotSupportedYet(f'Unknown SQL statement: {sql}')
+
+            if type(statement) == CreateDatasource:
+                struct = {
+                    'datasource_name': statement.name,
+                    'database_type': statement.engine,
+                    'connection_args': statement.parameters
+                }
+                self.answer_create_datasource(struct)
+                return
+            if type(statement) == DropPredictor:
+                predictor_name = statement.name.parts[-1]
+                self.session.datahub['mindsdb'].delete_predictor(predictor_name)
+                self.packet(OkPacket).send()
+            elif keyword == 'create_datasource':
+                # fallback for statement
+                self.answer_create_datasource(struct)
+                return
+            elif type(statement) == DropDatasource:
+                ds_name = statement.name.parts[-1]
+                self.answer_drop_datasource(ds_name)
+                return
+            elif type(statement) == Describe:
+                if statement.value.parts[-1] in self.predictor_attrs:
+                    self.answer_describe_predictor(statement.value.parts[-2:])
+                else:
+                    self.answer_describe_predictor(statement.value.parts[-1])
+                return
+            elif type(statement) == RetrainPredictor:
+                self.answer_retrain_predictor(statement.name.parts[-1])
+                return
+            elif type(statement) == Show:
+                sql_category = statement.category.lower()
+                if sql_category == 'predictors':
+                    where = statement.where
+                    if statement.like is not None:
+                        like = BinaryOperation('like', args=[Identifier('name'), Constant(statement.like)])
+                        if where is not None:
+                            where = BinaryOperation('and', args=[where, like])
+                        else:
+                            where = like
+                    new_statement = Select(
+                        targets=[Star()],
+                        from_table=Identifier(parts=[self.session.database or 'mindsdb', 'predictors']),
+                        where=where
+                    )
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                elif sql_category == 'views':
+                    where = BinaryOperation('and', args=[
+                        BinaryOperation('=', args=[Identifier('table_schema'), Constant('views')]),
+                        BinaryOperation('like', args=[Identifier('table_type'), Constant('BASE TABLE')])
+                    ])
+                    if statement.where is not None:
+                        where = BinaryOperation('and', args=[where, statement.where])
+                    if statement.like is not None:
+                        like = BinaryOperation('like', args=[Identifier('View'), Constant(statement.like)])
+                        where = BinaryOperation('and', args=[where, like])
+
+                    new_statement = Select(
+                        targets=[Identifier(parts=['table_name'], alias=Identifier('View'))],
+                        from_table=Identifier(parts=['information_schema', 'TABLES']),
+                        where=where
+                    )
+
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                elif sql_category == 'plugins':
+                    if statement.where is not None or statement.like:
+                        raise SqlApiException("'SHOW PLUGINS' query should be used without filters")
+                    new_statement = Select(
+                        targets=[Star()],
+                        from_table=Identifier(parts=['information_schema', 'PLUGINS'])
+                    )
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                elif sql_category in ('databases', 'schemas'):
+                    where = statement.where
+                    if statement.like is not None:
+                        like = BinaryOperation('like', args=[Identifier('Database'), Constant(statement.like)])
+                        if where is not None:
+                            where = BinaryOperation('and', args=[where, like])
+                        else:
+                            where = like
+
+                    new_statement = Select(
+                        targets=[Identifier(parts=["schema_name"], alias=Identifier('Database'))],
+                        from_table=Identifier(parts=['information_schema', 'SCHEMATA']),
+                        where=where
+                    )
+                    if statement.where is not None:
+                        new_statement.where = statement.where
+
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                elif sql_category == 'datasources':
+                    where = statement.where
+                    if statement.like is not None:
+                        like = BinaryOperation('like', args=[Identifier('name'), Constant(statement.like)])
+                        if where is not None:
+                            where = BinaryOperation('and', args=[where, like])
+                        else:
+                            where = like
+                    new_statement = Select(
+                        targets=[Star()],
+                        from_table=Identifier(parts=['mindsdb', 'datasources']),
+                        where=where
+                    )
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                elif sql_category in ('tables', 'full tables'):
+                    schema = self.session.database or 'mindsdb'
+                    if statement.from_table is not None:
+                        schema = statement.from_table.parts[-1]
+                    where = BinaryOperation('and', args=[
+                        BinaryOperation('=', args=[Identifier('table_schema'), Constant(schema)]),
+                        BinaryOperation('like', args=[Identifier('table_type'), Constant('BASE TABLE')])
+                    ])
+                    if statement.where is not None:
+                        where = BinaryOperation('and', args=[statement.where, where])
+                    if statement.like is not None:
+                        like = BinaryOperation('like', args=[Identifier(f'Tables_in_{schema}'), Constant(statement.like)])
+                        if where is not None:
+                            where = BinaryOperation('and', args=[where, like])
+                        else:
+                            where = like
+
+                    new_statement = Select(
+                        targets=[Identifier(parts=['table_name'], alias=Identifier(f'Tables_in_{schema}'))],
+                        from_table=Identifier(parts=['information_schema', 'TABLES']),
+                        where=where
+                    )
+
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                elif sql_category in ('variables', 'session variables', 'session status', 'global variables'):
+                    where = statement.where
+                    if statement.like is not None:
+                        like = BinaryOperation('like', args=[Identifier('Variable_name'), Constant(statement.like)])
+                        if where is not None:
+                            where = BinaryOperation('and', args=[where, like])
+                        else:
+                            where = like
+
+                    new_statement = Select(
+                        targets=[Identifier(parts=['Variable_name']), Identifier(parts=['Value'])],
+                        from_table=Identifier(parts=['dataframe']),
+                        where=where
+                    )
+
+                    data = {}
+                    is_session = 'session' in sql_category
+                    for var_name, var_data in SERVER_VARIABLES.items():
+                        var_name = var_name.replace('@@', '')
+                        if is_session and var_name.startswith('session.') is False:
+                            continue
+                        if var_name.startswith('session.') or var_name.startswith('GLOBAL.'):
+                            name = var_name.replace('session.', '').replace('GLOBAL.', '')
+                            data[name] = var_data[0]
+                        elif var_name not in data:
+                            data[var_name] = var_data[0]
+
+                    df = pd.DataFrame(data.items(), columns=['Variable_name', 'Value'])
+                    data = query_df(df, new_statement)
+                    data = data.values.tolist()
+
+                    packages = []
+                    packages += self.get_tabel_packets(
+                        columns=[{
+                            'table_name': 'session_variables',
+                            'name': 'Variable_name',
+                            'type': TYPES.MYSQL_TYPE_VAR_STRING
+                        }, {
+                            'table_name': 'session_variables',
+                            'name': 'Value',
+                            'type': TYPES.MYSQL_TYPE_VAR_STRING
+                        }],
+                        data=data
+                    )
+
+                    packages.append(self.last_packet())
+                    self.send_package_group(packages)
+                    return
+                elif "show status like 'ssl_version'" in sql_lower:
+                    packages = []
+                    packages += self.get_tabel_packets(
+                        columns=[{
+                            'table_name': 'session_variables',
+                            'name': 'Variable_name',
+                            'type': TYPES.MYSQL_TYPE_VAR_STRING
+                        }, {
+                            'table_name': 'session_variables',
+                            'name': 'Value',
+                            'type': TYPES.MYSQL_TYPE_VAR_STRING
+                        }],
+                        data=[['Ssl_version', 'TLSv1.1']]   # FIX
+                    )
+
+                    packages.append(self.last_packet())
+                    self.send_package_group(packages)
+                    return
+                elif sql_category in ('function status', 'procedure status'):
+                    # SHOW FUNCTION STATUS WHERE Db = 'MINDSDB';
+                    # SHOW PROCEDURE STATUS WHERE Db = 'MINDSDB'
+                    # SHOW FUNCTION STATUS WHERE Db = 'MINDSDB' AND Name LIKE '%';
+                    self.answer_function_status()
+                    return
+                elif sql_category == 'index':
+                    new_statement = Select(
+                        targets=[
+                            Identifier('TABLE_NAME', alias=Identifier('Table')),
+                            Identifier('NON_UNIQUE', alias=Identifier('Non_unique')),
+                            Identifier('INDEX_NAME', alias=Identifier('Key_name')),
+                            Identifier('SEQ_IN_INDEX', alias=Identifier('Seq_in_index')),
+                            Identifier('COLUMN_NAME', alias=Identifier('Column_name')),
+                            Identifier('COLLATION', alias=Identifier('Collation')),
+                            Identifier('CARDINALITY', alias=Identifier('Cardinality')),
+                            Identifier('SUB_PART', alias=Identifier('Sub_part')),
+                            Identifier('PACKED', alias=Identifier('Packed')),
+                            Identifier('NULLABLE', alias=Identifier('Null')),
+                            Identifier('INDEX_TYPE', alias=Identifier('Index_type')),
+                            Identifier('COMMENT', alias=Identifier('Comment')),
+                            Identifier('INDEX_COMMENT', alias=Identifier('Index_comment')),
+                            Identifier('IS_VISIBLE', alias=Identifier('Visible')),
+                            Identifier('EXPRESSION', alias=Identifier('Expression'))
+                        ],
+                        from_table=Identifier(parts=['information_schema', 'STATISTICS']),
+                        where=statement.where
+                    )
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                # FIXME if have answer on that request, then DataGrip show warning '[S0022] Column 'Non_unique' not found.'
+                elif 'show create table' in sql_lower:
+                    # SHOW CREATE TABLE `MINDSDB`.`predictors`
+                    table = sql[sql.rfind('.') + 1:].strip(' .;\n\t').replace('`', '')
+                    self.answer_show_create_table(table)
+                    return
+                elif sql_category in ('character set', 'charset'):
+                    where = statement.where
+                    if statement.like is not None:
+                        like = BinaryOperation('like', args=[Identifier('CHARACTER_SET_NAME'), Constant(statement.like)])
+                        if where is not None:
+                            where = BinaryOperation('and', args=[where, like])
+                        else:
+                            where = like
+                    new_statement = Select(
+                        targets=[
+                            Identifier('CHARACTER_SET_NAME', alias=Identifier('Charset')),
+                            Identifier('DEFAULT_COLLATE_NAME', alias=Identifier('Description')),
+                            Identifier('DESCRIPTION', alias=Identifier('Default collation')),
+                            Identifier('MAXLEN', alias=Identifier('Maxlen'))
+                        ],
+                        from_table=Identifier(parts=['INFORMATION_SCHEMA', 'CHARACTER_SETS']),
+                        where=where
+                    )
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                elif sql_category == 'warnings':
+                    self.answer_show_warnings()
+                    return
+                elif sql_category == 'engines':
+                    new_statement = Select(
+                        targets=[Star()],
+                        from_table=Identifier(parts=['information_schema', 'ENGINES'])
+                    )
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                elif sql_category == 'collation':
+                    where = statement.where
+                    if statement.like is not None:
+                        like = BinaryOperation('like', args=[Identifier('Collation'), Constant(statement.like)])
+                        if where is not None:
+                            where = BinaryOperation('and', args=[where, like])
+                        else:
+                            where = like
+                    new_statement = Select(
+                        targets=[
+                            Identifier('COLLATION_NAME', alias=Identifier('Collation')),
+                            Identifier('CHARACTER_SET_NAME', alias=Identifier('Charset')),
+                            Identifier('ID', alias=Identifier('Id')),
+                            Identifier('IS_DEFAULT', alias=Identifier('Default')),
+                            Identifier('IS_COMPILED', alias=Identifier('Compiled')),
+                            Identifier('SORTLEN', alias=Identifier('Sortlen')),
+                            Identifier('PAD_ATTRIBUTE', alias=Identifier('Pad_attribute'))
+                        ],
+                        from_table=Identifier(parts=['INFORMATION_SCHEMA', 'COLLATIONS']),
+                        where=where
+                    )
+                    query = SQLQuery(
+                        new_statement,
+                        session=self.session
+                    )
+                    self.answer_select(query)
+                    return
+                elif sql_category == 'table status':
+                    # TODO improve it
+                    # SHOW TABLE STATUS LIKE 'table'
+                    table_name = None
+                    if statement.like is not None:
+                        table_name = statement.like
+                    # elif condition == 'from' and type(expression) == Identifier:
+                    #     table_name = expression.parts[-1]
+                    if table_name is None:
+                        err_str = f"Can't determine table name in query: {sql}"
+                        log.warning(err_str)
+                        raise ErTableExistError(err_str)
+                    self.answer_show_table_status(table_name)
+                    return
+                else:
+                    raise ErNotSupportedYet(f'Statement not implemented: {sql}')
+            elif type(statement) in (StartTransaction, CommitTransaction, RollbackTransaction):
+                self.packet(OkPacket).send()
+            elif type(statement) == Set:
+                category = (statement.category or '').lower()
+                if category == '' and type(statement.arg) == BinaryOperation:
+                    self.packet(OkPacket).send()
+                elif category == 'autocommit':
+                    self.packet(OkPacket).send()
+                elif category == 'names':
+                    # set names utf8;
+                    charsets = {
+                        'utf8': CHARSET_NUMBERS['utf8_general_ci'],
+                        'utf8mb4': CHARSET_NUMBERS['utf8mb4_general_ci']
+                    }
+                    self.charset = statement.arg.parts[0]
+                    self.charset_text_type = charsets.get(self.charset)
+                    if self.charset_text_type is None:
+                        log.warning(f"Unknown charset: {self.charset}. Setting up 'utf8_general_ci' as charset text type.")
+                        self.charset_text_type = CHARSET_NUMBERS['utf8_general_ci']
+                    self.packet(
+                        OkPacket,
+                        state_track=[
+                            ['character_set_client', self.charset],
+                            ['character_set_connection', self.charset],
+                            ['character_set_results', self.charset]
+                        ]
+                    ).send()
+                else:
+                    log.warning(f'SQL statement is not processable, return OK package: {sql}')
+                    self.packet(OkPacket).send()
+            elif type(statement) == Use:
+                db_name = statement.value.parts[-1]
+                self.change_default_db(db_name)
+                self.packet(OkPacket).send()
+            elif type(statement) == CreatePredictor:
+                self.answer_create_predictor(statement)
+            elif type(statement) == CreateView:
+                self.answer_create_view(statement)
+            elif keyword == 'set':
+                log.warning(f'Unknown SET query, return OK package: {sql}')
+                self.packet(OkPacket).send()
+            elif type(statement) == Delete:
+                if self.session.database != 'mindsdb' and statement.table.parts[0] != 'mindsdb':
+                    raise ErBadTableError("Only 'DELETE' from database 'mindsdb' is possible at this moment")
+                if statement.table.parts[-1] != 'predictors':
+                    raise ErBadTableError("Only 'DELETE' from table 'mindsdb.predictors' is possible at this moment")
+                self.delete_predictor_query(statement)
+                self.packet(OkPacket).send()
+            elif type(statement) == Insert:
+                self.process_insert(statement)
+            elif keyword in ('update', 'insert'):
+                raise ErNotSupportedYet('Update and Insert are not implemented')
+            elif keyword == 'alter' and ('disable keys' in sql_lower) or ('enable keys' in sql_lower):
+                self.packet(OkPacket).send()
+            elif type(statement) == Select:
+                if statement.from_table is None:
+                    self.answer_single_row_select(statement)
+                    return
+                if "table_name,table_comment,if(table_type='base table', 'table', table_type)" in sql_lower:
+                    # TABLEAU
+                    # SELECT TABLE_NAME,TABLE_COMMENT,IF(TABLE_TYPE='BASE TABLE', 'TABLE', TABLE_TYPE),TABLE_SCHEMA FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE 'mindsdb' AND ( TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW' )  ORDER BY TABLE_SCHEMA, TABLE_NAME
+                    # SELECT TABLE_NAME,TABLE_COMMENT,IF(TABLE_TYPE='BASE TABLE', 'TABLE', TABLE_TYPE),TABLE_SCHEMA FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND ( TABLE_TYPE='BASE TABLE' OR TABLE_TYPE='VIEW' )  ORDER BY TABLE_SCHEMA, TABLE_NAME
+                    packages = []
+                    if "table_schema like 'mindsdb'" in sql_lower:
+                        data = [
+                            ['predictors', '', 'TABLE', 'mindsdb']
+                        ]
+                    else:
+                        data = []
+                    packages += self.get_tabel_packets(
+                        columns=[{
+                            'table_name': '',
+                            'name': 'TABLE_NAME',
+                            'type': TYPES.MYSQL_TYPE_VAR_STRING
+                        }, {
+                            'table_name': '',
+                            'name': 'TABLE_COMMENT',
+                            'type': TYPES.MYSQL_TYPE_VAR_STRING
+                        }, {
+                            'table_name': '',
+                            'name': "IF(TABLE_TYPE='BASE TABLE', 'TABLE', TABLE_TYPE)",
+                            'type': TYPES.MYSQL_TYPE_VAR_STRING
+                        }, {
+                            'table_name': '',
+                            'name': 'TABLE_SCHEMA',
+                            'type': TYPES.MYSQL_TYPE_VAR_STRING
+                        }],
+                        data=data
+                    )
+
+                    packages.append(self.last_packet())
+                    self.send_package_group(packages)
+                    return
+
+                query = SQLQuery(
+                    sql,
+                    session=self.session
+                )
+                self.answer_select(query)
+            elif type(statement) == Explain:
+                self.answer_explain_table(statement.target.parts)
+            else:
+                log.warning(f'Unknown SQL statement: {sql}')
+                raise ErNotSupportedYet(f'Unknown SQL statement: {sql}')
 
     def answer_single_row_select(self, statement):
         columns = []
