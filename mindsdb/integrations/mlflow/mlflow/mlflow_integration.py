@@ -41,7 +41,7 @@ class MLflowIntegration(BaseIntegration):
         self.mlflow_url = None
         self.registry_path = None
         self.connection = None
-        self.published_models = set()
+        self.published_models = set()  # TODO: this should be persistent, and check against internal mlflow list
         # self.controller = controller  # TODO: remove this, just for testing purposes
 
     def connect(self, mlflow_url, model_registry_path):
@@ -106,24 +106,15 @@ class MLflowIntegration(BaseIntegration):
             url = url.split('=')[-1].replace(',', '').strip().replace('\'', '')
             dtype_dict = literal_eval(dtype_info.split('=')[-1])
 
-            pdef = {
-                        'format': 'mlflow',
-                        'dtype_dict': dtype_dict,
-                        'target': target,
-                        'url': {'predict': url}
-            }
+            pdef = {'format': 'mlflow', 'dtype_dict': dtype_dict, 'target': target, 'url': {'predict': url}}
 
             # with all the gathered information, we now use mindsdb pre-existing logic to register this model as a predictor
-            # model_interface.learn(model_name, None, target, None, problem_definition=pdef, delete_ds_on_fail=True)
-
-            # name: str, from_data: dict, to_predict: str, dataset_id: int, problem_definition: dict,
-            #               company_id: int, delete_ds_on_fail: Optional[bool] = False
-
             self._learn(model_name, None, target, None, problem_definition=pdef, company_id=None, delete_ds_on_fail=True)
             self.published_models.add(model_name)
 
         elif "DROP PREDICTOR" in query:
-            pass  # TODO
+            predictor_name = query.split(" ")[-1]
+            session.datahub['mindsdb'].delete_predictor(predictor_name)
         else:
             return {"error": "QUERY NOT SUPPORTED"}
 
@@ -146,11 +137,7 @@ class MLflowIntegration(BaseIntegration):
 
         NB: In general, for this method in all subclasses you can inter-operate betweens integrations here.
         """  # noqa
-        # TODO
-
-        # if not served(model):  # not served => # pass dummy data (empty DF) to model so that we know it's listening?
-        #   serve()
-        # then call...
+        # TODO check if served by passing empty DF to model so that we know it's listening?
 
         outputs = []
         for model_name in from_stmt:
@@ -229,4 +216,5 @@ if __name__ == '__main__':
         model_registry_path='sqlite:////Users/Pato/Work/MindsDB/temp/experiments/BYOM/mlflow.db'))
     print(cls.get_tables())
     print(cls.describe_table('nlp_kaggle4'))
+    cls.run_native_query("DROP PREDICTOR nlp_kaggle_mlflow_test_integration3")
     cls.run_native_query("CREATE PREDICTOR nlp_kaggle_mlflow_test_integration3 PREDICT target USING url.predict='http://localhost:5001/invocations', format='mlflow', data_dtype={'text': 'rich_text', 'target': 'binary'}")
