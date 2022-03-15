@@ -1,3 +1,4 @@
+import requests
 from ast import literal_eval
 from typing import List, Union, Optional
 from datetime import datetime
@@ -41,7 +42,7 @@ class MLflowIntegration(BaseIntegration):
         self.mlflow_url = None
         self.registry_path = None
         self.connection = None
-        self.published_models = set()  # TODO: this should be persistent, and check against internal mlflow list
+        self.published_models = {}  # TODO: this should be persistent, and check against internal mlflow list
         # self.controller = controller  # TODO: remove this, just for testing purposes
 
     def connect(self, mlflow_url, model_registry_path):
@@ -109,24 +110,26 @@ class MLflowIntegration(BaseIntegration):
             pdef = {'format': 'mlflow', 'dtype_dict': dtype_dict, 'target': target, 'url': {'predict': url}}
 
             # with all the gathered information, we now use mindsdb pre-existing logic to register this model as a predictor
+            # @TODO: add re-wiring logic here, so that a predictor name can be rewired to another endpoint?
             self._learn(model_name, None, target, None, problem_definition=pdef, company_id=None, delete_ds_on_fail=True)
-            self.published_models.add(model_name)
+            self.published_models.add({model_name: pdef})
 
         elif "DROP PREDICTOR" in query:
             predictor_name = query.split(" ")[-1]
             session.datahub['mindsdb'].delete_predictor(predictor_name)
+
         else:
             return {"error": "QUERY NOT SUPPORTED"}
 
-    def select_query(self,
-                     from_stmt: str,
-                     where_stmt: List[str],  # <- implicit and between elements
-                     order_by=Union[None, str],  # DESC / ASC
-                     order_by_direction='DESC',
-                     group_by=Union[None, List[str]],
-                     limit=Union[None, int]
-                     ):
-        """
+    def select_query(self, stmt, raw_query, session):
+                     # from_stmt: str,
+                     # where_stmt: List[str],  # <- implicit and between elements
+                     # order_by=Union[None, str],  # DESC / ASC
+                     # order_by_direction='DESC',
+                     # group_by=Union[None, List[str]],
+                     # limit=Union[None, int]
+                     # ):
+        """ OLD
         This assumes all statements have been parsed and so we get:
             select_stmt: list of column names to fetch predictions from models
             from_stmt: names of models to call. Each has "hard-coded" target name in their wrapper, so the select statement is used to filter and selectively call predictors.
@@ -137,17 +140,31 @@ class MLflowIntegration(BaseIntegration):
 
         NB: In general, for this method in all subclasses you can inter-operate betweens integrations here.
         """  # noqa
-        # TODO check if served by passing empty DF to model so that we know it's listening?
 
-        outputs = []
-        for model_name in from_stmt:
-            # get model
-            model = self.connection.get_registered_model(model_name)
-            if model.target in select_stmt:
-                outputs.append(model.predict(where_stmt))
+        """ NEW
+        This assumes the raw_query has been parsed with mindsdb_sql and so the stmt has all information we need.
+        """
+        model_name = stmt.from_table.parts[-1]
 
-        # TODO: add order_by, group_by
-        out = pd.DataFrame.from_records(outputs, columns=select_stmt)
+        # @TODO: get this working
+        # if not model_name in self.published_models:
+        #     raise Exception(
+        #         "Cannot connect with the model, it might not served. Please serve it with MLflow and try again.")
+        # else:
+        # model_info = self.published_models[model_name]
+
+        model_info = {'url': 'http://localhost:5000/invocations'}
+
+        model = self.connection.get_registered_model(model_name)
+        # if model.target in select_stmt:  # @TODO: this implies adding a target metadata wrap somewhere in the persistent info this class stores
+        df = pd.DataFrame.from_dict({stmt.where.args[0].parts[0]: [stmt.where.args[1].value]})  # TODO better way?
+        resp = requests.post(model_info['url'],
+                             data=df.to_json(orient='records'),
+                             headers={'content-type': 'application/json; format=pandas-records'})
+        answer: List[object] = resp.json()
+
+        predictions = pd.DataFrame({'prediction': answer})
+        out = df.join(predictions)
         return out
 
     def join(self, left_integration_instance, left_where, on=None):

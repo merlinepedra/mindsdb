@@ -1310,12 +1310,30 @@ class MysqlProxy(SocketServer.BaseRequestHandler):
             log.warning(f'SQL statement are not parsed by mindsdb_sql: {sql}')
             pass
 
-        # TODO: This insane if here is just to trigger integrations in the most manual way possible. This will be removed ASAP.
-        if hasattr(statement, 'using') and statement.using.get('format', None) or type(statement) == DropPredictor:
+        # TODO: These insane ifs are just to trigger integrations in the most manual way possible. Will be removed ASAP.
+        if hasattr(statement, 'using') and statement.using.get('format', None) or \
+                type(statement) == DropPredictor:
             # TODO: this dispatch should not even call the parser, I think. This is why it passes the raw sql.
             integration_name = 'mlflow'  # statement.using['format']
             integration = INTEGRATIONS[integration_name]()
             integration.run_native_query(sql, self.session)
+            self.packet(OkPacket).send()
+        elif (type(statement) == Select and statement.from_table is not None):
+            integration_name = 'mlflow'  # statement.using['format']
+            integration = INTEGRATIONS[integration_name]()
+            integration.connect(
+                mlflow_url='http://127.0.0.1:5001',
+                model_registry_path='sqlite:////Users/Pato/Work/MindsDB/temp/experiments/BYOM/mlflow.db')
+            result = integration.select_query(statement, sql, self.session)
+
+            packages = []
+            packages += self.get_tabel_packets(
+                columns=result.columns,
+                data=result.result
+            )
+            packages.append(self.last_packet())
+            self.send_package_group(packages)
+
             self.packet(OkPacket).send()
         else:
 
