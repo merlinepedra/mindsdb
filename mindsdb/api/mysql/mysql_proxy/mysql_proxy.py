@@ -1316,7 +1316,7 @@ class MysqlProxy(SocketServer.BaseRequestHandler):
             # TODO: this dispatch should not even call the parser, I think. This is why it passes the raw sql.
             integration_name = 'mlflow'  # statement.using['format']
             integration = INTEGRATIONS[integration_name]()
-            integration.run_native_query(sql, statement, self.session)
+            integration.run_native_query(statement, sql, self.session)
             self.packet(OkPacket).send()
         elif (type(statement) == Select and statement.from_table is not None):
             integration_name = 'mlflow'  # statement.using['format']
