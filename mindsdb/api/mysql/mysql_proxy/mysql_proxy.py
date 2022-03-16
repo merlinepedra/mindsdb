@@ -660,7 +660,7 @@ class MysqlProxy(SocketServer.BaseRequestHandler):
         if statement.order_by is not None:
             struct['order_by'] = [x.field.parts[-1] for x in statement.order_by]
             if len(struct['order_by']) > 1:
-                raise SqlApiException("Only one field can be in 'OPRDER BY'")
+                raise SqlApiException("Only one field can be in 'ORDER BY'")
         if statement.group_by is not None:
             struct['group_by'] = [x.parts[-1] for x in statement.group_by]
         if statement.window is not None:
@@ -1316,7 +1316,7 @@ class MysqlProxy(SocketServer.BaseRequestHandler):
             # TODO: this dispatch should not even call the parser, I think. This is why it passes the raw sql.
             integration_name = 'mlflow'  # statement.using['format']
             integration = INTEGRATIONS[integration_name]()
-            integration.run_native_query(sql, self.session)
+            integration.run_native_query(sql, statement, self.session)
             self.packet(OkPacket).send()
         elif (type(statement) == Select and statement.from_table is not None):
             integration_name = 'mlflow'  # statement.using['format']

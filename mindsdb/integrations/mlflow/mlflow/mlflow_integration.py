@@ -42,8 +42,7 @@ class MLflowIntegration(BaseIntegration):
         self.mlflow_url = None
         self.registry_path = None
         self.connection = None
-        self.published_models = {}  # TODO: this should be persistent, and check against internal mlflow list
-        # self.controller = controller  # TODO: remove this, just for testing purposes
+        self.published_models = {}  # TODO: should be persistent & check against internal mlflow list
 
     def connect(self, mlflow_url, model_registry_path):
         """ Connect to the mlflow process using MlflowClient class. """  # noqa
@@ -71,51 +70,43 @@ class MLflowIntegration(BaseIntegration):
         return self.connection.list_registered_models()
 
     def run_native_query(self,
-                         query: str,  # <- raw
-                         session
+                         query: str,
+                         statement,   # one of mindsdb_sql:mindsdb dialect types
+                         session  # : SessionController
                          ):
         """ 
         Inside this method, anything is valid because you assume no inter-operability with other integrations.
         
         Currently supported:
-            1. Publish a predictor: this will link a pre-existing (i.e. trained) mlflow model to a mindsdb table.
+            1. Create predictor: this will link a pre-existing (i.e. trained) mlflow model to a mindsdb table.
                 To query the predictor, make sure you serve it first.
-                ref.: PUBLISH PREDICTOR name PREDICT column INVOKE AT URL DTYPES [col1 type_col1, ...];
+            2. Drop predictor: this will un-link a model that has been registered with the `create` syntax, meaning it will no longer be accesible as a table.
+                
+        :param query: raw query string
+        :param statement: query as parsed and interpreted as a SQL statement by the mindsdb parser 
+        :param session: mindsdb session that contains the model interface and data store, among others
          
         """  # noqa
-        # TODO
-        # publish predictor
-        # create predictor # later. all I/O should be handled by the integration
+        # TODO / Notes
+        # all I/O should be handled by the integration. mdb (at higher levels) should not concern itself with how
+        # anything is stored, just providing the context to company/users
             # e.g. lightwood: save/load models, store metadata about models, all that is delegated to mdb.
-            # mdb should not concern itself with how it is stored, just providing the context to company/users
-        # other custom syntax # later
 
-        model_interface = session.model_interface
-        data_store = session.data_store
-
-        # TODO: probably better to use parse_sql(query, dialect='mindsdb')
-
-        if "CREATE PREDICTOR" in query:  # TODO support "PUBLISH" instead (possible with parser?)
-            query = query.replace('\n', '')  # .replace('\\', '')
-            model_stmt, rest = query.split(" PREDICT ")
-            model_name = model_stmt.split(" ")[-1].strip()
-            if model_name in self.published_models:
-                return {"error": "A model with that name has already been published!"}
-
-            target, rest = [elt.strip().replace('`', '') for elt in rest.split("USING")] # TODO: multiple target support?
-            url, dtype_info = [elt.strip() for elt in rest.split("format='mlflow',")]
-            url = url.split('=')[-1].replace(',', '').strip().replace('\'', '')
-            dtype_dict = literal_eval(dtype_info.split('=')[-1])
-
-            pdef = {'format': 'mlflow', 'dtype_dict': dtype_dict, 'target': target, 'url': {'predict': url}}
-
-            # with all the gathered information, we now use mindsdb pre-existing logic to register this model as a predictor
-            # @TODO: add re-wiring logic here, so that a predictor name can be rewired to another endpoint?
+        if type(statement) == CreatePredictor:
+            model_name = statement.name.parts[-1]
+            target = statement.targets[0].parts[-1]  # TODO: multiple target support?
+            pdef = {
+                'format': statement.using['format'],
+                'dtype_dict': statement.using['dtype_dict'],
+                'target': target,
+                'url': {'predict': statement.using['url.predict']}
+            }
+            # @TODO: maybe add re-wiring so that a predictor name can point to a new endpoint?
             self._learn(model_name, None, target, None, problem_definition=pdef, company_id=None, delete_ds_on_fail=True)
-            self.published_models.add({model_name: pdef})
+            self.published_models[model_name] = pdef
 
-        elif "DROP PREDICTOR" in query:
-            predictor_name = query.split(" ")[-1]
+        elif type(statement) == DropPredictor:
+            predictor_name = statement.name.parts[-1]
             session.datahub['mindsdb'].delete_predictor(predictor_name)
 
         else:
