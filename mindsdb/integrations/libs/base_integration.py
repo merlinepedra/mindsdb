@@ -1,7 +1,9 @@
 class BaseIntegration:
 
-    def __init__(self):
-        pass
+    def __init__(self, config, name):
+        self.name = name
+        self.mindsdb_database = config['api']['mysql']['database']
+        self.company_id = os.environ.get('MINDSDB_COMPANY_ID', None)
 
     def connect(self):
         pass
