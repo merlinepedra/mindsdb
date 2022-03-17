@@ -48,8 +48,14 @@ class MLflowIntegration(BaseIntegration):
         self.connection = None
         mdb_config = Config()
         db_path = mdb_config['paths']['root']
-        self.registry = sqlite3.connect('models.db') # sqlite3.connect(os.path.join(db_path, 'models.db'))
-        self._prepare_registry()
+        # TODO: sqlite path -> handler key-value store to read/write metadata given some context (e.g. user name) -> Max has an interface WIP
+        self.handler = PermissionHandler(user)
+        registry_path = self.handler['integrations']['mlflow']['registry_path']
+        self.registry = sqlite3.connect(registry_path)
+
+        # this logic will not be used, too simple
+        # self.registry = sqlite3.connect('models.db') # sqlite3.connect(os.path.join(db_path, 'models.db'))
+        # self._prepare_registry()
 
     def connect(self, mlflow_url, model_registry_path):
         """ Connect to the mlflow process using MlflowClient class. """  # noqa
@@ -80,9 +86,8 @@ class MLflowIntegration(BaseIntegration):
         return tables
 
     def run_native_query(self,
-                         statement,   # one of mindsdb_sql:mindsdb dialect types
-                         query: str,  # TODO: may want to drop this from signature
-                         session  # : SessionController
+                         query_str: str
+                         # session  # : SessionController, don't use
                          ):
         """ 
         Inside this method, anything is valid because you assume no inter-operability with other integrations.
@@ -101,6 +106,9 @@ class MLflowIntegration(BaseIntegration):
         # all I/O should be handled by the integration. mdb (at higher levels) should not concern itself with how
         # anything is stored, just providing the context to company/users
             # e.g. lightwood: save/load models, store metadata about models, all that is delegated to mdb.
+
+        # todo
+        statement = parser.parse(query_str, dialect='mindsdb')  # one of mindsdb_sql:mindsdb dialect types
 
         if type(statement) == CreatePredictor:
             model_name = statement.name.parts[-1]
@@ -137,8 +145,7 @@ class MLflowIntegration(BaseIntegration):
 
     def select_query(self,
                      stmt, # one of mindsdb_sql:mindsdb dialect types
-                     raw_query, # TODO: may want to drop this from signature
-                     session  # : SessionController
+                     # session  # : SessionController # todo: remove
                      ):
         """
         This assumes the raw_query has been parsed with mindsdb_sql and so the stmt has all information we need.

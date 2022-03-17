@@ -19,13 +19,13 @@ class BaseIntegration:
         # not supported for predictor integrations (makes no sense)
         pass
 
-    def run_native_query(self, statement, query, session):
+    def run_native_query(self, query_str):
         """ Inside this one, anything is valid because you assume no inter-operability """
         # create predictor
         # other custom syntax
         pass
 
-    def select_query(self, statement, query, session):
+    def select_query(self, statement):
         # from_stmt: str,
         # where_stmt: List[str],  # <- implicit and between elements
         # order_by=Union[None, str],  # DESC / ASC
