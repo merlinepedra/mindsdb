@@ -6,7 +6,7 @@ from ast import literal_eval
 from typing import List, Union, Optional
 from datetime import datetime
 
-from mindsdb.integrations.libs.base_integration import BaseIntegration
+from mindsdb.integrations.libs.base_integration import BaseHandler
 from mindsdb.utilities.config import Config
 from mindsdb import __version__ as mindsdb_version
 from mindsdb.utilities.functions import mark_process
@@ -28,7 +28,7 @@ from mlflow.tracking import MlflowClient
 import pandas as pd
 
 
-class MLflowIntegration(BaseIntegration):
+class MLflowIntegration(BaseHandler):
     def __init__(self):
         """
         An MLflow integration needs to have a working connection to work. For this:

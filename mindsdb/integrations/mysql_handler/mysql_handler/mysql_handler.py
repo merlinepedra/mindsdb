@@ -1,14 +1,15 @@
 import mysql.connector
 from contextlib import closing
 
-from mindsdb.integrations.libs.base_integration import BaseIntegration
+from mindsdb.integrations.libs.base_integration import BaseHandler
 
-class MySQLHandler(BaseIntegration):
+class MySQLHandler(BaseHandler):
 
-    def __init__(self, config, name, **kwargs):
+    def __init__(self, config, name, type, **kwargs):
         super().__init__(config, name)
         self.connection = None
         self.mysql_url = None
+        self.type = None  # todo: either database or predictive
 
         self.host = kwargs.get('host')
         self.port = kwargs.get('port')

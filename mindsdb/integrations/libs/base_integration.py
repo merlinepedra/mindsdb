@@ -1,4 +1,4 @@
-class BaseIntegration:
+class BaseHandler:
 
     def __init__(self, config, name):
         self.name = name
