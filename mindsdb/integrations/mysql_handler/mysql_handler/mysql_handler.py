@@ -1,3 +1,4 @@
+from typing import Union, List
 import mysql.connector
 from contextlib import closing
 
@@ -16,7 +17,7 @@ class MySQLHandler(DatabaseHandler):
         self.host = kwargs.get('host')
         self.port = kwargs.get('port')
         self.user = kwargs.get('user')
-        self.database = kwargs.get('database')  # may want a method to change active DB
+        self.database = kwargs.get('database')  # todo: may want a method to change active DB
         self.password = kwargs.get('password')
         self.ssl = kwargs.get('ssl')
         self.ssl_ca = kwargs.get('ssl_ca')
@@ -81,30 +82,43 @@ class MySQLHandler(DatabaseHandler):
         return result
 
     def describe_table(self, table_name):
-        """ For getting standard info about a table. e.g. data types """
         q = f"DESCRIBE {table_name};"
         result = self.run_native_query(q)
         return result
 
-    def select_query(self, stmt):
-        # TODO: discuss this interface. Having original (only from and where) will be limiting for queries with more parts (e.g. limit)
-        query = f"SELECT {','.join([t.__str__() for t in stmt.targets])} FROM {stmt.from_table.parts[0]}"
-        if stmt.where:
-            query += f" WHERE {str(stmt.where)}"
+    def select_query(
+            self,
+            targets,
+            from_stmt,
+            where_stmt
+    ):
+        # TODO: discuss: having only these clauses instead of entire parsed object may be limiting for queries with more parts (e.g. limit)
+
+        query = f"SELECT {','.join([t.__str__() for t in targets])} FROM {from_stmt.parts[0]}"
+        if where_stmt:
+            query += f" WHERE {str(where_stmt)}"
 
         result = self.run_native_query(query)
         return result
 
     def select_into(self, table_name, select_query):
-        # TODO: rework this to intake a parsed query
+        # todo: discuss whether select_query should be parsed by this point?
         query = f"CREATE TABLE {self.database}.{table_name} AS ({select_query})"
         result = self.run_native_query(query)
 
-    def join(self, left_integration_instance, left_where, on=None):
-        # For now, can only join tables that live within the specified DB
+    def join(self, table, left_integration: str, on: str, left_where: Union[None, str] = None):
+        """
+        for now assumes
+            - left_integration to be a table in the same DB, but should get to a point where it can be a different handler
+            - single column to join on
+        """
         if not on:
             on = '*'
-        pass
+        query = f"SELECT * FROM {self.database}.{table} JOIN {self.database}.{left_integration} ON {table}.{on}"
+        if left_where is not None:
+            query += f'WHERE {left_where}'
+        result = self.run_native_query(query)
+        return result
 
 
 if __name__ == '__main__':
@@ -129,19 +143,33 @@ if __name__ == '__main__':
     assert isinstance(views, list)
 
     try:
-        handler.run_native_query("CREATE TABLE test_mdb (test_col INT);")
+        result = handler.run_native_query("DROP TABLE test_mdb")
+    except:
+        pass
+    try:
+        handler.run_native_query("CREATE TABLE test_mdb (test_col INT)")
     except Exception:
-        pass # already exists
+        pass
 
     described = handler.describe_table("test_mdb")
     assert isinstance(described, list)
 
     query = "SELECT * FROM test_mdb WHERE 'id'='a'"
     parsed = handler.parser(query, dialect=handler.dialect)
-    result = handler.select_query(parsed)
+    targets = parsed.targets
+    from_stmt = parsed.from_table
+    where_stmt = parsed.where
+    result = handler.select_query(targets, from_stmt, where_stmt)
 
     try:
         result = handler.run_native_query("DROP TABLE test_mdb2")
     except:
         pass
     result = handler.select_into('test_mdb2', "SELECT * FROM test_mdb")
+
+    tbls = handler.get_tables()
+    assert 'test_mdb2' in [item['Tables_in_test'] for item in tbls]
+
+    handler.run_native_query("INSERT INTO test_mdb(test_col) VALUES (1)")
+    handler.run_native_query("INSERT INTO test_mdb2(test_col) VALUES (1)")
+    result = handler.join('test_mdb', 'test_mdb2', 'test_col', left_where=None)
