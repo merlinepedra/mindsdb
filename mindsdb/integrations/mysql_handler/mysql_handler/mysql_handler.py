@@ -1,24 +1,28 @@
 import mysql.connector
 from contextlib import closing
 
-from mindsdb.integrations.libs.base_integration import BaseHandler
+from mindsdb_sql import parse_sql
+from mindsdb.integrations.libs.base_handler import DatabaseHandler
 
-class MySQLHandler(BaseHandler):
 
-    def __init__(self, config, name, type, **kwargs):
-        super().__init__(config, name)
+class MySQLHandler(DatabaseHandler):
+
+    def __init__(self, name, **kwargs):
+        super().__init__(name)
         self.connection = None
         self.mysql_url = None
-        self.type = None  # todo: either database or predictive
-
+        self.parser = parse_sql
+        self.dialect = 'mysql'
         self.host = kwargs.get('host')
         self.port = kwargs.get('port')
         self.user = kwargs.get('user')
+        self.database = kwargs.get('database')  # may want a method to change active DB
         self.password = kwargs.get('password')
         self.ssl = kwargs.get('ssl')
         self.ssl_ca = kwargs.get('ssl_ca')
         self.ssl_cert = kwargs.get('ssl_cert')
         self.ssl_key = kwargs.get('ssl_key')
+        self.connect()
 
     def connect(self):
         config = {
@@ -37,7 +41,6 @@ class MySQLHandler(BaseHandler):
                 config["ssl_key"] = self.ssl_key
 
         self.connection = mysql.connector.connect(**config)
-        self._setup()
         return self.connection
 
     def check_status(self):
@@ -51,10 +54,11 @@ class MySQLHandler(BaseHandler):
 
     def run_native_query(self, query_str):
         if not self.check_status():
-            con = self.connect()
+            self.connect()
         try:
-            with closing(con) as con:
+            with closing(self.connection) as con:
                 cur = con.cursor(dictionary=True, buffered=True)
+                cur.execute(f"USE {self.database};")
                 cur.execute(query_str)
                 res = True
                 try:
@@ -63,8 +67,7 @@ class MySQLHandler(BaseHandler):
                     pass
                 con.commit()
         except Exception as e:
-            # TODO: reformat to something cleaner
-            raise Exception(f"{e}\nError: something is wrong with your MySQL connection. Please check and retry!")
+            raise Exception(f"Error: {e}. Please check and retry!")
         return res
 
     def get_tables(self):
@@ -73,37 +76,72 @@ class MySQLHandler(BaseHandler):
         return result
 
     def get_views(self):
-        q = "SHOW VIEWS;"
+        q = f"SHOW FULL TABLES IN {self.database} WHERE TABLE_TYPE LIKE 'VIEW';"
         result = self.run_native_query(q)
         return result
-
-    def select_query(self,
-                     from_object,
-                     where # ,  # assume everything here is AND clause
-                     # session  # TODO: rm because of merger with datahubs
-                     ):
-        """ Here you can inter-operate betweens integrations. """
-        # if 'PREDICT' in query:  # <- idea
-        #     for column in select:
-        #         predict(column, df)  # multiple outputs for multiple predictors
-        #
-        # self.select_query(from_object, where, session)
-
-        self.run_native_query()
-
-    def join(self, left_integration_instance, left_where, on=None):
-        # Can join either:
-        #   - another DS
-        #   - an ML model
-        if not on:
-            on = '*'
-        pass
-
-    def select_into(self, integration_instance, stmt):
-        pass
 
     def describe_table(self, table_name):
         """ For getting standard info about a table. e.g. data types """
         q = f"DESCRIBE {table_name};"
         result = self.run_native_query(q)
         return result
+
+    def select_query(self, stmt):
+        # TODO: discuss this interface. Having original (only from and where) will be limiting for queries with more parts (e.g. limit)
+        query = f"SELECT {','.join([t.__str__() for t in stmt.targets])} FROM {stmt.from_table.parts[0]}"
+        if stmt.where:
+            query += f" WHERE {str(stmt.where)}"
+
+        result = self.run_native_query(query)
+        return result
+
+    def select_into(self, table_name, select_query):
+        # TODO: rework this to intake a parsed query
+        query = f"CREATE TABLE {self.database}.{table_name} AS ({select_query})"
+        result = self.run_native_query(query)
+
+    def join(self, left_integration_instance, left_where, on=None):
+        # For now, can only join tables that live within the specified DB
+        if not on:
+            on = '*'
+        pass
+
+
+if __name__ == '__main__':
+    kwargs = {
+        "host": "localhost",
+        "port": "3306",
+        "user": "root",
+        "password": "root",
+        "database": "test",
+        "ssl": False
+    }
+    handler = MySQLHandler('test_handler', **kwargs)
+    assert handler.check_status()
+
+    dbs = handler.run_native_query("SHOW DATABASES;")
+    assert isinstance(dbs, list)
+
+    tbls = handler.get_tables()
+    assert isinstance(tbls, list)
+
+    views = handler.get_views()
+    assert isinstance(views, list)
+
+    try:
+        handler.run_native_query("CREATE TABLE test_mdb (test_col INT);")
+    except Exception:
+        pass # already exists
+
+    described = handler.describe_table("test_mdb")
+    assert isinstance(described, list)
+
+    query = "SELECT * FROM test_mdb WHERE 'id'='a'"
+    parsed = handler.parser(query, dialect=handler.dialect)
+    result = handler.select_query(parsed)
+
+    try:
+        result = handler.run_native_query("DROP TABLE test_mdb2")
+    except:
+        pass
+    result = handler.select_into('test_mdb2', "SELECT * FROM test_mdb")
