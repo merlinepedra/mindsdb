@@ -14,6 +14,7 @@ from lightwood.api.types import ProblemDefinition
 import mindsdb.interfaces.storage.db as db
 from mindsdb.interfaces.model.model_controller import ModelController
 from mindsdb_sql import parse_sql
+from mindsdb_sql.parser.ast import Join
 from mindsdb_sql.parser.dialects.mindsdb import (
     CreateDatasource,
     RetrainPredictor,
@@ -170,10 +171,50 @@ class MLflowIntegration(PredictiveHandler):
 
     def select_query(self, stmt):
         """
+        Predictions with conditional input via where clause.
+         
         This assumes the raw_query has been parsed with mindsdb_sql and so the stmt has all information we need.
         In general, for this method in all subclasses you can inter-operate betweens integrations here.
         """  # noqa
-        model_name = stmt.from_table.parts[-1]
+        _, _, target, model_url = self._get_model(stmt)
+
+        if target not in [str(t) for t in parsed.targets]:
+            raise Exception("Predictor will not be called, target column is not specified.")
+
+        df = pd.DataFrame.from_dict({stmt.where.args[0].parts[0]: [stmt.where.args[1].value]})
+        return self._call_model(df, model_url)
+
+
+    def join(self, stmt, data_handler):
+        # TODO discuss interface
+        """
+        Batch prediction using the output of a query passed to a data handler as input for the model.
+        
+        Within this method one should specify specialized logic particular to how the framework would pre-process
+        data coming from a datasource integration, before actually passing the selected dataset to the model.
+        """  # noqa
+        data_handler_table = stmt.from_table.left.parts[-1]  # todo should be ".".join(parsed.from_table.left.parts) once data handler supports more than one table
+        data_handler_cols = list(set([t.parts[-1] for t in stmt.targets]))
+
+        # integration should handle this depending on type of query... e.g. if it is TS, then we have to fetch correct groups first and limit later
+        limit = stmt.limit.value
+
+        data_query = f"""SELECT {','.join(data_handler_cols)} FROM {data_handler_table}"""
+        if stmt.where:
+            data_query += f" WHERE {str(stmt.where)}"
+        if stmt.limit:
+            data_query += f" LIMIT {limit}"
+
+        model_input = pd.DataFrame.from_records(data_handler.run_native_query(data_query))
+        _, _, _, model_url = self._get_model(stmt)
+
+        return self._call_model(model_input, model_url)
+
+    def _get_model(self, stmt):
+        if type(stmt.from_table) == Join:
+            model_name = stmt.from_table.right.parts[-1]
+        else:
+            model_name = stmt.from_table.parts[-1]
 
         mlflow_models = [model.name for model in self.connection.list_registered_models()]
         if not model_name in self.get_tables():
@@ -186,10 +227,9 @@ class MLflowIntegration(PredictiveHandler):
         _, _, target, model_url = list(cur.execute(f'select * from models where model_name="{model_name}";'))[0]
         model = self.connection.get_registered_model(model_name)
 
-        if target not in [str(t) for t in parsed.targets]:
-            raise Exception("Predictor will not be called, target column is not specified.")
+        return model_name, model, target, model_url
 
-        df = pd.DataFrame.from_dict({stmt.where.args[0].parts[0]: [stmt.where.args[1].value]})
+    def _call_model(self, df, model_url):
         resp = requests.post(model_url,
                              data=df.to_json(orient='records'),
                              headers={'content-type': 'application/json; format=pandas-records'})
@@ -198,16 +238,6 @@ class MLflowIntegration(PredictiveHandler):
         predictions = pd.DataFrame({'prediction': answer})
         out = df.join(predictions)
         return out
-
-    def join(self, left_integration_instance, left_where, on=None):
-        """
-        Within this method one should specify specialized logic particular to how the framework would pre-process
-        data coming from a datasource integration, before actually passing the selected dataset to the model.
-        """  # noqa
-        # TODO
-        if not on:
-            on = '*'
-        pass
 
 
 if __name__ == '__main__':
@@ -237,10 +267,15 @@ if __name__ == '__main__':
         "database": "test",
         "ssl": False
     }
-    handler = MySQLHandler('test_handler', **kwargs)
+    sql_handler_name = 'test_handler'
+    data_table_name = 'train_escaped_csv' # 'tweet_sentiment_train'
+    handler = MySQLHandler(sql_handler_name, **kwargs)
     assert handler.check_status()
 
     query = f"SELECT target from {registered_model_name} WHERE text='This is nice.'"
     parsed = cls.parser(query, dialect=cls.dialect)
     predicted = cls.select_query(parsed)
 
+    query = f"SELECT ta.target as predicted, tb.target as real, tb.text from {sql_handler_name}.{data_table_name} AS ta JOIN {registered_model_name} AS tb LIMIT 10"
+    parsed = cls.parser(query, dialect=cls.dialect)
+    predicted = cls.join(parsed, handler)

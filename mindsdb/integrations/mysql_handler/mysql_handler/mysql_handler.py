@@ -173,3 +173,7 @@ if __name__ == '__main__':
     handler.run_native_query("INSERT INTO test_mdb(test_col) VALUES (1)")
     handler.run_native_query("INSERT INTO test_mdb2(test_col) VALUES (1)")
     result = handler.join('test_mdb', 'test_mdb2', 'test_col', left_where=None)
+
+    # to build a DF with results
+    import pandas as pd
+    result_df = pd.DataFrame.from_records(handler.run_native_query(query))
