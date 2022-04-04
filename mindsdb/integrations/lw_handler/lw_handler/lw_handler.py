@@ -46,7 +46,7 @@ class LightwoodHandler(PredictiveHandler):
             return {'status': '200'}
         except AssertionError as e:
             print("Cannot import lightwood!")
-        return {'status': '503', 'error': e}
+            return {'status': '503', 'error': e}
 
     def get_tables(self) -> List:
         """ Returns list of model names (that have been succesfully linked with CREATE PREDICTOR) """  # noqa
