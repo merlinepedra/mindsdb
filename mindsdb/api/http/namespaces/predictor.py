@@ -1,3 +1,4 @@
+import json
 from dateutil.parser import parse as parse_datetime
 from flask import request
 from flask_restx import Resource, abort
@@ -278,3 +279,20 @@ class PredictorTrain(Resource):
 
         request.model_interface.fit_predictor(name, from_data, request.json.get('join_learn_process', False))
         return '', 200
+
+
+@ns_conf.route('/<name>/export')
+@ns_conf.param('name', 'The predictor identifier')
+@ns_conf.response(404, 'predictor not found')
+class PredictorExport(Resource):
+    def get(self, name):
+        payload: json = request.model_interface.export_predictor(name)
+        return payload, 200
+
+
+@ns_conf.route('/<name>/import')
+@ns_conf.param('name', 'The predictor identifier')
+@ns_conf.response(404, 'predictor not found')
+class PredictorExport(Resource):
+    def put(self, name):
+        request.model_interface.import_predictor(name, request.json)

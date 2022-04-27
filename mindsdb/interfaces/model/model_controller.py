@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import json
+import base64
 import psutil
 import datetime
 from copy import deepcopy
@@ -22,13 +23,14 @@ import mindsdb_datasources
 from mindsdb import __version__ as mindsdb_version
 import mindsdb.interfaces.storage.db as db
 from mindsdb.utilities.functions import mark_process
-from mindsdb.interfaces.database.database import DatabaseWrapper
+from mindsdb.utilities.json_encoder import json_serialiser
 from mindsdb.utilities.config import Config
 from mindsdb.interfaces.storage.fs import FsStore
 from mindsdb.utilities.log import log
 from mindsdb.interfaces.model.learn_process import LearnProcess, GenerateProcess, FitProcess, UpdateProcess, LearnRemoteProcess
 from mindsdb.interfaces.datastore.datastore import DataStore
 from mindsdb.interfaces.datastore.datastore import QueryDS
+from mindsdb.utilities.hooks import after_predict as after_predict_hook
 
 IS_PY36 = sys.version_info[1] <= 6
 
@@ -309,6 +311,13 @@ class ModelController():
             # del self.predictor_cache[name]
 
         predictions = predictions.to_dict(orient='records')
+        after_predict_hook(
+            company_id=company_id,
+            predictor_id=predictor_record.id,
+            rows_in_count=df.shape[0],
+            columns_in_count=df.shape[1],
+            rows_out_count=len(predictions)
+        )
         target = predictor_record.to_predict[0]
         if pred_format in ('explain', 'dict', 'dict&explain'):
             explain_arr = []
@@ -325,7 +334,7 @@ class ModelController():
                 if 'lower' in row:
                     obj[target]['confidence_lower_bound'] = row.get('lower', None)
                     obj[target]['confidence_upper_bound'] = row.get('upper', None)
-                    
+
                 explain_arr.append(obj)
 
                 td = {'predicted_value': row['prediction']}
@@ -486,8 +495,6 @@ class ModelController():
                 pass
         db.session.commit()
 
-        DatabaseWrapper(company_id).unregister_predictor(name)
-
         # delete from s3
         self.fs_store.delete(f'predictor_{company_id}_{db_p.id}')
 
@@ -497,9 +504,6 @@ class ModelController():
         db_p = db.session.query(db.Predictor).filter_by(company_id=company_id, name=old_name).first()
         db_p.name = new_name
         db.session.commit()
-        dbw = DatabaseWrapper(company_id)
-        dbw.unregister_predictor(old_name)
-        dbw.register_predictors([self.get_model_data(new_name, company_id)])
 
     @mark_process(name='learn')
     def update_model(self, name: str, company_id: int):
@@ -587,6 +591,63 @@ class ModelController():
             if not IS_PY36:
                 p.close()
 
+    def export_predictor(self, name: str, company_id: int) -> json:
+        predictor_record = db.session.query(db.Predictor).filter_by(company_id=company_id, name=name).first()
+        assert predictor_record is not None
+
+        fs_name = f'predictor_{company_id}_{predictor_record.id}'
+        self.fs_store.get(fs_name, fs_name, self.config['paths']['predictors'])
+        local_predictor_savefile = os.path.join(self.config['paths']['predictors'], fs_name)
+        predictor_binary = open(local_predictor_savefile, 'rb').read()
+
+        # Serialize a predictor record into a dictionary 
+        # move into the Predictor db class itself if we use it again somewhere
+        predictor_record_serialized = {
+            'name': predictor_record.name,
+            'data': predictor_record.data,
+            'to_predict': predictor_record.to_predict,
+            'mindsdb_version': predictor_record.mindsdb_version,
+            'native_version': predictor_record.native_version,
+            'is_custom': predictor_record.is_custom,
+            'learn_args': predictor_record.learn_args,
+            'update_status': predictor_record.update_status,
+            'json_ai': predictor_record.json_ai,
+            'code': predictor_record.code,
+            'lightwood_version': predictor_record.lightwood_version,
+            'dtype_dict': predictor_record.dtype_dict,
+            'predictor_binary': predictor_binary
+        }
+
+        return json.dumps(predictor_record_serialized, default=json_serialiser)
+
+    def import_predictor(self, name: str, payload: json, company_id: int) -> None:
+        prs = json.loads(payload)
+
+        predictor_record = db.Predictor(
+            name=name,
+            data=prs['data'],
+            to_predict=prs['to_predict'],
+            company_id=company_id,
+            mindsdb_version=prs['mindsdb_version'],
+            native_version=prs['native_version'],
+            is_custom=prs['is_custom'],
+            learn_args=prs['learn_args'],
+            update_status=prs['update_status'],
+            json_ai=prs['json_ai'],
+            code=prs['code'],
+            lightwood_version=prs['lightwood_version'],
+            dtype_dict=prs['dtype_dict']
+        )
+
+        db.session.add(predictor_record)
+        db.session.commit()
+
+        predictor_binary = base64.b64decode(prs['predictor_binary'])
+        fs_name = f'predictor_{company_id}_{predictor_record.id}'
+        with open(os.path.join(self.config['paths']['predictors'], fs_name), 'wb') as fp:
+            fp.write(predictor_binary)
+
+        self.fs_store.put(fs_name, fs_name, self.config['paths']['predictors'])
 
 '''
 Notes: Remove ray from actors are getting stuck
