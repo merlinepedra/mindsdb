@@ -3,6 +3,8 @@ import gc
 import dill
 import pandas as pd
 from typing import Dict, List, Optional
+import hashlib
+from pandas.util import hash_pandas_object
 
 import lightwood
 from lightwood.api.types import JsonAI
@@ -20,6 +22,7 @@ from mindsdb_sql.parser.dialects.mindsdb import (
     CreatePredictor,
     DropPredictor
 )
+from mindsdb.utilities.cache import get_cache
 
 
 class LightwoodHandler(PredictiveHandler):
@@ -337,10 +340,27 @@ class LightwoodHandler(PredictiveHandler):
             return dill.loads(predictor_dict['predictor'])
 
     def _call_predictor(self, df, predictor):
-        predictions = predictor.predict(df)
+        # cache
+        cache = get_cache('predict')
+
+        if cache is not None:
+            # get from cache
+            checksum = hashlib.sha1(pd.util.hash_pandas_object(df).values).hexdigest()
+            key = f'{predictor.name} + {checksum}'
+            predictions = cache.get(key)
+
+            if predictions is None:
+                predictions = predictor.predict(df)
+
+                # store to cache
+                cache.set(key, predictions)
+        else:
+            predictions = predictor.predict(df)
+
         if 'original_index' in predictions.columns:
             predictions = predictions.sort_values(by='original_index')
         return df.join(predictions)
+
 
 
 if __name__ == '__main__':
