@@ -8,7 +8,6 @@ Create your [free MindsDB Cloud account](https://cloud.mindsdb.com/register).
 ???+ Tip "Local Installation" 
     Follow our [Docker instructions](/deployment/docker). if you  prefer to proceed with a local installation.
 
----
 ## 2. Connect MindsDB to a MySQL Client
 
 You can use the MindsDB SQL Editor or open your preferred MySQL client and connect it to MindsDB.
@@ -27,8 +26,6 @@ You can use the MindsDB SQL Editor or open your preferred MySQL client and conne
 
     !!! Tip ""
         If you do not already have a preferred SQL client, we recommend [DBeaver Community Edition](https://dbeaver.io/download/).
-
----
 
 ## 3. Connecting a Database [`#!sql CREATE DATABASE`](/sql/api/databases/)
 
@@ -51,8 +48,6 @@ On execution, you should get:
 ```sql
 Query OK, 0 rows affected (3.22 sec)
 ```
-
----
 
 ## 4. Previewing Available Data
 
@@ -84,8 +79,6 @@ On execution, you should get:
 10 rows in set (0.36 sec)
 ```
 
----
-
 ## 5. Creating a Predictor [`#!sql CREATE PREDICTOR`](/sql/api/predictor/)
 
 Now you are ready to create your first predictor. Use the [`#!sql CREATE PREDICTOR`](/sql/api/predictor/) syntax by copying and pasting this command into your SQL client:
@@ -100,8 +93,6 @@ PREDICT rental_price;
 ```sql
 Query OK, 0 rows affected (9.79 sec)
 ```
-
----
 
 ## 6. Checking the Status of a Predictor
 
@@ -135,8 +126,6 @@ Or:
 ```
 
 !!! attention "Predictor Status Must be 'complete' Before Making a Prediction"
-
----
 
 ## 7. Making a Prediction via [`#!sql SELECT`](/sql/api/select/)
 
