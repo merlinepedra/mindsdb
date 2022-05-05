@@ -1,19 +1,20 @@
 import os
 import gc
 import dill
-import pandas as pd
+from packaging import version
 from typing import Dict, List, Optional
 
+import pandas as pd
 from lightwood.api.high_level import json_ai_from_problem, predictor_from_code, code_from_json_ai, ProblemDefinition, _module_from_code
 
 from mindsdb.integrations.libs.base_handler import BaseHandler, PredictiveHandler
 from mindsdb.integrations.libs.storage_handler import SqliteStorageHandler
-from mindsdb.integrations.mysql_handler.mysql_handler.mysql_handler import MySQLHandler
+from mindsdb.integrations.mysql_handler.mysql_handler import MySQLHandler
 from mindsdb.utilities.config import Config
 from mindsdb_sql import parse_sql
 from mindsdb_sql.parser.ast import Join
+from mindsdb_sql.parser.ast.base import ASTNode
 from mindsdb_sql.parser.dialects.mindsdb import (
-    # RetrainPredictor,  # todo
     CreatePredictor,
     DropPredictor
 )
@@ -34,18 +35,13 @@ class LightwoodHandler(PredictiveHandler):
         return self.check_status()
 
     def check_status(self) -> Dict[str, int]:
-        """ Checks that the connection is, as expected, an MlflowClient instance. """  # noqa
-        # todo: potentially nothing to do here, as we can assume user to install requirements first
+        """ Checks that supported Lightwood version can be imported. """  # noqa
         try:
             import lightwood
-            year, major, minor, hotfix = lightwood.__version__.split('.')
-            assert int(year) >= 22
-            assert int(major) >= 2
-            assert int(minor) >= 3
-            print("Lightwood OK!")
+            lw_version = version.parse(lightwood.__version__)
+            assert lw_version >= version.parse('22.2.3')
             return {'status': '200'}
         except AssertionError as e:
-            print("Cannot import lightwood!")
             return {'status': '503', 'error': e}
 
     def get_tables(self) -> List:
@@ -60,8 +56,8 @@ class LightwoodHandler(PredictiveHandler):
             return {}
         return self.storage.get('models')[model_name]['jsonai']
 
-    def run_native_query(self, query_str: str) -> Optional[object]:
-        statement = self.parser(query_str, dialect=self.dialect)
+    def run_native_query(self, query: str) -> Optional[object]:
+        statement = self.parser(query, dialect=self.dialect)
 
         if type(statement) == CreatePredictor:
             model_name = statement.name.parts[-1]
@@ -108,12 +104,17 @@ class LightwoodHandler(PredictiveHandler):
         else:
             raise Exception(f"Query type {type(statement)} not supported")
 
-    def select_query(self, stmt) -> pd.DataFrame:
+    def query(self, query: ASTNode) -> dict:
         # todo: expand to arbitrary amount of values
-        model = self._get_model(stmt)
+        model = self._get_model(query)
 
-        df = pd.DataFrame.from_dict({stmt.where.args[0].parts[0]: [stmt.where.args[1].value]})
-        return self._call_predictor(df, model)
+        df = pd.DataFrame.from_dict({query.where.args[0].parts[0]: [query.where.args[1].value]})
+        output = self._call_predictor(df, model)
+        response = {
+          'type': 'lightwood_result',
+          'data_frame': output
+        }
+        return response
 
     def _data_gather(self):
         # todo: this would be the pipeline for specialized tasks
@@ -147,10 +148,9 @@ class LightwoodHandler(PredictiveHandler):
         parsed_query = self.parser(data_query, dialect=self.dialect)
         model_input = pd.DataFrame.from_records(
             data_handler.select_query(
-                parsed_query.targets,
-                parsed_query.from_table,
-                parsed_query.where
-            ))
+                parsed_query
+            )['data_frame']
+        )
 
         # rename columns
         aliased_columns = list(model_input.columns)
@@ -243,7 +243,6 @@ if __name__ == '__main__':
         print('dropping predictor...')
         cls.run_native_query(f"DROP PREDICTOR {registered_model_name}")
     except:
-        print('failed to drop')
         pass
 
     print(cls.get_tables())
@@ -259,7 +258,7 @@ if __name__ == '__main__':
 
     query = f"SELECT target from {model_name} WHERE sqft=100"
     parsed = cls.parser(query, dialect=cls.dialect)
-    predicted = cls.select_query(parsed)
+    predicted = cls.query(parsed)
 
     into_table = 'test_join_into_lw'
     query = f"SELECT tb.{target} as predicted, ta.{target} as truth, ta.sqft from {data_handler_name}.{data_table_name} AS ta JOIN {model_name} AS tb LIMIT 10"
@@ -269,7 +268,7 @@ if __name__ == '__main__':
     # checks whether `into` kwarg does insert into the table or not
     q = f"SELECT * FROM {into_table}"
     qp = cls.parser(q, dialect='mysql')
-    assert len(data_handler.select_query(qp.targets, qp.from_table, qp.where)) > 0
+    assert len(data_handler.select_query(qp)) > 0
 
     try:
         data_handler.run_native_query(f"DROP TABLE test.{into_table}")
