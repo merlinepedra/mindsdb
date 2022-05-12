@@ -1632,21 +1632,21 @@
 <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">CREATE</span><span class="w"> </span><span class="cm">/*REPLACE*/</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="p">[</span><span class="n">integration_name</span><span class="p">].[</span><span class="k">table_name</span><span class="p">]</span><span class="w"></span>
 <span class="w">    </span><span class="p">[</span><span class="k">SELECT</span><span class="w"> </span><span class="p">...]</span><span class="w"></span>
 </code></pre></div>
-<p>It performs a subselect <code class="highlight"><span class="p">[</span><span class="k">SELECT</span><span class="w"> </span><span class="p">...]</span><span class="w"></span></code> and gets data from it, thereafter it creates a table <code class="highlight"><span class="p">[</span><span class="k">table_name</span><span class="p">]</span><span class="w"></span></code> in  <code class="highlight"><span class="p">[</span><span class="n">integration_name</span><span class="p">]</span><span class="w"></span></code>. lastly it performs an <code class="highlight"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="p">[</span><span class="n">integration_name</span><span class="p">].[</span><span class="k">table_name</span><span class="p">]</span><span class="w"></span></code> with the contents of the <code class="highlight"><span class="p">[</span><span class="k">SELECT</span><span class="w"> </span><span class="p">...]</span><span class="w"></span></code></p>
+<p>It performs a subselect <code class="highlight"><span class="p">[</span><span class="k">SELECT</span><span class="w"> </span><span class="p">...]</span><span class="w"></span></code> and gets data from it, thereafter it creates a table <code class="highlight"><span class="p">[</span><span class="k">table_name</span><span class="p">]</span><span class="w"></span></code> in <code class="highlight"><span class="p">[</span><span class="n">integration_name</span><span class="p">]</span><span class="w"></span></code>. lastly it performs an <code class="highlight"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="p">[</span><span class="n">integration_name</span><span class="p">].[</span><span class="k">table_name</span><span class="p">]</span><span class="w"></span></code> with the contents of the <code class="highlight"><span class="p">[</span><span class="k">SELECT</span><span class="w"> </span><span class="p">...]</span><span class="w"></span></code></p>
 <div class="admonition warning">
 <p class="admonition-title"><code class="highlight"><span class="k">REPLACE</span><span class="w"></span></code></p>
-<p>If <code class="highlight"><span class="k">REPLACE</span><span class="w"></span></code> is indicated then <code class="highlight"><span class="p">[</span><span class="n">integration_name</span><span class="p">].[</span><span class="k">table_name</span><span class="p">]</span><span class="w"></span></code> will be  <strong>Dropped</strong></p>
+<p>If <code class="highlight"><span class="k">REPLACE</span><span class="w"></span></code> is indicated then <code class="highlight"><span class="p">[</span><span class="n">integration_name</span><span class="p">].[</span><span class="k">table_name</span><span class="p">]</span><span class="w"></span></code> will be <strong>Dropped</strong></p>
 </div>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
 <p>In this example we want to persist the predictions into a table <code class="highlight"><span class="n">int1</span><span class="p">.</span><span class="n">tbl1</span><span class="w"></span></code>. Given the following schema:</p>
-<p><div class="highlight"><pre><span></span><code>int1
+<div class="highlight"><pre><span></span><code>int1
 └── tbl1
 mindsdb
-└── predictor
+└── predictor_name
 int2
 └── tbl2
 </code></pre></div>
-Where:</p>
+<p>Where:</p>
 <table>
 <thead>
 <tr>
@@ -1664,26 +1664,25 @@ Where:</p>
 <td>Table to be created</td>
 </tr>
 <tr>
-<td><code>predictor</code></td>
-<td>Name of the <code class="highlight"><span class="n">PREDICTOR</span><span class="w"></span></code></td>
+<td><code>predictor_name</code></td>
+<td>Name of the model to be used</td>
 </tr>
 <tr>
 <td><code>int2</code></td>
-<td>Database to be used a a source in the inner <code class="highlight"><span class="k">SELECT</span><span class="w"></span></code></td>
+<td>Database to be used as a source in the inner <code class="highlight"><span class="k">SELECT</span><span class="w"></span></code></td>
 </tr>
 <tr>
 <td><code>tbl2</code></td>
-<td>Table to be used a a source.</td>
+<td>Table to be used as a source.</td>
 </tr>
 </tbody>
 </table>
 <p>In order to achive the desired result we could execute the following query:</p>
-<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">int1</span><span class="p">.</span><span class="n">tbl1</span><span class="w"> </span>
-<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">int2</span><span class="p">.</span><span class="n">fish</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ta</span><span class="w">                  </span>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">int1</span><span class="p">.</span><span class="n">tbl1</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">int2</span><span class="p">.</span><span class="n">tbl2</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ta</span><span class="w"></span>
+<span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictor_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tb</span><span class="w"></span>
 <span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ta</span><span class="p">.</span><span class="nb">date</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;2015-12-31&#39;</span><span class="w"></span>
 <span class="p">)</span><span class="w"></span>
-<span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">tp3</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tb</span><span class="w"> </span>
 </code></pre></div>
 
               
