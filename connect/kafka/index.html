@@ -725,9 +725,67 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Kafka
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Kafka
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requesites" class="md-nav__link">
+    Pre-requesites:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-connector-instance" class="md-nav__link">
+    Create the connector instance:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#send-source-data-and-receive-prediction-results" class="md-nav__link">
+    Send source data and receive prediction results:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1548,6 +1606,48 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requesites" class="md-nav__link">
+    Pre-requesites:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-connector-instance" class="md-nav__link">
+    Create the connector instance:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#send-source-data-and-receive-prediction-results" class="md-nav__link">
+    Send source data and receive prediction results:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1565,11 +1665,115 @@
 
 
 <h1 id="midnsdb-and-kafka">MidnsDB and Kafka<a class="headerlink" href="#midnsdb-and-kafka" title="Permanent link">&para;</a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Work in progress</p>
-<p>MindsDB has written an integration to kafka, we are putting together the documentation for this powerful integration.
-If you want to help, we will be glad if you join our slack community and we can collaborate on this part of the documentation.</p>
-</div>
+<p>MindsDB provides a kafka connector plugin to connect to kafka cluster.
+You may use official connector docker image:</p>
+<div class="highlight"><pre><span></span><code>docker pull mindsdb/mindsdb-kafka-connector
+</code></pre></div>
+<p>Also a source code of the connector is located <ins><a href="https://github.com/mindsdb/kafka_connector">here</a></ins>. Please read the <ins><a href="https://github.com/mindsdb/kafka_connector/blob/main/README.md">instruction</a></ins> first before building the connector from scratch.</p>
+<p>It is possible to integrate and use the connector as part of your own kafka cluster or you may try this one in our test docker <ins><a href="https://github.com/mindsdb/kafka_connector/blob/main/docker-compose.yml">environment</a></ins>. Just execute:</p>
+<div class="highlight"><pre><span></span><code>docker-compose up -d
+</code></pre></div>
+<p>from the root of repository to build the connector and launch it in the test environment locally.</p>
+<p>Please note, there are two types of connector config (do not forget to set a real value for each parameter befor using it):</p>
+<ul>
+<li>For <ins><a href="https://github.com/mindsdb/kafka_connector/blob/main/examples/kafkaConfig.json">MindsDB Cloud</a></ins></li>
+<li>For a separate <ins><a href="https://github.com/mindsdb/kafka_connector/blob/main/examples/kafkaConfigSeparateMindsdbInstance.json">MindsDB intallation</a></ins></li>
+</ul>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<h3 id="pre-requesites">Pre-requesites:<a class="headerlink" href="#pre-requesites" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Launch MindsDB instance where HTTP API interface is running on <code>docker network interface inet ip</code> (it is <code>172.17.0.1</code> in general)</li>
+<li>Train a new model. You may use <ins><a href="/sql/tutorials/bodyfat">this</a></ins> tutorial as example</li>
+<li>run test kafka environment - <code>docker-compose up -d</code> (see details above)</li>
+</ul>
+<h3 id="create-the-connector-instance">Create the connector instance:<a class="headerlink" href="#create-the-connector-instance" title="Permanent link">&para;</a></h3>
+<p>To create a connector need to send POST request to specific <code>connectors</code> url with connector configuration in JSON format:
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">MINDSDB_URL</span> <span class="o">=</span> <span class="s2">&quot;http://172.17.0.1:47334&quot;</span>
+<span class="n">CONNECTOR_NAME</span> <span class="o">=</span> <span class="s2">&quot;MindsDBConnector&quot;</span>
+<span class="n">INTEGRATION_NAME</span> <span class="o">=</span> <span class="s1">&#39;test_kafka&#39;</span>
+<span class="n">KAFKA_PORT</span> <span class="o">=</span> <span class="mi">9092</span>
+<span class="n">KAFKA_HOST</span> <span class="o">=</span> <span class="s2">&quot;127.0.0.1&quot;</span>
+
+<span class="n">CONNECTOR_NAME</span> <span class="o">=</span> <span class="s2">&quot;MindsDBConnector&quot;</span>
+<span class="n">CONNECTORS_URL</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:9021/api/connect/connect-default/connectors&quot;</span>
+<span class="n">STREAM_IN</span> <span class="o">=</span> <span class="s2">&quot;topic_in&quot;</span>
+<span class="n">STREAM_OUT</span> <span class="o">=</span> <span class="s2">&quot;topic_out&quot;</span>
+
+<span class="n">PREDICTOR_NAME</span> <span class="o">=</span> <span class="s2">&quot;YOUR_MODEL_NAME&quot;</span> <span class="c1"># set actual model name here</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">CONNECTOR_NAME</span><span class="p">,</span>
+          <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;connector.class&quot;</span><span class="p">:</span> <span class="s2">&quot;com.mindsdb.kafka.connect.MindsDBConnector&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;topics&quot;</span><span class="p">:</span> <span class="n">STREAM_IN</span><span class="p">,</span>
+                     <span class="s2">&quot;mindsdb.url&quot;</span><span class="p">:</span> <span class="n">MINDSDB_URL</span><span class="p">,</span>
+                     <span class="s2">&quot;kafka.api.host&quot;</span><span class="p">:</span> <span class="n">KAFKA_HOST</span><span class="p">,</span>
+                     <span class="s2">&quot;kafka.api.port&quot;</span><span class="p">:</span> <span class="n">KAFKA_PORT</span><span class="p">,</span>
+                     <span class="s2">&quot;kafka.api.name&quot;</span><span class="p">:</span> <span class="n">INTEGRATION_NAME</span><span class="p">,</span>
+                     <span class="s2">&quot;predictor.name&quot;</span><span class="p">:</span> <span class="n">PREDICTOR_NAME</span><span class="p">,</span>
+                     <span class="s2">&quot;output.forecast.topic&quot;</span><span class="p">:</span> <span class="n">STREAM_OUT</span><span class="p">,</span>
+                     <span class="s2">&quot;security.protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;SASL_PLAINTEXT&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;sasl.mechanism&quot;</span><span class="p">:</span> <span class="s2">&quot;PLAIN&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;sasl.plain.username&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;sasl.plain.password&quot;</span><span class="p">:</span> <span class="s2">&quot;admin-secret&quot;</span><span class="p">,</span>
+                     <span class="p">}</span>
+          <span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">CONNECTORS_URL</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre></div></p>
+<p>The code above creates a MindsDB Kafka connector which uses <code>PREDICTOR_NAME</code> model, receives source data from <code>STREAM_IN</code> kafka topic and sends prediction results to <code>STREAM_OUT</code> kafka topic.</p>
+<h3 id="send-source-data-and-receive-prediction-results">Send source data and receive prediction results:<a class="headerlink" href="#send-source-data-and-receive-prediction-results" title="Permanent link">&para;</a></h3>
+<p>There are many kafka clients <ins><a href="https://docs.confluent.io/platform/current/clients/index.html">implementations</a></ins>, and you may find the best one for your goals.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>                                                                                                                                                  
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">kafka</span>
+<span class="n">connection_info</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;bootstrap_servers&quot;</span><span class="p">:</span> <span class="s2">&quot;127.0.0.1:9092&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;security_protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;SASL_PLAINTEXT&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;sasl_mechanism&quot;</span><span class="p">:</span> <span class="s2">&quot;PLAIN&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;sasl_plain_username&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;sasl_plain_password&quot;</span><span class="p">:</span> <span class="s2">&quot;admin-secret&quot;</span><span class="p">}</span>
+<span class="n">producer</span> <span class="o">=</span> <span class="n">kafka</span><span class="o">.</span><span class="n">KafkaProducer</span><span class="p">(</span><span class="o">**</span><span class="n">connection_info</span><span class="p">)</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">connection_info</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="s2">&quot;topic_in&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Age&quot;</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;Weight&quot;</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">0.8</span> <span class="o">+</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;Height&quot;</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="mi">65</span><span class="p">}</span>
+        <span class="n">to_send</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">producer</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">to_send</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="n">producer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+<p>This piece of code generates and sends for source records to <code>topic_in</code> (by default) or any other topic (if it is provided and cmd parameter).</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">kafka</span>
+
+<span class="n">connection_info</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;bootstrap_servers&quot;</span><span class="p">:</span> <span class="s2">&quot;127.0.0.1:9092&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;security_protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;SASL_PLAINTEXT&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;sasl_mechanism&quot;</span><span class="p">:</span> <span class="s2">&quot;PLAIN&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;sasl_plain_username&quot;</span><span class="p">:</span> <span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;sasl_plain_password&quot;</span><span class="p">:</span> <span class="s2">&quot;admin-secret&quot;</span><span class="p">,</span>
+                   <span class="s2">&quot;auto_offset_reset&quot;</span><span class="p">:</span> <span class="s1">&#39;earliest&#39;</span><span class="p">,</span>
+                   <span class="s2">&quot;consumer_timeout_ms&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">}</span>
+
+<span class="n">consumer</span> <span class="o">=</span> <span class="n">kafka</span><span class="o">.</span><span class="n">KafkaConsumer</span><span class="p">(</span><span class="o">**</span><span class="n">connection_info</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">connection_info</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="s2">&quot;topic_out&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">consumer</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">topics</span><span class="o">=</span><span class="p">[</span><span class="n">topic</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">consumer</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+<p>While this one shows how to read prediction results from <code>topic_out</code> (by default) or any other topic (if it is provided and cmd parameter).</p>
 
               
             </article>
