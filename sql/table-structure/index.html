@@ -1655,16 +1655,16 @@
 <h1 id="table-structure">Table Structure<a class="headerlink" href="#table-structure" title="Permanent link">&para;</a></h1>
 <h2 id="general-structure">General Structure<a class="headerlink" href="#general-structure" title="Permanent link">&para;</a></h2>
 <p>On startup the mindsdb database will contain 2 tables: <code>predictors</code> and <code>datasources</code></p>
-<div class="highlight"><pre><span></span><code><span class="n">MySQL</span><span class="w"> </span><span class="p">[</span><span class="n">mindsdb</span><span class="p">]</span><span class="o">&gt;</span><span class="w"> </span><span class="k">show</span><span class="w"> </span><span class="n">tables</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">SHOW</span><span class="w"> </span><span class="n">TABLES</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="n">MySQL</span><span class="w"> </span><span class="p">[</span><span class="n">mindsdb</span><span class="p">]</span><span class="o">&gt;</span><span class="w"> </span>
-<span class="o">+</span><span class="c1">---------------------------+</span>
+<p>On execution, you should get:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">---------------------------+</span>
 <span class="o">|</span><span class="w"> </span><span class="n">Tables_in_mindsdb</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
 <span class="o">+</span><span class="c1">---------------------------+</span>
 <span class="o">|</span><span class="w"> </span><span class="n">predictors</span><span class="w">                </span><span class="o">|</span><span class="w"></span>
-<span class="o">|</span><span class="w"> </span><span class="n">datasources</span><span class="w">               </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">databases</span><span class="w">                 </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">integration_name</span><span class="w">          </span><span class="o">|</span><span class="w"></span>
 <span class="o">+</span><span class="c1">---------------------------+</span>
-<span class="mi">3</span><span class="w"> </span><span class="k">rows</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">14</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 <h2 id="the-predictors-table">The predictors TABLE<a class="headerlink" href="#the-predictors-table" title="Permanent link">&para;</a></h2>
 <p>All of the newly trained machine learning models will be visible as a new record inside the <code>predictors</code> table.

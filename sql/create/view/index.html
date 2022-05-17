@@ -896,6 +896,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#syntax" class="md-nav__link">
     Syntax
   </a>
@@ -1595,6 +1602,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#syntax" class="md-nav__link">
     Syntax
   </a>
@@ -1626,19 +1640,51 @@
 
 
 
-<h1 id="create-view-statement">CREATE VIEW statement<a class="headerlink" href="#create-view-statement" title="Permanent link">&para;</a></h1>
-<p>In MindsDB, an <code>AI Table</code> is a virtual table based on the result-set of the SQL Statement that <code>JOINS</code> table data with the predictions of a model. An <code>AI Table</code> can be created using the <code>CREATE VIEW mindsdb.ai_table_name</code> statement.</p>
+<h1 id="create-view-statement"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"></span></code> Statement<a class="headerlink" href="#create-view-statement" title="Permanent link">&para;</a></h1>
+<h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
+<p>In MindsDB, an <strong>AI Table</strong> is a virtual table based on the result-set of the SQL Statement that <code class="highlight"><span class="k">JOIN</span><span class="w"></span></code>s a table data with the predictions of a model. An <strong>AI Table</strong> can be created using the <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">ai_table_name</span><span class="p">]</span><span class="w"></span></code> statement.</p>
 <h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">ai_table_name</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">ai_table_name</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="k">SELECT</span><span class="w"></span>
-<span class="w">        </span><span class="n">a</span><span class="p">.</span><span class="k">column_name</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="n">a</span><span class="p">.</span><span class="n">column_name2</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="n">a</span><span class="p">.</span><span class="n">column_name3</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">model_column</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">model_column</span><span class="w"></span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">integration_name</span><span class="p">.</span><span class="k">table_name</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
-<span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictor_name</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
+<span class="w">        </span><span class="n">a</span><span class="p">.[</span><span class="n">column_name1</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="n">a</span><span class="p">.[</span><span class="n">column_name2</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="n">a</span><span class="p">.[</span><span class="n">column_name3</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="n">p</span><span class="p">.[</span><span class="n">model_column</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">model_column</span><span class="w"></span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="n">integration_name</span><span class="p">].[</span><span class="k">table_name</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">predictor_name</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
 <span class="p">);</span><span class="w"></span>
 </code></pre></div>
+<p>Where:</p>
+<table>
+<thead>
+<tr>
+<th>Expressions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[ai_table_name]</code></td>
+<td>Name of the view to be created</td>
+</tr>
+<tr>
+<td><code>[column_name1], [column_name2] ...</code></td>
+<td>Name of the columns to be joined, input for the model to make a prediction</td>
+</tr>
+<tr>
+<td><code>[model_column]</code></td>
+<td>name of the target column for the predictions</td>
+</tr>
+<tr>
+<td><code>[integration_name].[table_name]</code></td>
+<td>where <code>integration_name</code> is the linked database and has it's <code>table_name</code></td>
+</tr>
+<tr>
+<td><code>[predictor_name]</code></td>
+<td>Name of the model to be used to generate the predictions</td>
+</tr>
+</tbody>
+</table>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
 <p>We will use the Home Rentals dataset to create an AI Table.</p>
 <table>
@@ -1682,7 +1728,7 @@
 <span class="k">FROM</span><span class="w"> </span><span class="n">integration_name</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">house_rentals_data</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">rentals</span><span class="w"></span>
 <span class="n">PREDICT</span><span class="w"> </span><span class="n">rental_price</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">price</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
-<p>Once trained, we can <code>JOIN</code> any input data with the trained model and store the results as an AI Table. </p>
+<p>Once trained, we can <code>JOIN</code> any input data with the trained model and store the results as an AI Table.</p>
 <p>Let's pass some of the expected input columns (in this case, <code>sqft</code>, <code>number_of_bathrooms</code>, <code>location</code>) to the model and join the predicted <code>rental_price</code> values:</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="k">SELECT</span><span class="w"></span>
@@ -1691,10 +1737,10 @@
 <span class="w">        </span><span class="n">a</span><span class="p">.</span><span class="k">location</span><span class="p">,</span><span class="w"></span>
 <span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">rental_price</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">price</span><span class="w"></span>
 <span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">mysql_db</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
-<span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">p</span><span class="w"> </span>
+<span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
 <span class="p">);</span><span class="w"></span>
 </code></pre></div>
-<p>Note that in this example, we pass part of the same data that was used to train as a test query, but usually you would create an AI table to store predictions for new data. </p>
+<p>Note that in this example, we pass part of the same data that was used to train as a test query, but usually you would create an AI table to store predictions for new data.</p>
 
               
             </article>
