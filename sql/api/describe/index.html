@@ -929,6 +929,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#describe-features" class="md-nav__link">
     DESCRIBE FEATURES
   </a>
@@ -938,14 +945,14 @@
         
           <li class="md-nav__item">
   <a href="#syntax" class="md-nav__link">
-    Syntax:
+    Syntax
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output" class="md-nav__link">
-    Expected Output
+  <a href="#example" class="md-nav__link">
+    Example
   </a>
   
 </li>
@@ -965,21 +972,41 @@
         
           <li class="md-nav__item">
   <a href="#syntax_1" class="md-nav__link">
-    Syntax:
+    Syntax
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output_1" class="md-nav__link">
-    Expected Output
+  <a href="#example_1" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#describe-model_1" class="md-nav__link">
+    DESCRIBE MODEL
+  </a>
+  
+    <nav class="md-nav" aria-label="DESCRIBE MODEL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syntax_2" class="md-nav__link">
+    Syntax
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output_2" class="md-nav__link">
-    Expected Output
+  <a href="#example_2" class="md-nav__link">
+    Example
   </a>
   
 </li>
@@ -1640,6 +1667,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#describe-features" class="md-nav__link">
     DESCRIBE FEATURES
   </a>
@@ -1649,14 +1683,14 @@
         
           <li class="md-nav__item">
   <a href="#syntax" class="md-nav__link">
-    Syntax:
+    Syntax
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output" class="md-nav__link">
-    Expected Output
+  <a href="#example" class="md-nav__link">
+    Example
   </a>
   
 </li>
@@ -1676,21 +1710,41 @@
         
           <li class="md-nav__item">
   <a href="#syntax_1" class="md-nav__link">
-    Syntax:
+    Syntax
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output_1" class="md-nav__link">
-    Expected Output
+  <a href="#example_1" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#describe-model_1" class="md-nav__link">
+    DESCRIBE MODEL
+  </a>
+  
+    <nav class="md-nav" aria-label="DESCRIBE MODEL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#syntax_2" class="md-nav__link">
+    Syntax
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output_2" class="md-nav__link">
-    Expected Output
+  <a href="#example_2" class="md-nav__link">
+    Example
   </a>
   
 </li>
@@ -1718,37 +1772,272 @@
 
 
 
-<h1 id="describe-statement">DESCRIBE statement<a class="headerlink" href="#describe-statement" title="Permanent link">&para;</a></h1>
-<p>The <code>DESCRIBE ...</code> statement is used to display the attributes of an existing model.</p>
+<h1 id="describe-statement"><code class="highlight"><span class="k">DESCRIBE</span><span class="w"></span></code> statement<a class="headerlink" href="#describe-statement" title="Permanent link">&para;</a></h1>
+<h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
+<p>The <code>DESCRIBE</code> statement is used to display the attributes of an existing model.</p>
 <h2 id="describe-features">DESCRIBE FEATURES<a class="headerlink" href="#describe-features" title="Permanent link">&para;</a></h2>
-<p>The <code>DESCRIBE [...].features</code> statement is used to display the way that the model encoded the data prior to training.</p>
-<h3 id="syntax">Syntax:<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h3>
+<p>The <code>DESCRIBE mindsdb.[name_of_your_predictor].features</code> statement is used to display the way that the model encoded the data prior to training.</p>
+<h3 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">DESCRIBE</span><span class="w"> </span><span class="p">[</span><span class="n">mindsdb</span><span class="p">.</span><span class="n">name_of_your_predictor</span><span class="p">].</span><span class="n">features</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
-<h3 id="expected-output">Expected Output<a class="headerlink" href="#expected-output" title="Permanent link">&para;</a></h3>
-<ul>
-<li>column: name of the feature </li>
-<li>type: binary integer... </li>
-<li>encoder: name of the encoder used for that column</li>
-<li>role: describes whether the column is a target or a feature</li>
-</ul>
-<h2 id="describe-model">DESCRIBE MODEL<a class="headerlink" href="#describe-model" title="Permanent link">&para;</a></h2>
-<p><code>DESCRIBE [...].model</code> statement is used to display the performance of the candidate models.</p>
-<h3 id="syntax_1">Syntax:<a class="headerlink" href="#syntax_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="k">DESCRIBE</span><span class="w"> </span><span class="p">[</span><span class="n">mindsdb</span><span class="p">.</span><span class="n">name_of_your_predictor</span><span class="p">].</span><span class="n">model</span><span class="p">;</span><span class="w"></span>
+<p>On execution:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">--------------+-------------+--------------+-------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">column</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="k">type</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">encoder</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="k">role</span><span class="w">        </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">--------------+-------------+--------------+-------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">column_name</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">column_type</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">encoder_used</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">column_role</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">--------------+-------------+--------------+-------------+</span>
 </code></pre></div>
-<h3 id="expected-output_1">Expected Output<a class="headerlink" href="#expected-output_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li>name: name of the model</li>
-<li>performance : obtained accuracy (from 0.0 to 1.0) for that candidate model</li>
-<li>selected: the Auto ML pick the best performed candidate (1)</li>
-<li>training_time: training time for that candidate model</li>
-</ul>
+<p>Where:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[name_of_your_predictor]</code></td>
+<td>Name of the model to be described</td>
+</tr>
+<tr>
+<td>column</td>
+<td>Columns used</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Type of data infered</td>
+</tr>
+<tr>
+<td>encoder</td>
+<td>Encoder used</td>
+</tr>
+<tr>
+<td>role</td>
+<td>Role for that column, it can be <code>feature</code> or <code>target</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">DESCRIBE</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="p">.</span><span class="n">features</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p>On execution:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">---------------------+-------------+----------------+---------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">column</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="k">type</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">encoder</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="k">role</span><span class="w">    </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">---------------------+-------------+----------------+---------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">number_of_rooms</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">categorical</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">OneHotEncoder</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">number_of_bathrooms</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nb">binary</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="n">BinaryEncoder</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">sqft</span><span class="w">                </span><span class="o">|</span><span class="w"> </span><span class="nb">integer</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">NumericEncoder</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="k">location</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="n">categorical</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">OneHotEncoder</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">days_on_market</span><span class="w">      </span><span class="o">|</span><span class="w"> </span><span class="nb">integer</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">NumericEncoder</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">neighborhood</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">categorical</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">OneHotEncoder</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">rental_price</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="nb">integer</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="n">NumericEncoder</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">target</span><span class="w">  </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">---------------------+-------------+----------------+---------+</span>
+</code></pre></div>
+<h2 id="describe-model">DESCRIBE MODEL<a class="headerlink" href="#describe-model" title="Permanent link">&para;</a></h2>
+<p>The <code>DESCRIBE mindsdb.[name_of_your_predictor].model</code> statement is used to display the performance of the candidate models.</p>
+<h3 id="syntax_1">Syntax<a class="headerlink" href="#syntax_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">DESCRIBE</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">name_of_your_predictor</span><span class="p">].</span><span class="n">model</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p>On execution:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">-----------------+-------------+---------------+----------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">name</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="n">performance</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">training_time</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">selected</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">-----------------+-------------+---------------+----------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">candidate_model</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">performace</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">training_time</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">selected</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">-----------------+-------------+---------------+----------+</span>
+</code></pre></div>
+<p>Where:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[name_of_your_predictor]</code></td>
+<td>Name of the model to be described</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Name of the candidate_model</td>
+</tr>
+<tr>
+<td>performance</td>
+<td>Accuracy From 0 - 1 depending on the type of the model</td>
+</tr>
+<tr>
+<td>training_time</td>
+<td>Time elapsed for the model training to be completed</td>
+</tr>
+<tr>
+<td>selected</td>
+<td><code>1</code> for the best performing model <code>0</code> for the rest</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">DESCRIBE</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="p">.</span><span class="n">model</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p>On execution:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">------------+--------------------+----------------------+----------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">name</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="n">performance</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">training_time</span><span class="w">        </span><span class="o">|</span><span class="w"> </span><span class="n">selected</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">------------+--------------------+----------------------+----------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">Neural</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">9861694189913056</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="p">.</span><span class="mi">1538941860198975</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">LightGBM</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">9991920992432087</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">15</span><span class="p">.</span><span class="mi">671080827713013</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">        </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="n">Regression</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">9983390488042778</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">016761064529418945</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">------------+--------------------+----------------------+----------+</span>
+</code></pre></div>
+<h2 id="describe-model_1">DESCRIBE MODEL<a class="headerlink" href="#describe-model_1" title="Permanent link">&para;</a></h2>
+<h3 id="syntax_2">Syntax<a class="headerlink" href="#syntax_2" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">DESCRIBE</span><span class="w"> </span><span class="p">[</span><span class="n">mindsdb</span><span class="p">.</span><span class="n">name_of_your_predictor</span><span class="p">].</span><span class="n">ensemble</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
-<h3 id="expected-output_2">Expected Output<a class="headerlink" href="#expected-output_2" title="Permanent link">&para;</a></h3>
-<p>ensemble: ensemble type used to select best model candidate</p>
-<p>If you're unsure on how to DESCRIBE your model or understand the results feel free to ask us how to do it on the community <a href="https://join.slack.com/t/mindsdbcommunity/shared_invite/zt-o8mrmx3l-5ai~5H66s6wlxFfBMVI6wQ">Slack workspace</a>.</p>
+<p>On execution:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">-----------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">ensemble</span><span class="w">        </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">-----------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="err">{</span><span class="n">JSON</span><span class="err">}</span><span class="w">          </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">-----------------+</span>
+</code></pre></div>
+<p>Where:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ensemble</td>
+<td>JSON type object describing the parameters used to select best model candidate</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">DESCRIBE</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="p">.</span><span class="n">ensemble</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p>On execution:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">----------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">ensemble</span><span class="w">                                                             </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">----------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">  </span><span class="ss">&quot;encoders&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;rental_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;NumericEncoder&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">        </span><span class="ss">&quot;is_target&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;True&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="ss">&quot;positive_domain&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;$statistical_analysis.positive_domain&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="err">}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;number_of_rooms&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;OneHotEncoder&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;number_of_bathrooms&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;BinaryEncoder&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;sqft&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;NumericEncoder&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;OneHotEncoder&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;days_on_market&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;NumericEncoder&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;neighborhood&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;OneHotEncoder&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="ss">&quot;dtype_dict&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;number_of_rooms&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;categorical&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;number_of_bathrooms&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;binary&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;sqft&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;integer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;categorical&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;days_on_market&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;integer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;neighborhood&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;categorical&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;rental_price&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;integer&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="ss">&quot;dependency_dict&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{}</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="ss">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;BestOf&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;submodels&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="err">{</span><span class="w"></span>
+<span class="w">          </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Neural&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">            </span><span class="ss">&quot;fit_on_dev&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="ss">&quot;stop_after&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;$problem_definition.seconds_per_mixer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="ss">&quot;search_hyperparameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<span class="w">          </span><span class="err">}</span><span class="w"></span>
+<span class="w">        </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="err">{</span><span class="w"></span>
+<span class="w">          </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;LightGBM&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">            </span><span class="ss">&quot;stop_after&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;$problem_definition.seconds_per_mixer&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="ss">&quot;fit_on_dev&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="w"></span>
+<span class="w">          </span><span class="err">}</span><span class="w"></span>
+<span class="w">        </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="err">{</span><span class="w"></span>
+<span class="w">          </span><span class="ss">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Regression&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">          </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">            </span><span class="ss">&quot;stop_after&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;$problem_definition.seconds_per_mixer&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="err">}</span><span class="w"></span>
+<span class="w">        </span><span class="err">}</span><span class="w"></span>
+<span class="w">      </span><span class="p">],</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;$pred_args&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;accuracy_functions&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;$accuracy_functions&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;ts_analysis&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="ss">&quot;problem_definition&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;rental_price&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;pct_invalid&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;unbias_target&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;seconds_per_mixer&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">57024</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;seconds_per_encoder&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;expected_additional_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">.</span><span class="mi">687719106674194</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;time_aim&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">259200</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;target_weights&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;positive_domain&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;timeseries_settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;is_timeseries&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;order_by&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;window&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;group_by&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;use_previous_target&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;horizon&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;historical_columns&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">null</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;target_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;allow_incomplete_history&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;eval_cold_start&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="ss">&quot;interval_periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;anomaly_detection&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;use_default_analysis&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;ignore_features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;fit_on_all&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;strict_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="k">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;seed_nr&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">420</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="ss">&quot;identifiers&quot;</span><span class="p">:</span><span class="w"> </span><span class="err">{}</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="ss">&quot;accuracy_functions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="ss">&quot;r2_score&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">]</span><span class="w"></span>
+<span class="err">}</span><span class="w">                                                                      </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">----------------------------------------------------------------------+</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Unsure what it all means?</p>
+<p>If you're unsure on how to <code class="highlight"><span class="k">DESCRIBE</span><span class="w"></span></code> your model or understand the results feel free to ask us how to do it on the community <a href="https://join.slack.com/t/mindsdbcommunity/shared_invite/zt-o8mrmx3l-5ai~5H66s6wlxFfBMVI6wQ">Slack workspace</a>.</p>
+</div>
 
               
             </article>
