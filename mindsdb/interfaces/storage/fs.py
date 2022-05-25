@@ -73,3 +73,15 @@ class FsStore():
             pass
         elif self.location == 's3':
             self.s3.delete_object(Bucket=self.bucket, Key=remote_name)
+
+    def list(self, file_prefix):
+        files = []
+        if self.location == 'local':
+            for filename in os.listdir(self.config['paths']['storage']):
+                if filename.startswith(file_prefix):
+                    files.append(filename)
+        elif self.location == 's3':
+            for obj in self.s3.list_objects(self.bucket, Prefix=file_prefix):
+                files.append(obj['Name'])
+
+        return files

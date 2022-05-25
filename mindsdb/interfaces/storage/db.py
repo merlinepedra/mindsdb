@@ -9,6 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Index
 from sqlalchemy.sql.expression import null
 from sqlalchemy.sql.schema import ForeignKey
+from sqlalchemy import JSON
 
 
 if os.environ['MINDSDB_DB_CON'].startswith('sqlite:'):
@@ -98,9 +99,19 @@ class Predictor(Base):
     updated_at = Column(DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
     created_at = Column(DateTime, default=datetime.datetime.now)
     name = Column(String)
-    data = Column(Json)  # A JSON -- should be everything returned by `get_model_data`, I think
-    to_predict = Column(Array)
+    type = Column(String)
+    integration_id = Column(ForeignKey('integration.id', name='fk_integration_id'), nullable=True)
+    target = Column(Array)  # former to_predict
+    status = Column(String, default='generating') # generating|completed|training|error|deleted
     company_id = Column(Integer)
+    to_predict = Column(Array)
+    # former dtype_dict list of {name: , type: }
+    columns = Column(Json, nullable=True)
+    progress = Column(Integer)
+    properties = Column(Json)
+
+    #  == TO DELETE: ==
+    data = Column(Json)  # A JSON -- should be everything returned by `get_model_data`, I think
     mindsdb_version = Column(String)
     native_version = Column(String)
     dataset_id = Column(ForeignKey('dataset.id', name='fk_dataset_id'), nullable=True)
@@ -113,6 +124,16 @@ class Predictor(Base):
     lightwood_version = Column(String, nullable=True)
     dtype_dict = Column(Json, nullable=True)
     uniq_const = UniqueConstraint('name', 'company_id', name='unique_name_company_id')
+    #  ================
+
+
+class PredictorJson(Base):
+    __tablename__ = 'predictor'
+
+    id = Column(Integer, primary_key=True)
+    predictor_id = Column(ForeignKey('predictor.id', name='fk_integration_id'), nullable=True)
+    name = Column(String)
+    content = Column(JSON)
 
 
 class Log(Base):
