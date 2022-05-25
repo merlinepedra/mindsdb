@@ -935,11 +935,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-predictor-for-time-series-models" class="md-nav__link">
-    CREATE PREDICTOR For Time Series Models
+  <a href="#create-predictor-from-file" class="md-nav__link">
+    CREATE PREDICTOR From file
   </a>
   
-    <nav class="md-nav" aria-label="CREATE PREDICTOR For Time Series Models">
+    <nav class="md-nav" aria-label="CREATE PREDICTOR From file">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -958,6 +958,40 @@
         
           <li class="md-nav__item">
   <a href="#example_1" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-predictor-for-time-series-models" class="md-nav__link">
+    CREATE PREDICTOR For Time Series Models
+  </a>
+  
+    <nav class="md-nav" aria-label="CREATE PREDICTOR For Time Series Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_3" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syntax_2" class="md-nav__link">
+    Syntax
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_2" class="md-nav__link">
     Example
   </a>
   
@@ -1751,11 +1785,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-predictor-for-time-series-models" class="md-nav__link">
-    CREATE PREDICTOR For Time Series Models
+  <a href="#create-predictor-from-file" class="md-nav__link">
+    CREATE PREDICTOR From file
   </a>
   
-    <nav class="md-nav" aria-label="CREATE PREDICTOR For Time Series Models">
+    <nav class="md-nav" aria-label="CREATE PREDICTOR From file">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1774,6 +1808,40 @@
         
           <li class="md-nav__item">
   <a href="#example_1" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-predictor-for-time-series-models" class="md-nav__link">
+    CREATE PREDICTOR For Time Series Models
+  </a>
+  
+    <nav class="md-nav" aria-label="CREATE PREDICTOR For Time Series Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_3" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#syntax_2" class="md-nav__link">
+    Syntax
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_2" class="md-nav__link">
     Example
   </a>
   
@@ -1843,9 +1911,9 @@
 </table>
 <div class="admonition tip">
 <p class="admonition-title">Checking the status of the model</p>
+</div>
 <p>After you run the <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code> statement, you can check the status of the training model, by selecting from the <a href="/sql/table-structure/#the-predictors-table"><code class="highlight"><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictors</span><span class="w"></span></code></a>
 <code class="highlight"><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictors</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;[predictor_name]&#39;</span><span class="p">;</span><span class="w"></span></code></p>
-</div>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
 <p>This example shows how you can train a Machine Learning model called home_rentals_model to predict the rental prices for real estate properties inside the dataset.</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"></span>
@@ -1929,13 +1997,58 @@
 <span class="s1">                         &quot;stop_after&quot;: 12,</span>
 <span class="s1">                          &quot;fit_on_dev&quot;: true</span>
 <span class="s1">                          }</span>
-<span class="s1">                    }    </span>
+<span class="s1">                    }</span>
 <span class="s1">                ]}&#39;</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
-<h2 id="create-predictor-for-time-series-models"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code> For Time Series Models<a class="headerlink" href="#create-predictor-for-time-series-models" title="Permanent link">&para;</a></h2>
+<h2 id="create-predictor-from-file"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code> From file<a class="headerlink" href="#create-predictor-from-file" title="Permanent link">&para;</a></h2>
 <h3 id="description_2">Description<a class="headerlink" href="#description_2" title="Permanent link">&para;</a></h3>
-<p>To train a timeseries model, MindsDB provides additional statements.</p>
+<p>To train a model using a file:</p>
 <h3 id="syntax_1">Syntax<a class="headerlink" href="#syntax_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">predictor_name</span><span class="p">]</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="n">file_name</span><span class="p">])</span><span class="w"></span>
+<span class="n">PREDICT</span><span class="w"> </span><span class="n">target_variable</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p>Where:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[predictor_name]</code></td>
+<td>Name of the model to be created</td>
+</tr>
+<tr>
+<td><code>[file_name]</code></td>
+<td>Name of the file uploaded via the MindsDB editor</td>
+</tr>
+<tr>
+<td><code>(SELECT * FROM [file_name])</code></td>
+<td>SELECT statement for selecting the data to be used for traning and validation</td>
+</tr>
+<tr>
+<td><code>target_variable</code></td>
+<td><code>target_column</code> is the column name of the target variable.</td>
+</tr>
+</tbody>
+</table>
+<p>On execution,</p>
+<div class="highlight"><pre><span></span><code><span class="n">Query</span><span class="w"> </span><span class="n">OK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">rows</span><span class="w"> </span><span class="n">affected</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="p">.</span><span class="mi">878</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+<h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">home_rentals</span><span class="p">)</span><span class="w"></span>
+<span class="n">PREDICT</span><span class="w"> </span><span class="n">rental_price</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<h2 id="create-predictor-for-time-series-models"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code> For Time Series Models<a class="headerlink" href="#create-predictor-for-time-series-models" title="Permanent link">&para;</a></h2>
+<h3 id="description_3">Description<a class="headerlink" href="#description_3" title="Permanent link">&para;</a></h3>
+<p>To train a timeseries model, MindsDB provides additional statements.</p>
+<h3 id="syntax_2">Syntax<a class="headerlink" href="#syntax_2" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">predictor_name</span><span class="p">]</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="n">integration_name</span><span class="p">]</span><span class="w"></span>
 <span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="p">[</span><span class="n">sequential_column</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">partition_column</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">other_column</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">target_column</span><span class="p">]</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="k">table_name</span><span class="p">])</span><span class="w"></span>
@@ -1977,7 +2090,7 @@
 <p>On execution,</p>
 <div class="highlight"><pre><span></span><code><span class="n">Query</span><span class="w"> </span><span class="n">OK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">rows</span><span class="w"> </span><span class="n">affected</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="p">.</span><span class="mi">878</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
-<h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
+<h3 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">inventory_model</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">db_integration</span><span class="w"></span>
 <span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">inventory</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">inventory</span><span class="w"></span>

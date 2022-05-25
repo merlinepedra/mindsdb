@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#select-from-files" class="md-skip">
+        <a href="#select-filesfile-statement" class="md-skip">
           Skip to content
         </a>
       
@@ -983,6 +983,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax" class="md-nav__link">
+    Syntax
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
   </a>
@@ -991,15 +1005,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#upload-file-to-mindsdb-cloud" class="md-nav__link">
-    Upload file to MindsDB Cloud
+  <a href="#upload-file-to-mindsdb-editor" class="md-nav__link">
+    Upload file to MindsDB Editor
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#select-the-file-as-datasource" class="md-nav__link">
-    Select the file as datasource:
+    Select the file as datasource
   </a>
   
 </li>
@@ -1611,6 +1625,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax" class="md-nav__link">
+    Syntax
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
   </a>
@@ -1619,15 +1647,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#upload-file-to-mindsdb-cloud" class="md-nav__link">
-    Upload file to MindsDB Cloud
+  <a href="#upload-file-to-mindsdb-editor" class="md-nav__link">
+    Upload file to MindsDB Editor
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#select-the-file-as-datasource" class="md-nav__link">
-    Select the file as datasource:
+    Select the file as datasource
   </a>
   
 </li>
@@ -1662,51 +1690,95 @@
 
 
 
-<h1 id="select-from-files">SELECT from files<a class="headerlink" href="#select-from-files" title="Permanent link">&para;</a></h1>
-<p>The <code>SELECT from files</code> statement is used to select a file as a datasource. This allows the user to create a predictor from a file that has been uploaded to MindsDB.</p>
+<h1 id="select-filesfile-statement"><code class="highlight"><span class="k">SELECT</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code> Statement<a class="headerlink" href="#select-filesfile-statement" title="Permanent link">&para;</a></h1>
+<h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
+<p>The <code class="highlight"><span class="k">SELECT</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code> statement is used to select a <code class="highlight"><span class="p">[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code> as a datasource. The main use is to,, create a predictor from a file that has been uploaded to MindsDB.</p>
+<div class="admonition warning">
+<p class="admonition-title">Before using the <code class="highlight"><span class="k">SELECT</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code></p>
+<p>Make sure to upload the [file] via the MindsDB Editor</p>
+</div>
+<h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file_name</span><span class="p">];</span><span class="w"></span>
+</code></pre></div>
+<p>On execution:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">--------+--------+--------+--------+</span>
+<span class="o">|</span><span class="w"> </span><span class="k">column</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">column</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">column</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">column</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">--------+--------+--------+--------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">value</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">value</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">value</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">value</span><span class="w">  </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">--------+--------+--------+--------+</span>
+</code></pre></div>
+<p>Where:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[file_name]</code></td>
+<td>Name of file uploaded to mindsDB</td>
+</tr>
+<tr>
+<td>column</td>
+<td>Name of the column depending on the file uploaded</td>
+</tr>
+<tr>
+<td>value</td>
+<td>Value depending on the file uploaded</td>
+</tr>
+</tbody>
+</table>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
 <p>This example will show how to upload a file to MindsDB Cloud and use it to create a predictor.</p>
-<h3 id="upload-file-to-mindsdb-cloud">Upload file to MindsDB Cloud<a class="headerlink" href="#upload-file-to-mindsdb-cloud" title="Permanent link">&para;</a></h3>
+<h3 id="upload-file-to-mindsdb-editor">Upload file to MindsDB Editor<a class="headerlink" href="#upload-file-to-mindsdb-editor" title="Permanent link">&para;</a></h3>
 <ol>
-<li>Login to MindsDB Cloud.</li>
-<li>Navigate to  <code>Add Data</code> located on the right navigation bar identified by a plug icon.</li>
-<li>Click on the tab <code>Files</code> and the card <code>Import File</code></li>
-</ol>
-<p><img alt="Add File" src="/assets/sql/add-file-data.png" /></p>
-<ol>
+<li>Connect to the MindsDB Editor </li>
+<li>Navigate to <code>Add Data</code> located on the right navigation bar identified by a plug icon.</li>
+<li>Click on the tab <code>Files</code> and the card <code>Import File</code>
+    <figure markdown> 
+        <img _="," alt="Add File" loading="lazy" src="/assets/sql/add-file-data.png" width="800" />
+        <figcaption></figcaption>
+    </figure></li>
 <li>Name your file in <code>Table name</code>.</li>
 <li>Click on <code>Save and Continue</code>.</li>
 </ol>
-<p><img alt="Model Status" src="/assets/sql/file.png" /></p>
-<h3 id="select-the-file-as-datasource">Select the file as datasource:<a class="headerlink" href="#select-the-file-as-datasource" title="Permanent link">&para;</a></h3>
-<p>Query:
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="p">.</span><span class="n">file_name</span><span class="p">;</span><span class="w"></span>
-</code></pre></div></p>
-<p>Example:
+<figure>
+<p><img _="," alt="Upload Status" loading="lazy" src="/assets/sql/file.png" width="800" />
+    <figcaption></figcaption></p>
+</figure>
+<h3 id="select-the-file-as-datasource">Select the file as datasource<a class="headerlink" href="#select-the-file-as-datasource" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"> </span><span class="k">Limit</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
-</code></pre></div></p>
-<p><img alt="SELECT from file" src="/assets/sql/select_file.png" /></p>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">-----------------+---------------------+-------+----------+----------------+---------------+--------------+--------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">number_of_rooms</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">number_of_bathrooms</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">sqft</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="k">location</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">days_on_market</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">initial_price</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">neighborhood</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">rental_price</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">-----------------+---------------------+-------+----------+----------------+---------------+--------------+--------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">484</span><span class="p">,</span><span class="mi">8</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">10</span><span class="w">             </span><span class="o">|</span><span class="w"> </span><span class="mi">2271</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">south_side</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">2271</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">674</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="mi">2167</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">downtown</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">2167</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">554</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">poor</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">19</span><span class="w">             </span><span class="o">|</span><span class="w"> </span><span class="mi">1883</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">westbrae</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">1883</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">529</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="mi">2431</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">south_side</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">2431</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">1219</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="mi">5510</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">south_side</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">5510</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">398</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">11</span><span class="w">             </span><span class="o">|</span><span class="w"> </span><span class="mi">2272</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">south_side</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">2272</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">1190</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">poor</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">58</span><span class="w">             </span><span class="o">|</span><span class="w"> </span><span class="mi">4463</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">westbrae</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">4123</span><span class="p">.</span><span class="mi">812</span><span class="w">     </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">730</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="mi">2224</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">downtown</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">2224</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">298</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">9</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="mi">2104</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">south_side</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">2104</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">878</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">8</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="mi">3861</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">south_side</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">3861</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">-----------------+---------------------+-------+----------+----------------+---------------+--------------+--------------+</span>
+</code></pre></div>
 <h3 id="create-a-predictor-from-file">Create a predictor from file<a class="headerlink" href="#create-a-predictor-from-file" title="Permanent link">&para;</a></h3>
 <p>Query:</p>
-<p><div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictor_name</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">file_name</span><span class="p">)</span><span class="w"> </span><span class="n">predict</span><span class="w"> </span><span class="n">target_variable</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">predictor_name</span><span class="p">]</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="w"> </span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="n">file_name</span><span class="p">])</span><span class="w"></span>
+<span class="n">PREDICT</span><span class="w"> </span><span class="p">[</span><span class="n">target_variable</span><span class="p">];</span><span class="w"></span>
 </code></pre></div>
-Example
-<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">home_rentals</span><span class="p">)</span><span class="w"> </span><span class="n">predict</span><span class="w"> </span><span class="n">rental_price</span><span class="p">;</span><span class="w"></span>
-</code></pre></div></p>
-<blockquote>
-<p>Parameters:</p>
-<ul>
-<li>
-<p>predictor_name: chosen name for your predictor.</p>
-</li>
-<li>
-<p>file_name: name of your file that's being used as a datasource.</p>
-</li>
-<li>
-<p>target_variable: the column you want to predict.</p>
-</li>
-</ul>
-</blockquote>
+<p>Example</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">home_rentals</span><span class="p">)</span><span class="w"></span>
+<span class="n">PREDICT</span><span class="w"> </span><span class="n">rental_price</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
 
               
             </article>
