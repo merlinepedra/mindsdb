@@ -208,6 +208,28 @@ class Analyze(Resource):
         x.start()
         return {'status': 'analyzing'}, 200
 
+    @ns_conf.doc('analyse_dataset2')
+    def post(self, name):
+        from mindsdb_sql import parse_sql
+        data = request.json
+        query = data.get('query')
+        ast = parse_sql(query)
+        integration_name = ast.from_table.parts[0]
+        ast.from_table.parts = ast.from_table.parts[1:]
+
+        qdata = {'query': str(ast)}
+
+        ds_name = request.default_store.get_vacant_name('zzz')
+        ds = request.default_store.save_datasource(ds_name, integration_name, qdata)
+
+        analysis = request.model_interface.analyse_dataset(
+            ds=ds,
+            company_id=None
+        )
+
+        return analysis
+
+
 
 @ns_conf.route('/<name>/analyze_refresh')
 @ns_conf.param('name', 'Datasource name')
