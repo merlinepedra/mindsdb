@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#midnsdb-and-kafka" class="md-skip">
+        <a href="#mindsdb-and-kafka" class="md-skip">
           Skip to content
         </a>
       
@@ -711,8 +711,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pre-requesites" class="md-nav__link">
-    Pre-requesites:
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites:
   </a>
   
 </li>
@@ -1203,20 +1203,6 @@
 
             
           
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../sql/tutorials/bodyfat/" class="md-nav__link">
-        Body Fat Prediction
-      </a>
-    </li>
-  
-
-            
-          
         </ul>
       </nav>
     </li>
@@ -1258,34 +1244,6 @@
     <li class="md-nav__item">
       <a href="../../sql/tutorials/customer-churn/" class="md-nav__link">
         Customer Churn
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../sql/tutorials/heart-disease/" class="md-nav__link">
-        Heart Disease
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../sql/tutorials/mushrooms/" class="md-nav__link">
-        Mushrooms Hunting
       </a>
     </li>
   
@@ -1434,6 +1392,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/tutorials/bodyfat/" class="md-nav__link">
+        Body Fat Prediction
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -1503,6 +1475,34 @@
     <li class="md-nav__item">
       <a href="../../sql/tutorials/spam_emails_tutorial/" class="md-nav__link">
         Email spam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/tutorials/mushrooms/" class="md-nav__link">
+        Mushrooms Hunting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sql/tutorials/heart-disease/" class="md-nav__link">
+        Heart Disease
       </a>
     </li>
   
@@ -1619,8 +1619,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pre-requesites" class="md-nav__link">
-    Pre-requesites:
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites:
   </a>
   
 </li>
@@ -1662,9 +1662,11 @@
 
 
 
-<h1 id="midnsdb-and-kafka">MidnsDB and Kafka<a class="headerlink" href="#midnsdb-and-kafka" title="Permanent link">&para;</a></h1>
-<p>MindsDB provides a kafka connector plugin to connect to kafka cluster.
-You may use official connector docker image:</p>
+<h1 id="mindsdb-and-kafka">MindsDB and Kafka<a class="headerlink" href="#mindsdb-and-kafka" title="Permanent link">&para;</a></h1>
+<p>MindsDB provides a kafka connector plugin to connect to kafka cluster.</p>
+<p>At first, please visit <ins><a href="https://www.confluent.io/hub/mindsdb/mindsdb-kafka-connector">Kafka Connect Mindsdb</a></ins> page on official confluent site. It contains all instructions how to install the connector from the confluent hub.</p>
+<p>In addition it wouldn't be a mistake to briefly review instructions described below.</p>
+<p>You may use official connector docker image:</p>
 <div class="highlight"><pre><span></span><code>docker pull mindsdb/mindsdb-kafka-connector
 </code></pre></div>
 <p>Also a source code of the connector is located <ins><a href="https://github.com/mindsdb/kafka_connector">here</a></ins>. Please read the <ins><a href="https://github.com/mindsdb/kafka_connector/blob/main/README.md">instruction</a></ins> first before building the connector from scratch.</p>
@@ -1672,13 +1674,13 @@ You may use official connector docker image:</p>
 <div class="highlight"><pre><span></span><code>docker-compose up -d
 </code></pre></div>
 <p>from the root of repository to build the connector and launch it in the test environment locally.</p>
-<p>Please note, there are two types of connector config (do not forget to set a real value for each parameter befor using it):</p>
+<p>Please note, there are two types of connector config (do not forget to set a real value for each parameter before using it):</p>
 <ul>
 <li>For <ins><a href="https://github.com/mindsdb/kafka_connector/blob/main/examples/kafkaConfig.json">MindsDB Cloud</a></ins></li>
-<li>For a separate <ins><a href="https://github.com/mindsdb/kafka_connector/blob/main/examples/kafkaConfigSeparateMindsdbInstance.json">MindsDB intallation</a></ins></li>
+<li>For a separate <ins><a href="https://github.com/mindsdb/kafka_connector/blob/main/examples/kafkaConfigSeparateMindsdbInstance.json">MindsDB installation</a></ins></li>
 </ul>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
-<h3 id="pre-requesites">Pre-requesites:<a class="headerlink" href="#pre-requesites" title="Permanent link">&para;</a></h3>
+<h3 id="prerequisites">Prerequisites:<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Launch MindsDB instance where HTTP API interface is running on <code>docker network interface inet ip</code> (it is <code>172.17.0.1</code> in general)</li>
 <li>Train a new model. You may use <ins><a href="/sql/tutorials/bodyfat">this</a></ins> tutorial as example</li>
