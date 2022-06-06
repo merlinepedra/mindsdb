@@ -1602,7 +1602,7 @@
 <li>Select the button <code>Add data</code> or select the plug icon on the left side bar.</li>
 <li>The page will navigate to 'Select your data source'. Select the option 'Files'.</li>
 </ul>
-<p><img alt="uploadfile" src="/assets/tutorials/sql/bodyfat/upload_file.png" /></p>
+<p><img alt="uploadfile" src="/assets/sql/tutorials/bodyfat/upload_file.png" /></p>
 <ul>
 <li>Select the tab under 'Import a file'. Please note the dataset files should not exceed the maximum size limit which is 10MB.</li>
 <li>Provide a name for the data file which will be saved as a table.</li>
@@ -1611,7 +1611,7 @@
 <p>Run the following syntax:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="p">.</span><span class="n">bodyfat</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
-<p><img alt="selectdate" src="/assets/tutorials/sql/bodyfat/selectdata.png" /></p>
+<p><img alt="selectdate" src="/assets/sql/tutorials/bodyfat/selectdata.png" /></p>
 <p>Once you have confirmed the file has successfully uploaded and the data can be retrieved, we can move on to creating a predictor.</p>
 <h2 id="create-and-train-a-machine-learning-model">Create and train a machine learning model.<a class="headerlink" href="#create-and-train-a-machine-learning-model" title="Permanent link">&para;</a></h2>
 <p>With the CREATE PREDICTOR statement, we can create a machine learning model:</p>
@@ -1633,12 +1633,12 @@
 </code></pre></div>
 <p>Select the <code>Run</code> button or select Shift+Enter to run the syntax. Once is is successful you will receive a message in the console 'Query successfully completed'.</p>
 <p>You should see output similar to the following:</p>
-<p><img alt="create" src="/assets/tutorials/sql/bodyfat/create.png" /></p>
+<p><img alt="create" src="/assets/sql/tutorials/bodyfat/create.png" /></p>
 <p>At this point, the predictor will immediately begin training.  Check the status of the training by entering the command:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictors</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;bodyfat_predictor&#39;</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <p>When complete, you should see output similar to the following:</p>
-<p><img alt="status" src="/assets/tutorials/sql/bodyfat/status.png" /></p>
+<p><img alt="status" src="/assets/sql/tutorials/bodyfat/status.png" /></p>
 <p>As you can see, the predictor training has been completed with an accuracy of approximately 99%.  At this point, you have successfully trained an ML model for our Body Fat Prediction dataset!</p>
 <h2 id="using-sql-commands-to-make-predictions">Using SQL Commands to Make Predictions<a class="headerlink" href="#using-sql-commands-to-make-predictions" title="Permanent link">&para;</a></h2>
 <p>Now, we can query the model and make predictions based on our input data by using SQL statements.  </p>
@@ -1648,7 +1648,7 @@
 <span class="k">WHERE</span><span class="w"> </span><span class="n">Density</span><span class="o">=</span><span class="mi">1</span><span class="p">.</span><span class="mi">08</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Age</span><span class="o">=</span><span class="mi">25</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Weight</span><span class="o">=</span><span class="mi">170</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Height</span><span class="o">=</span><span class="mi">70</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Neck</span><span class="o">=</span><span class="mi">38</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Chest</span><span class="o">=</span><span class="mi">103</span><span class="p">.</span><span class="mi">5</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Abdomen</span><span class="o">=</span><span class="mi">85</span><span class="p">.</span><span class="mi">4</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Hip</span><span class="o">=</span><span class="mi">102</span><span class="p">.</span><span class="mi">2</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Thigh</span><span class="o">=</span><span class="mi">63</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Knee</span><span class="o">=</span><span class="mi">39</span><span class="p">.</span><span class="mi">4</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Ankle</span><span class="o">=</span><span class="mi">22</span><span class="p">.</span><span class="mi">8</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Biceps</span><span class="o">=</span><span class="mi">33</span><span class="p">.</span><span class="mi">3</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Forearm</span><span class="o">=</span><span class="mi">28</span><span class="p">.</span><span class="mi">7</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">Wrist</span><span class="o">=</span><span class="mi">18</span><span class="p">.</span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <p>This should return output similar to:</p>
-<p><img alt="prediction" src="/assets/tutorials/sql/bodyfat/prediction.png" /></p>
+<p><img alt="prediction" src="/assets/sql/tutorials/bodyfat/prediction.png" /></p>
 <p>As you can see, with around 99% confidence, MindsDB predicted the body fat percentage for this individual at 8.97%.  You can at this point feel free to alter the prospective individual's bodypart measurement parameters and make additional prediction queries if you'd like.  </p>
 <h3 id="making-batch-predictions-using-the-join-syntax">Making Batch Predictions using the JOIN syntax<a class="headerlink" href="#making-batch-predictions-using-the-join-syntax" title="Permanent link">&para;</a></h3>
 <p>The above example showed how to make predictions for a single individual's bodyfat, but what if you had a table of bodypart measurements for a number of individuals, and wanted to make predictions for them all?  This is possible using the <a href="https://docs.mindsdb.com/sql/api/join/">JOIN command</a>, which allows for the combining of rows from a database table and the prediction model table on a related column.  </p>
@@ -1662,7 +1662,7 @@
 <span class="k">LIMIT</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <p>This should return an output table similar to the following:</p>
-<p><img alt="join" src="/assets/tutorials/sql/bodyfat/join.png" /></p>
+<p><img alt="join" src="/assets/sql/tutorials/bodyfat/join.png" /></p>
 <p>As you can see, a prediction has been generated for each row in the input table.  Additionally, our predicted bodyfat percentages align closely with the original values!  Note that even though we chose only to display the Age, Density, Weight, Height, Neck, Chest, Abdomen, and Hip measurements in this example, the predicted_BodyFat field was determined by taking into consideration all of the data fields in the original bodyfat table (as this table was JOINed with the bodyfat_predictor table, from which we selected the specified fields).  In order to make predictions based ONLY on the specified fields, we would have to create a new table containing only those fields, and JOIN that with the bodyfat_predictor table!</p>
 <p>You are now done with the tutorial! 🎉</p>
 <p>Please feel free to try it yourself. Sign up for a <a href="https://cloud.mindsdb.com">free MindsDB account</a> to get up and running in 5 minutes, and if you need any help, feel free to ask in <a href="https://join.slack.com/t/mindsdbcommunity/shared_invite/zt-o8mrmx3l-5ai~5H66s6wlxFfBMVI6wQ">Slack</a> or <a href="https://github.com/mindsdb/mindsdb/discussions">Github</a>.</p>
