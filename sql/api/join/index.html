@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#join-clause" class="md-skip">
+        <a href="#join-statement" class="md-skip">
           Skip to content
         </a>
       
@@ -225,7 +225,8 @@
     
 
       <div class="md-header__source" style="width: auto; margin: 0; margin-right: 1rem;">
-        <a href="https://mindsdb.com/joincommunity" title="Slack invite link" class="md-source">
+        <a href="https://join.slack.com/t/mindsdbcommunity/shared_invite/zt-1a99wdnjr-K_v7DM~hOxaQbaLbjz5fWg"
+         title="Slack invite link" class="md-source">
             <div class="md-source__icon md-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M94.12 315.1c0 25.9-21.16 47.06-47.06 47.06S0 341 0 315.1c0-25.9 21.16-47.06 47.06-47.06h47.06v47.06zm23.72 0c0-25.9 21.16-47.06 47.06-47.06s47.06 21.16 47.06 47.06v117.84c0 25.9-21.16 47.06-47.06 47.06s-47.06-21.16-47.06-47.06V315.1zm47.06-188.98c-25.9 0-47.06-21.16-47.06-47.06S139 32 164.9 32s47.06 21.16 47.06 47.06v47.06H164.9zm0 23.72c25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06H47.06C21.16 243.96 0 222.8 0 196.9s21.16-47.06 47.06-47.06H164.9zm188.98 47.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06h-47.06V196.9zm-23.72 0c0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06V79.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06V196.9zM283.1 385.88c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06v-47.06h47.06zm0-23.72c-25.9 0-47.06-21.16-47.06-47.06 0-25.9 21.16-47.06 47.06-47.06h117.84c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06H283.1z"/></svg>
             </div>
@@ -704,7 +705,7 @@
   
     <li class="md-nav__item">
       <a href="../../create/databases/" class="md-nav__link">
-        Connect data to MindsDB
+        Plug data to MindsDB
       </a>
     </li>
   
@@ -997,8 +998,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#join-example" class="md-nav__link">
-    JOIN example
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax" class="md-nav__link">
+    Syntax
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-time-series" class="md-nav__link">
+    Example Time Series
   </a>
   
 </li>
@@ -1584,8 +1606,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#join-example" class="md-nav__link">
-    JOIN example
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#syntax" class="md-nav__link">
+    Syntax
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-time-series" class="md-nav__link">
+    Example Time Series
   </a>
   
 </li>
@@ -1608,136 +1651,99 @@
 
 
 
-<h1 id="join-clause">JOIN clause<a class="headerlink" href="#join-clause" title="Permanent link">&para;</a></h1>
-<p>The <code>JOIN</code> clause is used to combine rows from the database table and the model table on a related column. The basic syntax for joining from the data table and model is:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">column_name1</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">column_name2</span><span class="p">,</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">integration_name</span><span class="p">.</span><span class="k">table</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="w"> </span>
-<span class="w">                                       </span><span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictor_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="k">column_name</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="n">value1</span><span class="p">,</span><span class="w"> </span><span class="n">value2</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w"></span>
+<h1 id="join-statement"><code class="highlight"><span class="k">JOIN</span><span class="w"></span></code> Statement<a class="headerlink" href="#join-statement" title="Permanent link">&para;</a></h1>
+<h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
+<p>The <code class="highlight"><span class="k">JOIN</span><span class="w"></span></code> clause is used to combine rows from the database table and the model table on a related column. This can be very helpful to get bulk predictions. The basic syntax for joining from the data table and model is:</p>
+<h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">t</span><span class="p">.[</span><span class="k">column_name</span><span class="p">],</span><span class="w"> </span><span class="n">p</span><span class="p">.[</span><span class="k">column_name</span><span class="p">]</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="n">integration_name</span><span class="p">].[</span><span class="k">table</span><span class="p">]</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">predictor_name</span><span class="p">]</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">p</span><span class="w"></span>
 </code></pre></div>
-<h2 id="join-example">JOIN example<a class="headerlink" href="#join-example" title="Permanent link">&para;</a></h2>
-<p>The following SQL statement joins the <code>home_rentals</code> data with the <code>home_rentals_model</code> predicted price:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">db_integration</span><span class="p">.</span><span class="n">house_rentals_data</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tb</span><span class="w"> </span>
-<span class="w">                                                       </span><span class="k">WHERE</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">neighborhood</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;downtown&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;south_side&#39;</span><span class="p">);</span><span class="w"></span>
+<p>On execution:</p>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">-----------------+-----------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">t</span><span class="p">.[</span><span class="k">column_name</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">p</span><span class="p">.[</span><span class="k">column_name</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">-----------------+-----------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">t</span><span class="p">.[</span><span class="n">value</span><span class="p">]</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">value</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">-----------------+-----------------+</span>
 </code></pre></div>
+<p>Where:</p>
 <table>
 <thead>
 <tr>
-<th align="right">number_of_rooms</th>
-<th align="right">number_of_bathrooms</th>
-<th align="right">sqft</th>
-<th align="left">location</th>
-<th align="right">days_on_market</th>
-<th align="right">initial_price</th>
-<th align="left">neighborhood</th>
-<th align="right">rental_price</th>
-<th align="right">select_data_query</th>
-<th align="right">external_datasource</th>
-<th align="right">when_data</th>
-<th align="right">rental_price_original</th>
-<th align="right">rental_price_confidence</th>
-<th align="left">rental_price_explain</th>
-<th align="right">rental_price_anomaly</th>
-<th align="right">rental_price_min</th>
-<th align="right">rental_price_max</th>
+<th></th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">484</td>
-<td align="left">great</td>
-<td align="right">10</td>
-<td align="right">2271</td>
-<td align="left">south_side</td>
-<td align="right">2271</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">0.99</td>
-<td align="left">{"predicted_value": 2243, "confidence": 0.99, "confidence_lower_bound": 2200, "confidence_upper_bound": 2286, "anomaly": null, "truth": 2271}</td>
-<td align="right">nan</td>
-<td align="right">2200</td>
-<td align="right">2286</td>
+<td><code>[integration_name].[table]</code></td>
+<td>Name of the table te be used as input for the prediction</td>
 </tr>
 <tr>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">674</td>
-<td align="left">good</td>
-<td align="right">1</td>
-<td align="right">2167</td>
-<td align="left">downtown</td>
-<td align="right">2167</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">0.99</td>
-<td align="left">{"predicted_value": 2197, "confidence": 0.99, "confidence_lower_bound": 2154, "confidence_upper_bound": 2240, "anomaly": null, "truth": 2167}</td>
-<td align="right">nan</td>
-<td align="right">2154</td>
-<td align="right">2240</td>
+<td><code>mindsdb.[predictor_name]</code></td>
+<td>Name of the model to be used to predict</td>
 </tr>
 <tr>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">529</td>
-<td align="left">great</td>
-<td align="right">3</td>
-<td align="right">2431</td>
-<td align="left">south_side</td>
-<td align="right">2431</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">0.99</td>
-<td align="left">{"predicted_value": 2432, "confidence": 0.99, "confidence_lower_bound": 2389, "confidence_upper_bound": 2475, "anomaly": null, "truth": 2431}</td>
-<td align="right">nan</td>
-<td align="right">2389</td>
-<td align="right">2475</td>
-</tr>
-<tr>
-<td align="right">3</td>
-<td align="right">2</td>
-<td align="right">1219</td>
-<td align="left">great</td>
-<td align="right">3</td>
-<td align="right">5510</td>
-<td align="left">south_side</td>
-<td align="right">5510</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">0.99</td>
-<td align="left">{"predicted_value": 5550, "confidence": 0.99, "confidence_lower_bound": 5507, "confidence_upper_bound": 5593, "anomaly": null, "truth": 5510}</td>
-<td align="right">nan</td>
-<td align="right">5507</td>
-<td align="right">5593</td>
-</tr>
-<tr>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">398</td>
-<td align="left">great</td>
-<td align="right">11</td>
-<td align="right">2272</td>
-<td align="left">south_side</td>
-<td align="right">2272</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">nan</td>
-<td align="right">0.99</td>
-<td align="left">{"predicted_value": 2252, "confidence": 0.99, "confidence_lower_bound": 2209, "confidence_upper_bound": 2295, "anomaly": null, "truth": 2272}</td>
-<td align="right">nan</td>
-<td align="right">2209</td>
-<td align="right">2295</td>
+<td><code>p.value</code></td>
+<td>prediction value</td>
 </tr>
 </tbody>
 </table>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<p>The following SQL statement joins the <code>home_rentals</code> data with the <code>home_rentals_model</code> predicted price:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">rental_price</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">real_price</span><span class="p">,</span><span class="w"> </span>
+<span class="w">       </span><span class="n">m</span><span class="p">.</span><span class="n">rental_price</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">predicted_price</span><span class="p">,</span><span class="w"></span>
+<span class="w">       </span><span class="n">t</span><span class="p">.</span><span class="n">number_of_rooms</span><span class="p">,</span><span class="w">  </span><span class="n">t</span><span class="p">.</span><span class="n">number_of_bathrooms</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">sqft</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="k">location</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">days_on_market</span><span class="w"> </span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">example_db</span><span class="p">.</span><span class="n">demo_data</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">t</span><span class="w"> </span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">m</span><span class="w"> </span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">------------+-----------------+-----------------+---------------------+------+----------+----------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="n">real_price</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">predicted_price</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">number_of_rooms</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">number_of_bathrooms</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">sqft</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">location</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">days_on_market</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">------------+-----------------+-----------------+---------------------+------+----------+----------------+</span>
+<span class="o">|</span><span class="w"> </span><span class="mi">3901</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">3886</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">917</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">13</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">2042</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">2007</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">194</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">10</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1871</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">1865</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">543</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">poor</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">18</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">3026</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">3020</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">503</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">10</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">4774</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">4748</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">1066</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">13</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">4382</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">4388</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">816</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">poor</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">25</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">2269</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">2272</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">461</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">6</span><span class="w">              </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">2284</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">2272</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">333</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">6</span><span class="w">              </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">5420</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">5437</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">1124</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">9</span><span class="w">              </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">5016</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">4998</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">1204</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">7</span><span class="w">              </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1421</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">1427</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">538</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">poor</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">43</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">3476</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">3466</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">890</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">6</span><span class="w">              </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">5271</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">5255</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">975</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">6</span><span class="w">              </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">3001</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">2993</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">564</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">13</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">4682</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">4692</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">953</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">10</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1783</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">1738</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">493</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">poor</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">24</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1548</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">1543</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">601</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">poor</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">47</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">1492</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">1491</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">191</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">good</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">12</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">2431</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">2419</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">511</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w">              </span><span class="o">|</span><span class="w"></span>
+<span class="o">|</span><span class="w"> </span><span class="mi">4237</span><span class="w">       </span><span class="o">|</span><span class="w"> </span><span class="mi">4257</span><span class="w">            </span><span class="o">|</span><span class="w"> </span><span class="mi">3</span><span class="w">               </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w">                   </span><span class="o">|</span><span class="w"> </span><span class="mi">916</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">poor</span><span class="w">     </span><span class="o">|</span><span class="w"> </span><span class="mi">36</span><span class="w">             </span><span class="o">|</span><span class="w"></span>
+<span class="o">+</span><span class="c1">------------+-----------------+-----------------+---------------------+------+----------+----------------+</span>
+</code></pre></div>
+<h2 id="example-time-series">Example Time Series<a class="headerlink" href="#example-time-series" title="Permanent link">&para;</a></h2>
+<p>Having a time series predictor trained via:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span>
+<span class="w">  </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">house_sales_model</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">example_db</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">demo_data</span><span class="p">.</span><span class="n">house_sales</span><span class="p">)</span><span class="w"></span>
+<span class="n">PREDICT</span><span class="w"> </span><span class="n">MA</span><span class="w"></span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">saledate</span><span class="w"></span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">bedrooms</span><span class="p">,</span><span class="w"> </span><span class="k">type</span><span class="w"></span>
+<span class="c1">-- as the target is quarterly, we will look back two years to forecast the next one</span>
+<span class="n">WINDOW</span><span class="w"> </span><span class="mi">8</span><span class="w"></span>
+<span class="n">HORIZON</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">  </span>
+</code></pre></div>
+<p>You can query it and get the forecast predictions like: </p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="n">saledate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nb">date</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">ma</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">forecast</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">house_sales_model</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">m</span><span class="w"> </span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">example_db</span><span class="p">.</span><span class="n">demo_data</span><span class="p">.</span><span class="n">house_sales</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">saledate</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">LATEST</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="k">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;house&#39;</span><span class="w"></span>
+<span class="k">LIMIT</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
 
               
             </article>
