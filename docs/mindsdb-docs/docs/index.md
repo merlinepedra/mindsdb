@@ -1,11 +1,12 @@
 # Quickstart
 
 Follow the following steps to start predicting in SQL straight away. Check out our [Getting Started Guide](/getting-started/) for trying MindsDB with your data or model.
+
 ## 1. Create an Account
 
 Create your [free MindsDB Cloud account](https://cloud.mindsdb.com/register).
 
-???+ Tip "Local Installation" 
+???+ Tip "Local Installation"
     Follow our [Docker instructions](setup/self-hosted/docker/). if you  prefer to proceed with a local installation.
 
 ## 2. Connect MindsDB to a MySQL Client
@@ -30,7 +31,6 @@ You can use the MindsDB SQL Editor or open your preferred MySQL client and conne
 ## 3. Connecting a Database [`#!sql CREATE DATABASE`](/sql/create/databases/)
 
 For this quickstart, we have already prepared some example data for you.  To add it to your account, use the [`#!sql CREATE DATABASE`](/sql/create/databases/) syntax by copying and pasting this command into your SQL client:
-
 
 ```sql
 CREATE DATABASE example_data
@@ -83,7 +83,7 @@ On execution, you should get:
 
 Now you are ready to create your first predictor. Use the [`#!sql CREATE PREDICTOR`](/sql/create/predictor/) syntax by copying and pasting this command into your SQL client:
 
-```sql 
+```sql
 CREATE PREDICTOR mindsdb.home_rentals_predictor
 FROM example_data
   (SELECT * FROM demo_data.home_rentals)
@@ -113,6 +113,7 @@ On execution, you should get:
 | training |
 +----------+
 ```
+
 Or:
 
 ```sql
@@ -129,7 +130,7 @@ Or:
 
 The [`SELECT`](/sql/api/select/) syntax will allow you to make a prediction based on features.  Make your first prediction by copying and pasting this command into your SQL client:
 
-```sql 
+```sql
 SELECT rental_price
 FROM mindsdb.home_rentals_predictor
 WHERE number_of_bathrooms=2 AND sqft=1000;
