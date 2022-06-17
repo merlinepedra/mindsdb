@@ -15,7 +15,7 @@
     
     
       
-        <title>MacOs via pip - MindsDB Documentation</title>
+        <title>MacOS via pip - MindsDB Documentation</title>
       
     
     
@@ -155,7 +155,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              MacOs via pip
+              MacOS via pip
             
           </span>
         </div>
@@ -510,12 +510,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          MacOs via pip
+          MacOS via pip
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        MacOs via pip
+        MacOS via pip
       </a>
       
         
@@ -551,6 +551,26 @@
   <a href="#troubleshooting" class="md-nav__link">
     Troubleshooting
   </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    Common Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#still-having-problems" class="md-nav__link">
+    Still Having problems?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1187,6 +1207,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../sql/tutorials/home-rentals/" class="md-nav__link">
+        Home Rentals
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../sql/tutorials/process-quality/" class="md-nav__link">
         Process Quality
       </a>
@@ -1621,6 +1655,26 @@
     Troubleshooting
   </a>
   
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    Common Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#still-having-problems" class="md-nav__link">
+    Still Having problems?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1641,7 +1695,7 @@
 
 
 
-<h1 id="setup-for-macos-via-pip">Setup for MacOs via pip<a class="headerlink" href="#setup-for-macos-via-pip" title="Permanent link">&para;</a></h1>
+<h1 id="setup-for-macos-via-pip">Setup for MacOS via pip<a class="headerlink" href="#setup-for-macos-via-pip" title="Permanent link">&para;</a></h1>
 <details class="warning" open="open"><summary>Python 3.9</summary><p>Currently, some of our dependencies have issues with the latest versions of Python 3.9.x. For now, our suggestion is to use <strong>Python 3.7.x, or 3.8.x versions</strong>.</p>
 </details>
 <details class="warning" open="open"><summary>Suggestions</summary><p>Install MindsDB in a virtual environment when using <strong>pip</strong> to avoid dependency issues. Make sure your <strong>Python&gt;=3.7</strong> and <strong>pip&gt;=19.3</strong>.</p>
@@ -1685,7 +1739,7 @@ mindsdb-streams<span class="o">==</span><span class="m">0</span>.0.5
 installed and Python 64-bit version.</p>
 <ol>
 <li>
-<p>Open Anaconda Prompt and create new virtual environment </p>
+<p>Open Anaconda Prompt and create new virtual environment</p>
 <div class="highlight"><pre><span></span><code>conda create -n mindsdb
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>conda activate mindsdb
@@ -1716,7 +1770,7 @@ mindsdb-streams<span class="o">==</span><span class="m">0</span>.0.5
 </li>
 </ol>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<p>If the installation fails, don't worry; follow the below instruction, which should fix most issues. If none of this works, try using the <a href="/deployment/docker/">docker setup</a> and create an issue with the installation errors you got on our <a href="https://github.com/mindsdb/mindsdb/issues">Github repository</a>. We'll try to review it and give you a response within a few hours.</p>
+<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
 <div class="admonition failure">
 <p class="admonition-title">Installation fail</p>
 <p>Note that <strong>Python 64</strong> bit version is required.</p>
@@ -1737,6 +1791,9 @@ mindsdb-streams<span class="o">==</span><span class="m">0</span>.0.5
 <p class="admonition-title">numpy.distutils.system_info.NotFoundError: No lapack/blas resources found. Note: Accelerate is no longer supported.</p>
 <p>Some of MindsDB's dependencies are not working with <strong>Python 3.9</strong>, so please downgrade to older versions for now. We are working on this, and <strong>Python 3.9</strong> will be supported soon.</p>
 </div>
+<h3 id="still-having-problems">Still Having problems?<a class="headerlink" href="#still-having-problems" title="Permanent link">&para;</a></h3>
+<p>Don't worry! Try to replicate the issue using the official <a href="/setup/self-hosted/docker/">docker setup</a>, and please create an issue on our <a href="https://github.com/mindsdb/mindsdb/issues">Github repository</a> as detailed as possible.</p>
+<p>We'll review it and give you a response within a few hours.</p>
 
               
             </article>

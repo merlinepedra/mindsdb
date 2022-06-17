@@ -495,7 +495,7 @@
   
     <li class="md-nav__item">
       <a href="../../../setup/self-hosted/pip/macos/" class="md-nav__link">
-        MacOs via pip
+        MacOS via pip
       </a>
     </li>
   
@@ -1126,6 +1126,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../home-rentals/" class="md-nav__link">
+        Home Rentals
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../process-quality/" class="md-nav__link">
         Process Quality
       </a>
@@ -1721,18 +1735,21 @@
 - The 'Select your data source' page will populate for you to choose your database type. For this tutorial we will be selecting the postgres database button.</p>
 <p><img alt="db" src="/assets/sql/tutorials/Mushrooms/database.png" /></p>
 <ul>
-<li>Once you have selected the database type,the page will automatically navigate to the SQL Editor where the syntax to create a database connection will automatically populate for you to enter the required parameters.
-​
-The required parameters are:
-CREATE DATABASE display_name  --- display name for database. 
-WITH ENGINE = "postgres",     --- name of the mindsdb handler 
-PARAMETERS = {
-    "user": " ",              --- Your database user.
-    "password": " ",          --- Your password.
-    "host": " ",              --- host, it can be an ip or an url. 
-    "port": "5432",           --- common port is 5432.
-    "database": " "           --- The name of your database *optional.
+<li>Once you have selected the database type,the page will automatically navigate to the SQL Editor where the syntax to create a database connection will automatically populate for you to enter the required parameters.</li>
+</ul>
+<p>The required parameters are:</p>
+<ul>
+<li>CREATE DATABASE display_name  --- display name for database. </li>
+<li>WITH ENGINE = "postgres",     --- name of the mindsdb handler </li>
+<li>PARAMETERS = {<ul>
+<li>"user": " ",              --- Your database user.</li>
+<li>"password": " ",          --- Your password.</li>
+<li>"host": " ",              --- host, it can be an ip or an url. </li>
+<li>"port": "5432",           --- common port is 5432.</li>
+<li>"database": " "           --- The name of your database *optional.
 }</li>
+</ul>
+</li>
 </ul>
 <p><img alt="integration" src="/assets/sql/tutorials/Mushrooms/dbintegration.png" /></p>
 <p>Select the <code>Run</code> button or Shift+Enter to execute the syntax. Once the Database connection is created the console will display a message 'Query successfully completed'.
@@ -1768,14 +1785,14 @@ The required values that we need to provide are:
 - integration_name (string): The name of the connection to your database.
 - column_name (string): The feature you want to predict.</p>
 <p>Use the following query to create a predictor that will predict the <code>target_class</code> for the specific field parameters.</p>
-<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mushroom_predictor</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mushroom_predictor</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb_predictions</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">mushrooms</span><span class="p">)</span><span class="w"></span>
 <span class="n">PREDICT</span><span class="w"> </span><span class="k">class</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <p>Select the <code>Run</code> button or Shift+Enter to execute the syntax. Once the predictor is created the console will display a message 'Query successfully completed'.</p>
 <p><img alt="create" src="/assets/sql/tutorials/Mushrooms/create.png" /></p>
 <p>The predictor was created successfully and has started training. To check the status of the model, use the below query.</p>
-<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictors</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mushroom_predictor&#39;</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictors</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mushroom_predictor&#39;</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <p>After the predictor has finished training, you will see a similar output. Note that MindsDB does model testing for you automatically, so you will immediately see if the predictor is accurate enough.</p>
 <p><img alt="create" src="/assets/sql/tutorials/Mushrooms/statuscheck.png" /></p>

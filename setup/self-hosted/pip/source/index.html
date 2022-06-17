@@ -501,7 +501,7 @@
   
     <li class="md-nav__item">
       <a href="../macos/" class="md-nav__link">
-        MacOs via pip
+        MacOS via pip
       </a>
     </li>
   
@@ -546,13 +546,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisite" class="md-nav__link">
-    Prerequisite
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
@@ -1207,6 +1200,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../sql/tutorials/home-rentals/" class="md-nav__link">
+        Home Rentals
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../sql/tutorials/process-quality/" class="md-nav__link">
         Process Quality
       </a>
@@ -1623,13 +1630,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisite" class="md-nav__link">
-    Prerequisite
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -1681,18 +1681,12 @@
 
 
 
-<h1 id="build-from-source-using-pip">Build From Source Using <code>pip</code><a class="headerlink" href="#build-from-source-using-pip" title="Permanent link">&para;</a></h1>
+<h1 id="build-from-source-using-pip">Build From Source Using pip<a class="headerlink" href="#build-from-source-using-pip" title="Permanent link">&para;</a></h1>
 <p>This section describes how to deploy MindsDB from the source code. It is the preferred way to use MindsDB if you want to contribute to our code or debug MindsDB.</p>
 <details class="warning" open="open"><summary>Python 3.9</summary><p>Currently, some of our dependencies have issues with the latest versions of Python 3.9.x. For now, our suggestion is to use <strong>Python 3.7.x, or 3.8.x versions</strong>.</p>
 </details>
 <details class="warning" open="open"><summary>Suggestions</summary><p>Install MindsDB in a virtual environment when using <strong>pip</strong> to avoid dependency issues. Make sure your <strong>Python&gt;=3.7</strong> and <strong>pip&gt;=19.3</strong>.</p>
 </details>
-<h2 id="prerequisite">Prerequisite<a class="headerlink" href="#prerequisite" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="https://www.python.org/downloads/">Python</a>&gt;=3.7 (64-bit) and pip version &gt;= 19.3.</li>
-<li><a href="https://pip.pypa.io/en/stable/installing/">Pip</a>(is usually pre-installed with the latest Python versions).</li>
-<li><a href="https://git-scm.com/">Git</a>.</li>
-</ul>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>We recommend installing MindsDB inside a virtual environment to avoid dependency issues.</p>
 <ol>
@@ -1742,25 +1736,25 @@
 </div>
 </div>
 </div>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 </li>
 </ol>
-<p>If the installation fails, check for common error messages and solutions below. </p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>!!! failure <span class="s2">&quot;No module named mindsdb&quot;</span>
-    If you get this error, make sure that your virtual environment is activated.
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>!!! failure <span class="s2">&quot;ImportError: No module named {dependency name}&quot;</span>
-    This <span class="nb">type</span> of error can occur <span class="k">if</span> you skipped the 3rd step. Make sure that you install all of the MindsDB requirements.
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>!!! failure <span class="s2">&quot;This site can’t be reached. 127.0.0.1 refused to connect.&quot;</span>
-    Please check the MindsDB server console <span class="k">in</span> <span class="k">case</span> the server is still <span class="k">in</span> the <span class="sb">`</span>starting<span class="sb">`</span> phase. If the server has started and there is an error displayed, please report it on our <span class="o">[</span>GitHub<span class="o">](</span>https://github.com/mindsdb/mindsdb/issues<span class="o">)</span>.
-</code></pre></div>
+<div class="admonition failure">
+<p class="admonition-title">No module named mindsdb</p>
+<p>If you get this error, make sure that your virtual environment is activated.</p>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">ImportError: No module named {dependency name}</p>
+<p>This type of error can occur if you skipped the 3rd step. Make sure that you install all of the MindsDB requirements.</p>
+</div>
+<div class="admonition failure">
+<p class="admonition-title">This site can’t be reached. 127.0.0.1 refused to connect.</p>
+<p>Please check the MindsDB server console in case the server is still in the <code>starting</code> phase. If the server has started and there is an error displayed, please report it on our <a href="https://github.com/mindsdb/mindsdb/issues">GitHub</a></p>
+</div>
 <h3 id="still-having-problems">Still Having problems?<a class="headerlink" href="#still-having-problems" title="Permanent link">&para;</a></h3>
-<p>If your error is not addressed in the <code>Common Issues</code>
-1) Replicate the issue using using the official <a href="/deployment/docker/">docker setup</a>.</p>
-<p>2) Create an issue with the installation errors you receive on our <a href="https://github.com/mindsdb/mindsdb/issues">Github repository</a>. </p>
-<p>We'll try to review it and give you a response within a few hours.</p>
+<p>Don't worry! Try to replicate the issue using the official <a href="/setup/self-hosted/docker/">docker setup</a>, and please create an issue on our <a href="https://github.com/mindsdb/mindsdb/issues">Github repository</a> as detailed as possible.</p>
+<p>We'll review it and give you a response within a few hours.</p>
 
               
             </article>

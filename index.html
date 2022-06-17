@@ -578,7 +578,7 @@
   
     <li class="md-nav__item">
       <a href="setup/self-hosted/pip/macos/" class="md-nav__link">
-        MacOs via pip
+        MacOS via pip
       </a>
     </li>
   
@@ -1209,6 +1209,20 @@
   
   
     <li class="md-nav__item">
+      <a href="sql/tutorials/home-rentals/" class="md-nav__link">
+        Home Rentals
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="sql/tutorials/process-quality/" class="md-nav__link">
         Process Quality
       </a>
@@ -1697,7 +1711,6 @@
 <p>Create your <a href="https://cloud.mindsdb.com/register">free MindsDB Cloud account</a>.</p>
 <details class="tip" open="open"><summary>Local Installation</summary><p>Follow our <a href="setup/self-hosted/docker/">Docker instructions</a>. if you  prefer to proceed with a local installation.</p>
 </details>
-<hr />
 <h2 id="2-connect-mindsdb-to-a-mysql-client">2. Connect MindsDB to a MySQL Client<a class="headerlink" href="#2-connect-mindsdb-to-a-mysql-client" title="Permanent link">&para;</a></h2>
 <p>You can use the MindsDB SQL Editor or open your preferred MySQL client and connect it to MindsDB.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Using the MindsDB SQL Editor</label><label for="__tabbed_1_2">Connecting to a Third-party MySQL Client</label></div>
@@ -1718,7 +1731,6 @@
 </div>
 </div>
 </div>
-<hr />
 <h2 id="3-connecting-a-database-create-database">3. Connecting a Database <a href="/sql/create/databases/"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"></span></code></a><a class="headerlink" href="#3-connecting-a-database-create-database" title="Permanent link">&para;</a></h2>
 <p>For this quickstart, we have already prepared some example data for you.  To add it to your account, use the <a href="/sql/create/databases/"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"></span></code></a> syntax by copying and pasting this command into your SQL client:</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">example_data</span><span class="w"></span>
@@ -1734,7 +1746,6 @@
 <p>On execution, you should get:</p>
 <div class="highlight"><pre><span></span><code><span class="n">Query</span><span class="w"> </span><span class="n">OK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">rows</span><span class="w"> </span><span class="n">affected</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">.</span><span class="mi">22</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
-<hr />
 <h2 id="4-previewing-available-data">4. Previewing Available Data<a class="headerlink" href="#4-previewing-available-data" title="Permanent link">&para;</a></h2>
 <p>You can now preview the available data with a standard <code class="highlight"><span class="k">SELECT</span><span class="w"></span></code>. To preview the Home Rentals dataset, copy and paste this command into your SQL client:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span>
@@ -1757,7 +1768,6 @@
 <span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="w">             </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="w">                 </span><span class="o">|</span><span class="w"> </span><span class="mi">878</span><span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="n">great</span><span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">8</span><span class="w">              </span><span class="o">|</span><span class="w"> </span><span class="mi">3861</span><span class="w">          </span><span class="o">|</span><span class="w"> </span><span class="n">south_side</span><span class="w">   </span><span class="o">|</span><span class="w"> </span><span class="mi">3861</span><span class="w">         </span><span class="o">|</span><span class="w"></span>
 <span class="o">+</span><span class="c1">-----------------+---------------------+------+----------+----------------+---------------+--------------+--------------+</span>
 </code></pre></div>
-<hr />
 <h2 id="5-creating-a-predictor-create-predictor">5. Creating a Predictor <a href="/sql/create/predictor/"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code></a><a class="headerlink" href="#5-creating-a-predictor-create-predictor" title="Permanent link">&para;</a></h2>
 <p>Now you are ready to create your first predictor. Use the <a href="/sql/create/predictor/"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code></a> syntax by copying and pasting this command into your SQL client:</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_predictor</span><span class="w"></span>
@@ -1767,7 +1777,6 @@
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="n">Query</span><span class="w"> </span><span class="n">OK</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">rows</span><span class="w"> </span><span class="n">affected</span><span class="w"> </span><span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">79</span><span class="w"> </span><span class="n">sec</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
-<hr />
 <h2 id="6-checking-the-status-of-a-predictor">6. Checking the Status of a Predictor<a class="headerlink" href="#6-checking-the-status-of-a-predictor" title="Permanent link">&para;</a></h2>
 <p>A predictor may take a couple of minutes for the training to complete. You can monitor the status of your predictor by copying and pasting this command into your SQL client:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">status</span><span class="w"></span>
@@ -1791,7 +1800,6 @@ Or:</p>
 <div class="admonition attention">
 <p class="admonition-title">Predictor Status Must be 'complete' Before Making a Prediction</p>
 </div>
-<hr />
 <h2 id="7-making-a-prediction-via-select">7. Making a Prediction via <a href="/sql/api/select/"><code class="highlight"><span class="k">SELECT</span><span class="w"></span></code></a><a class="headerlink" href="#7-making-a-prediction-via-select" title="Permanent link">&para;</a></h2>
 <p>The <a href="/sql/api/select/"><code>SELECT</code></a> syntax will allow you to make a prediction based on features.  Make your first prediction by copying and pasting this command into your SQL client:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">rental_price</span><span class="w"></span>
