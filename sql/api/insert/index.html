@@ -914,6 +914,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#syntax" class="md-nav__link">
     Syntax
   </a>
@@ -1606,6 +1613,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#syntax" class="md-nav__link">
     Syntax
   </a>
@@ -1638,6 +1652,7 @@
 
 
 <h1 id="insert-into-statement">INSERT INTO Statement<a class="headerlink" href="#insert-into-statement" title="Permanent link">&para;</a></h1>
+<h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p>The <code class="highlight"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"></span></code> statement is used to fill a table with the result of subselect. commonly used to persist predictions into the database</p>
 <h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="p">[</span><span class="n">integration_name</span><span class="p">].[</span><span class="k">table_name</span><span class="p">]</span><span class="w"></span>
@@ -1686,7 +1701,8 @@ int2
 </table>
 <p>In order to achive the desired result we could execute the following query:</p>
 <div class="highlight"><pre><span></span><code><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">int1</span><span class="p">.</span><span class="n">tbl1</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
-<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">int2</span><span class="p">.</span><span class="n">tbl2</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ta</span><span class="w"></span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">int2</span><span class="p">.</span><span class="n">tbl2</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ta</span><span class="w"></span>
 <span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictor_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">tb</span><span class="w"></span>
 <span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">ta</span><span class="p">.</span><span class="nb">date</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s1">&#39;2015-12-31&#39;</span><span class="w"></span>
 <span class="p">)</span><span class="w"></span>

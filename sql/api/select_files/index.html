@@ -1707,10 +1707,10 @@
 
 <h1 id="select-filesfile-statement"><code class="highlight"><span class="k">SELECT</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code> Statement<a class="headerlink" href="#select-filesfile-statement" title="Permanent link">&para;</a></h1>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
-<p>The <code class="highlight"><span class="k">SELECT</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code> statement is used to select a <code class="highlight"><span class="p">[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code> as a datasource. The main use is to,, create a predictor from a file that has been uploaded to MindsDB.</p>
+<p>The <code class="highlight"><span class="k">SELECT</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code> statement is used to select a <code class="highlight"><span class="p">[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code> as a datasource. The main use is to create a predictor from a file that has been uploaded to MindsDB via the <a href="/connect/mindsdb_editor/">MindsDB Editor</a>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Before using the <code class="highlight"><span class="k">SELECT</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file</span><span class="p">]</span><span class="w"></span></code></p>
-<p>Make sure to upload the [file] via the MindsDB Editor</p>
+<p>Make sure to <a href="#upload-file-to-mindsdb-editor">upload the file via the MindsDB Editor</a></p>
 </div>
 <h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="p">.[</span><span class="n">file_name</span><span class="p">];</span><span class="w"></span>
@@ -1733,7 +1733,11 @@
 <tbody>
 <tr>
 <td><code>[file_name]</code></td>
-<td>Name of file uploaded to mindsDB</td>
+<td>Name of file uploaded to mindsDB via the [MindsDB SQL Editor</td>
+</tr>
+<tr>
+<td>](/connect/mindsdb_editor/)</td>
+<td></td>
 </tr>
 <tr>
 <td>column</td>
@@ -1749,20 +1753,24 @@
 <p>This example will show how to upload a file to MindsDB Cloud and use it to create a predictor.</p>
 <h3 id="upload-file-to-mindsdb-editor">Upload file to MindsDB Editor<a class="headerlink" href="#upload-file-to-mindsdb-editor" title="Permanent link">&para;</a></h3>
 <ol>
-<li>Connect to the MindsDB Editor </li>
+<li>Connect to the MindsDB Editor</li>
 <li>Navigate to <code>Add Data</code> located on the right navigation bar identified by a plug icon.</li>
-<li>Click on the tab <code>Files</code> and the card <code>Import File</code>
-    <figure markdown> 
-        <img _="," alt="Add File" loading="lazy" src="/assets/sql/add-file-data.png" width="800" />
-        <figcaption></figcaption>
-    </figure></li>
-<li>Name your file in <code>Table name</code>.</li>
-<li>Click on <code>Save and Continue</code>.</li>
+<li>
+<p>Click on the tab <code>Files</code> and the card <code>Import File</code></p>
+<p><figure markdown>
+    <img _="," alt="Add File" loading="lazy" src="/assets/sql/add-file-data.png" width="800" />
+</figure></p>
+</li>
+<li>
+<p>Name your file in <code>Table name</code>.</p>
+</li>
+<li>
+<p>Click on <code>Save and Continue</code>.</p>
+<p><figure markdown>
+    <img _="," alt="Upload Status" loading="lazy" src="/assets/sql/file.png" width="800" />
+</figure></p>
+</li>
 </ol>
-<figure>
-<p><img _="," alt="Upload Status" loading="lazy" src="/assets/sql/file.png" width="800" />
-    <figcaption></figcaption></p>
-</figure>
 <h3 id="select-the-file-as-datasource">Select the file as datasource<a class="headerlink" href="#select-the-file-as-datasource" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">files</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"> </span><span class="k">Limit</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>

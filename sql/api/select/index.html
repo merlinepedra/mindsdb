@@ -1657,7 +1657,8 @@
 <h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="p">[</span><span class="n">target_variable</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">target_variable</span><span class="p">]</span><span class="n">_explain</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">predictor_name</span><span class="p">]</span><span class="w"></span>
-<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="p">[</span><span class="k">column</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">value</span><span class="p">]</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="p">[</span><span class="k">column</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">value</span><span class="p">];</span><span class="w"></span>
+<span class="k">WHERE</span><span class="w"> </span><span class="p">[</span><span class="k">column</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">value</span><span class="p">]</span><span class="w"> </span>
+<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="p">[</span><span class="k">column</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">value</span><span class="p">];</span><span class="w"></span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Grammar matters</p>
@@ -1702,9 +1703,9 @@
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">location</span><span class="p">,</span><span class="w"> </span><span class="n">neighborhood</span><span class="p">,</span><span class="w"> </span><span class="n">days_on_market</span><span class="p">,</span><span class="w"> </span><span class="n">rental_price</span><span class="p">,</span><span class="w"> </span><span class="n">rental_price_explain</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model1</span><span class="w"></span>
 <span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">sqft</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">823</span><span class="w"></span>
-<span class="w">        </span><span class="k">AND</span><span class="w"> </span><span class="k">location</span><span class="o">=</span><span class="s1">&#39;good&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="k">AND</span><span class="w"> </span><span class="n">neighborhood</span><span class="o">=</span><span class="s1">&#39;downtown&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="k">AND</span><span class="w"> </span><span class="n">days_on_market</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="k">location</span><span class="o">=</span><span class="s1">&#39;good&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">neighborhood</span><span class="o">=</span><span class="s1">&#39;downtown&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">days_on_market</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <p>On execution,</p>
 <div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">----------+--------------+----------------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------+</span>

@@ -1655,7 +1655,7 @@
 
 <h1 id="create-view-statement"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"></span></code> Statement<a class="headerlink" href="#create-view-statement" title="Permanent link">&para;</a></h1>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
-<p>In MindsDB, an <strong>AI Table</strong> is a virtual table based on the result-set of the SQL Statement that <code class="highlight"><span class="k">JOIN</span><span class="w"></span></code>s a table data with the predictions of a model. An <strong>AI Table</strong> can be created using the <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">ai_table_name</span><span class="p">]</span><span class="w"></span></code> statement.</p>
+<p>In MindsDB, an <strong>AI Table</strong> is a virtual table based on the result-set of the SQL Statement that <code class="highlight"><span class="k">JOIN</span><span class="w"></span></code>s a table data with the predictions of a model. An <strong>AI Table</strong> can be created using the <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"></span></code> statement.</p>
 <h2 id="syntax">Syntax<a class="headerlink" href="#syntax" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">ai_table_name</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="k">SELECT</span><span class="w"></span>
@@ -1699,49 +1699,13 @@
 </tbody>
 </table>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
-<p>We will use the Home Rentals dataset to create an AI Table.</p>
-<table>
-<thead>
-<tr>
-<th align="right">number_of_rooms</th>
-<th align="right">number_of_bathrooms</th>
-<th align="right">sqft</th>
-<th align="left">location</th>
-<th align="right">days_on_market</th>
-<th align="right">initial_price</th>
-<th align="left">neighborhood</th>
-<th align="right">rental_price</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">484</td>
-<td align="left">great</td>
-<td align="right">10</td>
-<td align="right">2271</td>
-<td align="left">south_side</td>
-<td align="right">2271</td>
-</tr>
-<tr>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">674</td>
-<td align="left">good</td>
-<td align="right">1</td>
-<td align="right">2167</td>
-<td align="left">downtown</td>
-<td align="right">2167</td>
-</tr>
-</tbody>
-</table>
-<p>The first step is to execute a SQL query for creating a <code>home_rentals_model</code> that learns to predict the <code>rental_price</code> value given other features of a real estate listing:</p>
+<p>Having executed a SQL query for training a <code>home_rentals_model</code> that learns to predict the <code>rental_price</code> value given other features of a real estate listing:</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"></span>
-<span class="k">FROM</span><span class="w"> </span><span class="n">integration_name</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">house_rentals_data</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">rentals</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">integration_name</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">house_rentals_data</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">rentals</span><span class="w"></span>
 <span class="n">PREDICT</span><span class="w"> </span><span class="n">rental_price</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">price</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
-<p>Once trained, we can <code>JOIN</code> any input data with the trained model and store the results as an AI Table.</p>
+<p>Once trained, we can <a href="/sql/api/join/"><code class="highlight"><span class="k">JOIN</span><span class="w"></span></code></a> any input data with the trained model and store the results as an AI Table using the <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"></span></code> syntax.</p>
 <p>Let's pass some of the expected input columns (in this case, <code>sqft</code>, <code>number_of_bathrooms</code>, <code>location</code>) to the model and join the predicted <code>rental_price</code> values:</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="k">SELECT</span><span class="w"></span>

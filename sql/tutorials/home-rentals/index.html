@@ -1198,8 +1198,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#traning-a-predictor-via-create-predictor" class="md-nav__link">
-    Traning a Predictor Via CREATE PREDICTOR
+  <a href="#training-a-predictor-via-create-predictor" class="md-nav__link">
+    Training a Predictor Via CREATE PREDICTOR
   </a>
   
 </li>
@@ -1703,8 +1703,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#traning-a-predictor-via-create-predictor" class="md-nav__link">
-    Traning a Predictor Via CREATE PREDICTOR
+  <a href="#training-a-predictor-via-create-predictor" class="md-nav__link">
+    Training a Predictor Via CREATE PREDICTOR
   </a>
   
 </li>
@@ -1767,7 +1767,7 @@
 <h2 id="the-data">The Data<a class="headerlink" href="#the-data" title="Permanent link">&para;</a></h2>
 <h3 id="connecting-the-data">Connecting the data<a class="headerlink" href="#connecting-the-data" title="Permanent link">&para;</a></h3>
 <p>There are a couple of ways you can get the data to follow trough this tutorial.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Connectiong as a database via <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"></span></code></label><label for="__tabbed_1_2">Connecting as a file</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Connecting as a database via <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"></span></code></label><label for="__tabbed_1_2">Connecting as a file</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>We have prepared a demo database you can connect to that contains the data to be used <code class="highlight"><span class="n">example_db</span><span class="p">.</span><span class="n">demo_data</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"></span></code> </p>
@@ -1806,7 +1806,7 @@
 </div>
 </div>
 <div class="admonition warning">
-<p class="admonition-title">From now ownwards we will use the table <code class="highlight"><span class="n">example_db</span><span class="p">.</span><span class="n">demo_data</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"></span></code> make sure you replace it for <code>files.home_rentals</code> if you are connecting the data as a file.</p>
+<p class="admonition-title">From now onwards we will use the table <code class="highlight"><span class="n">example_db</span><span class="p">.</span><span class="n">demo_data</span><span class="p">.</span><span class="n">home_rentals</span><span class="w"></span></code> make sure you replace it for <code>files.home_rentals</code> if you are connecting the data as a file.</p>
 </div>
 <h3 id="understanding-the-data">Understanding the Data<a class="headerlink" href="#understanding-the-data" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">-----------------+---------------------+------+----------+----------------+----------------+--------------+</span>
@@ -1838,13 +1838,13 @@
 </tr>
 <tr>
 <td align="left"><code>number_of_bathrooms</code></td>
-<td align="left">Numbmer of bathrooms on a given house <code>[1,2]</code></td>
+<td align="left">Number of bathrooms on a given house <code>[1,2]</code></td>
 <td><code>integer</code></td>
 <td>Feature</td>
 </tr>
 <tr>
 <td align="left"><code>sqft</code></td>
-<td align="left">Area of a given house in squared feet</td>
+<td align="left">Area of a given house in square feet</td>
 <td><code>integer</code></td>
 <td>Feature</td>
 </tr>
@@ -1879,8 +1879,8 @@
 <p>A <strong>label</strong> is the thing we're predicting—the y variable in simple linear regression ...
 A <strong>feature</strong> is an input variable—the x variable in simple linear regression ..</p>
 </div>
-<h2 id="traning-a-predictor-via-create-predictor">Traning a Predictor Via <a href="/sql/create/predictor"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code></a><a class="headerlink" href="#traning-a-predictor-via-create-predictor" title="Permanent link">&para;</a></h2>
-<p>Let's create and train your first machine learning predictor. For that we are going to use the <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code> syntax, where we specify what sub-query to train <code class="highlight"><span class="k">FROM</span><span class="w"></span></code> (features) and what we want to learn to <code class="highlight"><span class="n">PREDICT</span><span class="w"></span></code> (labels):</p>
+<h2 id="training-a-predictor-via-create-predictor">Training a Predictor Via <a href="/sql/create/predictor"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code></a><a class="headerlink" href="#training-a-predictor-via-create-predictor" title="Permanent link">&para;</a></h2>
+<p>Let's create and train your first machine learning predictor. For that we are going to use the <a href="/sql/create/predictor"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code></a> syntax, where we specify what sub-query to train <code class="highlight"><span class="k">FROM</span><span class="w"></span></code> (features) and what we want to learn to <code class="highlight"><span class="n">PREDICT</span><span class="w"></span></code> (labels):</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">example_db</span><span class="w"></span>
 <span class="w">  </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">demo_data</span><span class="p">.</span><span class="n">home_rentals</span><span class="p">)</span><span class="w"></span>
@@ -1893,13 +1893,13 @@ A <strong>feature</strong> is an input variable—the x variable in simple linea
 <span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;home_rentals_predictor&#39;</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <p>Here we are selecting the status from the table called mindsdb.predictors and using the where statement to only show the model we have just trained, On execution, you we get:</p>
-<p><div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">----------+</span>
+<div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">----------+</span>
 <span class="o">|</span><span class="w"> </span><span class="n">status</span><span class="w">   </span><span class="o">|</span><span class="w"></span>
 <span class="o">+</span><span class="c1">----------+</span>
 <span class="o">|</span><span class="w"> </span><span class="n">training</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
 <span class="o">+</span><span class="c1">----------+</span>
 </code></pre></div>
-Or after a the model has been trained:</p>
+<p>Or after a the model has been trained:</p>
 <div class="highlight"><pre><span></span><code><span class="o">+</span><span class="c1">----------+</span>
 <span class="o">|</span><span class="w"> </span><span class="n">status</span><span class="w">   </span><span class="o">|</span><span class="w"></span>
 <span class="o">+</span><span class="c1">----------+</span>
