@@ -1912,7 +1912,7 @@
 </tr>
 <tr>
 <td><code>[integration_name]</code></td>
-<td>is the name of the intergration created via <a href="/sql/create/databases/"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"></span></code></a> or <a href="/sql/api/select_files/">file upload</a></td>
+<td>is the name of the integration created via <a href="/sql/create/databases/"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"></span></code></a> or <a href="/sql/api/select_files/">file upload</a></td>
 </tr>
 <tr>
 <td><code>(SELECT [column_name, ...] FROM [table_name])</code></td>
@@ -2046,7 +2046,7 @@
 </tr>
 <tr>
 <td><code>(SELECT * FROM [file_name])</code></td>
-<td>SELECT statement for selecting the data to be used for traning and validation</td>
+<td>SELECT statement for selecting the data to be used for training and validation</td>
 </tr>
 <tr>
 <td><code>target_variable</code></td>
@@ -2072,7 +2072,7 @@
 <span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="p">[</span><span class="n">sequential_column</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">partition_column</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">other_column</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">target_column</span><span class="p">]</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="k">table_name</span><span class="p">])</span><span class="w"></span>
 <span class="n">PREDICT</span><span class="w"> </span><span class="p">[</span><span class="n">target_column</span><span class="p">]</span><span class="w"></span>
 
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">[</span><span class="n">sequantial_column</span><span class="p">]</span><span class="w"></span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">[</span><span class="n">sequential_column</span><span class="p">]</span><span class="w"></span>
 <span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="p">[</span><span class="n">partition_column</span><span class="p">]</span><span class="w"></span>
 
 <span class="n">WINDOW</span><span class="w"> </span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="w"></span>
@@ -2088,7 +2088,7 @@
 </thead>
 <tbody>
 <tr>
-<td><code>ORDER BY [sequantial_column]</code></td>
+<td><code>ORDER BY [sequential_column]</code></td>
 <td>Defines the column that the time series will be order by. These can be a date, or anything that defines the sequence of events.</td>
 </tr>
 <tr>
