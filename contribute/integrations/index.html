@@ -8,21 +8,21 @@
       
       
       
-        <link rel="canonical" href="https://docs.mindsdb.com/sql/tutorials/ai-tables/">
+        <link rel="canonical" href="https://docs.mindsdb.com/contribute/integrations/">
       
-      <link rel="icon" href="../../../assets/mdb_logo.png">
+      <link rel="icon" href="../../assets/mdb_logo.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
-        <title>AI Tables Intro - MindsDB Documentation</title>
+        <title>Building a new integration - MindsDB Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.e411adfe.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e411adfe.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
         
       
     
@@ -37,9 +37,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
 
 <!--iubenda privacy policy-->
@@ -83,7 +83,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ai-tables-intro" class="md-skip">
+        <a href="#building-a-new-integration" class="md-skip">
           Skip to content
         </a>
       
@@ -128,14 +128,14 @@
 
     <!-- Link to home -->
     <a
-      href="../../.."
+      href="../.."
       title="MindsDB Documentation"
       class="md-header__button md-logo"
       aria-label="MindsDB Documentation"
       data-md-component="logo"
     >
       
-  <img src="../../../assets/mdb_logo_w2.svg" alt="logo">
+  <img src="../../assets/mdb_logo_w2.svg" alt="logo">
 
     </a>
 
@@ -155,7 +155,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              AI Tables Intro
+              Building a new integration
             
           </span>
         </div>
@@ -313,9 +313,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="MindsDB Documentation" class="md-nav__button md-logo" aria-label="MindsDB Documentation" data-md-component="logo">
+    <a href="../.." title="MindsDB Documentation" class="md-nav__button md-logo" aria-label="MindsDB Documentation" data-md-component="logo">
       
-  <img src="../../../assets/mdb_logo_w2.svg" alt="logo">
+  <img src="../../assets/mdb_logo_w2.svg" alt="logo">
 
     </a>
     MindsDB Documentation
@@ -343,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Quickstart
       </a>
     </li>
@@ -358,7 +358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../what-is-mindsdb/" class="md-nav__link">
+      <a href="../../what-is-mindsdb/" class="md-nav__link">
         What is MindsDB?
       </a>
     </li>
@@ -425,7 +425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../setup/self-hosted/docker/" class="md-nav__link">
+      <a href="../../setup/self-hosted/docker/" class="md-nav__link">
         Docker
       </a>
     </li>
@@ -465,7 +465,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../setup/self-hosted/pip/windows/" class="md-nav__link">
+      <a href="../../setup/self-hosted/pip/windows/" class="md-nav__link">
         Windows via pip
       </a>
     </li>
@@ -479,7 +479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../setup/self-hosted/pip/linux/" class="md-nav__link">
+      <a href="../../setup/self-hosted/pip/linux/" class="md-nav__link">
         Linux via pip
       </a>
     </li>
@@ -493,7 +493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../setup/self-hosted/pip/macos/" class="md-nav__link">
+      <a href="../../setup/self-hosted/pip/macos/" class="md-nav__link">
         MacOS via pip
       </a>
     </li>
@@ -507,7 +507,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../setup/self-hosted/pip/source/" class="md-nav__link">
+      <a href="../../setup/self-hosted/pip/source/" class="md-nav__link">
         Sourcecode via pip
       </a>
     </li>
@@ -535,7 +535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../setup/cloud/" class="md-nav__link">
+      <a href="../../setup/cloud/" class="md-nav__link">
         MindsDB Cloud
       </a>
     </li>
@@ -583,7 +583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../connect/mindsdb_editor/" class="md-nav__link">
+      <a href="../../connect/mindsdb_editor/" class="md-nav__link">
         MindsDB SQL Editor
       </a>
     </li>
@@ -597,7 +597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../connect/mysql-client/" class="md-nav__link">
+      <a href="../../connect/mysql-client/" class="md-nav__link">
         MySQL CLI
       </a>
     </li>
@@ -611,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../connect/dbeaver/" class="md-nav__link">
+      <a href="../../connect/dbeaver/" class="md-nav__link">
         DBeaver
       </a>
     </li>
@@ -625,7 +625,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../connect/deepnote/" class="md-nav__link">
+      <a href="../../connect/deepnote/" class="md-nav__link">
         Deepnote
       </a>
     </li>
@@ -639,7 +639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../connect/sql-alchemy/" class="md-nav__link">
+      <a href="../../connect/sql-alchemy/" class="md-nav__link">
         SQL Alchemy
       </a>
     </li>
@@ -653,7 +653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../connect/dbt/" class="md-nav__link">
+      <a href="../../connect/dbt/" class="md-nav__link">
         DBT
       </a>
     </li>
@@ -667,7 +667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../connect/kafka/" class="md-nav__link">
+      <a href="../../connect/kafka/" class="md-nav__link">
         Kafka
       </a>
     </li>
@@ -681,7 +681,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../connect/tableau/" class="md-nav__link">
+      <a href="../../connect/tableau/" class="md-nav__link">
         Tableau
       </a>
     </li>
@@ -703,7 +703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../create/databases/" class="md-nav__link">
+      <a href="../../sql/create/databases/" class="md-nav__link">
         Plug data to MindsDB
       </a>
     </li>
@@ -718,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../create/predictor/" class="md-nav__link">
+      <a href="../../sql/create/predictor/" class="md-nav__link">
         Train a Predictor
       </a>
     </li>
@@ -733,7 +733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/select/" class="md-nav__link">
+      <a href="../../sql/api/select/" class="md-nav__link">
         Get a Prediction
       </a>
     </li>
@@ -774,7 +774,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../table-structure/" class="md-nav__link">
+      <a href="../../sql/table-structure/" class="md-nav__link">
         Table Structure (Schema)
       </a>
     </li>
@@ -814,7 +814,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../create/databases/" class="md-nav__link">
+      <a href="../../sql/create/databases/" class="md-nav__link">
         DATABASE
       </a>
     </li>
@@ -828,7 +828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../create/predictor/" class="md-nav__link">
+      <a href="../../sql/create/predictor/" class="md-nav__link">
         PREDICTOR
       </a>
     </li>
@@ -842,7 +842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../create/table/" class="md-nav__link">
+      <a href="../../sql/create/table/" class="md-nav__link">
         TABLE
       </a>
     </li>
@@ -856,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../create/view/" class="md-nav__link">
+      <a href="../../sql/create/view/" class="md-nav__link">
         VIEW
       </a>
     </li>
@@ -877,7 +877,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/insert/" class="md-nav__link">
+      <a href="../../sql/api/insert/" class="md-nav__link">
         INSERT INTO
       </a>
     </li>
@@ -891,7 +891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/describe/" class="md-nav__link">
+      <a href="../../sql/api/describe/" class="md-nav__link">
         DESCRIBE
       </a>
     </li>
@@ -905,7 +905,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/retrain/" class="md-nav__link">
+      <a href="../../sql/api/retrain/" class="md-nav__link">
         RETRAIN
       </a>
     </li>
@@ -919,7 +919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/drop/" class="md-nav__link">
+      <a href="../../sql/api/drop/" class="md-nav__link">
         DROP PREDICTOR
       </a>
     </li>
@@ -933,7 +933,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/select/" class="md-nav__link">
+      <a href="../../sql/api/select/" class="md-nav__link">
         SELECT
       </a>
     </li>
@@ -947,7 +947,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/select_files/" class="md-nav__link">
+      <a href="../../sql/api/select_files/" class="md-nav__link">
         SELECT from files
       </a>
     </li>
@@ -961,7 +961,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/join/" class="md-nav__link">
+      <a href="../../sql/api/join/" class="md-nav__link">
         JOIN
       </a>
     </li>
@@ -1009,7 +1009,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../custom-model/mlflow/" class="md-nav__link">
+      <a href="../../custom-model/mlflow/" class="md-nav__link">
         MLFlow
       </a>
     </li>
@@ -1023,7 +1023,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../custom-model/ray-serve/" class="md-nav__link">
+      <a href="../../custom-model/ray-serve/" class="md-nav__link">
         Ray Serve
       </a>
     </li>
@@ -1037,7 +1037,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../custom-model/huggingface/" class="md-nav__link">
+      <a href="../../custom-model/huggingface/" class="md-nav__link">
         HuggingFace
       </a>
     </li>
@@ -1051,7 +1051,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../custom-model/openai/" class="md-nav__link">
+      <a href="../../custom-model/openai/" class="md-nav__link">
         OpenAI
       </a>
     </li>
@@ -1125,7 +1125,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../home-rentals/" class="md-nav__link">
+      <a href="../../sql/tutorials/home-rentals/" class="md-nav__link">
         Home Rentals
       </a>
     </li>
@@ -1139,7 +1139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../process-quality/" class="md-nav__link">
+      <a href="../../sql/tutorials/process-quality/" class="md-nav__link">
         Process Quality
       </a>
     </li>
@@ -1186,7 +1186,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../customer-churn/" class="md-nav__link">
+      <a href="../../sql/tutorials/customer-churn/" class="md-nav__link">
         Customer Churn
       </a>
     </li>
@@ -1233,7 +1233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mindsdb-superset-snowflake/" class="md-nav__link">
+      <a href="../../sql/tutorials/mindsdb-superset-snowflake/" class="md-nav__link">
         AI powered forecasts with MindsDB
       </a>
     </li>
@@ -1247,7 +1247,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../house-sales-forecasting/" class="md-nav__link">
+      <a href="../../sql/tutorials/house-sales-forecasting/" class="md-nav__link">
         Forecasting house sales
       </a>
     </li>
@@ -1328,7 +1328,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../insurance-cost-prediction/" class="md-nav__link">
+      <a href="../../sql/tutorials/insurance-cost-prediction/" class="md-nav__link">
         Insurance Cost
       </a>
     </li>
@@ -1342,7 +1342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bodyfat/" class="md-nav__link">
+      <a href="../../sql/tutorials/bodyfat/" class="md-nav__link">
         Body Fat Prediction
       </a>
     </li>
@@ -1389,7 +1389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../crop-prediction/" class="md-nav__link">
+      <a href="../../sql/tutorials/crop-prediction/" class="md-nav__link">
         Crop Recommendation
       </a>
     </li>
@@ -1403,7 +1403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../diabetes/" class="md-nav__link">
+      <a href="../../sql/tutorials/diabetes/" class="md-nav__link">
         Diabetes
       </a>
     </li>
@@ -1417,7 +1417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../spam_emails_tutorial/" class="md-nav__link">
+      <a href="../../sql/tutorials/spam_emails_tutorial/" class="md-nav__link">
         Email spam
       </a>
     </li>
@@ -1431,7 +1431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mushrooms/" class="md-nav__link">
+      <a href="../../sql/tutorials/mushrooms/" class="md-nav__link">
         Mushrooms Hunting
       </a>
     </li>
@@ -1445,7 +1445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../heart-disease/" class="md-nav__link">
+      <a href="../../sql/tutorials/heart-disease/" class="md-nav__link">
         Heart Disease
       </a>
     </li>
@@ -1472,12 +1472,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" checked>
       
       
       
@@ -1500,7 +1502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contribute/install/" class="md-nav__link">
+      <a href="../install/" class="md-nav__link">
         Installing for development
       </a>
     </li>
@@ -1514,7 +1516,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contribute/issues/" class="md-nav__link">
+      <a href="../issues/" class="md-nav__link">
         Bug reports and Feature requests
       </a>
     </li>
@@ -1526,11 +1528,169 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../../contribute/integrations/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Building a new integration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Building a new integration
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisite" class="md-nav__link">
+    Prerequisite
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    Structure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-integration-steps" class="md-nav__link">
+    New integration steps
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-handler-class" class="md-nav__link">
+    Step 1: Create Handler class:
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Create Handler class:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-class-property-name" class="md-nav__link">
+    Set class property name:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-11-implement-__init__" class="md-nav__link">
+    Step 1.1: Implement __init__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-12-implement-connect" class="md-nav__link">
+    Step 1.2: Implement connect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-13-implement-disconnect" class="md-nav__link">
+    Step 1.3: Implement disconnect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-14-implement-check_connection" class="md-nav__link">
+    Step 1.4: Implement check_connection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-15-implement-native_query" class="md-nav__link">
+    Step 1.5: Implement native_query
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-16-implement-query" class="md-nav__link">
+    Step 1.6: Implement query
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-17-implement-get_tables" class="md-nav__link">
+    Step 1.7: Implement get_tables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-18-implement-get_columns" class="md-nav__link">
+    Step 1.8: Implement get_columns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-connection_args-dict" class="md-nav__link">
+    Step 2: Create connection_args dict:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-connection_args_example-dict" class="md-nav__link">
+    Step 3: Create connection_args_example dict:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-export-all-required-variables" class="md-nav__link">
+    Step 4: Export all required variables:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1542,7 +1702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contribute/docs/" class="md-nav__link">
+      <a href="../docs/" class="md-nav__link">
         Writing documentation
       </a>
     </li>
@@ -1556,7 +1716,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contribute/tests/" class="md-nav__link">
+      <a href="../tests/" class="md-nav__link">
         Testing and improving test coverage
       </a>
     </li>
@@ -1570,7 +1730,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contribute/tutorials/" class="md-nav__link">
+      <a href="../tutorials/" class="md-nav__link">
         Writing tutorials
       </a>
     </li>
@@ -1618,7 +1778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contribute/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         How to contribute
       </a>
     </li>
@@ -1632,7 +1792,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../community/" class="md-nav__link">
+      <a href="../../community/" class="md-nav__link">
         Join our community
       </a>
     </li>
@@ -1673,16 +1833,126 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#machine-learning-ml-lifecycle" class="md-nav__link">
-    Machine Learning (ML) Lifecycle
+  <a href="#prerequisite" class="md-nav__link">
+    Prerequisite
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    Structure
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#deep-dive-into-the-ai-tables" class="md-nav__link">
-    Deep Dive into the AI Tables
+        
+          <li class="md-nav__item">
+  <a href="#new-integration-steps" class="md-nav__link">
+    New integration steps
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-handler-class" class="md-nav__link">
+    Step 1: Create Handler class:
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Create Handler class:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-class-property-name" class="md-nav__link">
+    Set class property name:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-11-implement-__init__" class="md-nav__link">
+    Step 1.1: Implement __init__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-12-implement-connect" class="md-nav__link">
+    Step 1.2: Implement connect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-13-implement-disconnect" class="md-nav__link">
+    Step 1.3: Implement disconnect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-14-implement-check_connection" class="md-nav__link">
+    Step 1.4: Implement check_connection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-15-implement-native_query" class="md-nav__link">
+    Step 1.5: Implement native_query
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-16-implement-query" class="md-nav__link">
+    Step 1.6: Implement query
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-17-implement-get_tables" class="md-nav__link">
+    Step 1.7: Implement get_tables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-18-implement-get_columns" class="md-nav__link">
+    Step 1.8: Implement get_columns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-connection_args-dict" class="md-nav__link">
+    Step 2: Create connection_args dict:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-connection_args_example-dict" class="md-nav__link">
+    Step 3: Create connection_args_example dict:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-export-all-required-variables" class="md-nav__link">
+    Step 4: Export all required variables:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1698,51 +1968,166 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/mindsdb/mindsdb/edit/master/docs/sql/tutorials/ai-tables.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/mindsdb/mindsdb/edit/master/docs/contribute/integrations.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-<h1 id="ai-tables-intro">AI Tables Intro<a class="headerlink" href="#ai-tables-intro" title="Permanent link">&para;</a></h1>
-<p>There is an ongoing transformational shift within the modern business world from the “what happened and why” based on historical data analysis to the “what will we predict can happen and how can we make it happen” based on machine learning predictive modeling.</p>
-<p><img alt="Analytics" src="/assets/sql/tutorials/snowflake-superset/1-ML_audience.png" /></p>
-<p>The success of your predictions depends both on the data you have available and the models you train this data on. Data Scientists and Data Engineers need best-in-class tools to prepare the data for feature engineering, the best training models, and the best way of deploying, monitoring, and managing these implementations for optimal prediction confidence.</p>
-<h2 id="machine-learning-ml-lifecycle">Machine Learning (ML) Lifecycle<a class="headerlink" href="#machine-learning-ml-lifecycle" title="Permanent link">&para;</a></h2>
-<p>The ML lifecycle can be represented as a process that consists of the data preparation phase, modeling phase, and deployment phase. The diagram below presents all the steps included in each of the stages.</p>
-<p><img alt="ML Workflow" src="/assets/sql/tutorials/snowflake-superset/2-ML_workflow.png" /></p>
-<p>Companies looking to implement machine learning have found their current solutions require substantial amounts of data preparation, cleaning, and labeling, plus hard to find machine learning/AI data scientists to conduct feature engineering; build, train, and optimize models; assemble, verify, and deploy into production; and then monitor in real-time, improve, and refine. Machine learning models require multiple iterations with existing data to train. Additionally, extracting, transforming, and loading (ETL) data from one system to another is complicated, leads to multiple copies of information, and is a compliance and tracking nightmare.</p>
-<p>A recent study has shown it takes 64% of companies a month, to over a year, to deploy a machine learning model into production¹. Leveraging existing databases and automating the feature engineering, building, training, and optimization of models, assembling them, and deploying them into production is called AutoML and has been gaining traction within enterprises for enabling non-experts to use machine learning models for practical applications.</p>
-<p><img alt="Classical ML" src="/assets/sql/tutorials/snowflake-superset/3-AI_Tables-income-debt.jpg" /></p>
-<p>MindsDB brings machine learning to existing SQL databases with a concept called AI Tables. AI Tables integrate the machine learning models as virtual tables inside a database, create predictions, and can be queried with simple SQL statements. Almost instantly, time series, regression, and classification predictions can be done directly in your database.</p>
-<h2 id="deep-dive-into-the-ai-tables">Deep Dive into the AI Tables<a class="headerlink" href="#deep-dive-into-the-ai-tables" title="Permanent link">&para;</a></h2>
-<p>Let’s consider the following income table that stores the income and debt values.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">income</span><span class="p">,</span><span class="w"> </span><span class="n">debt</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">income_table</span><span class="p">;</span><span class="w"></span>
+<h1 id="building-a-new-integration">Building a new integration<a class="headerlink" href="#building-a-new-integration" title="Permanent link">&para;</a></h1>
+<p>This section will walk you through adding a new integration to MindsDB as data layers or predictive frameworks.</p>
+<h2 id="prerequisite">Prerequisite<a class="headerlink" href="#prerequisite" title="Permanent link">&para;</a></h2>
+<p>Make sure you have cloned and installed the latest staging version of MindsDB repository locally. </p>
+<h3 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h3>
+<p>The code for integrations is located in the main MindsDB repository under <a href="https://github.com/mindsdb/mindsdb/tree/staging/mindsdb/integrations">/integrations</a> directory.</p>
+<div class="highlight"><pre><span></span><code>integrations                           # Contains integrations source code
+├─ handlers/                           # Each integration has its own handler dir
+│  ├─ mysql_handler/                   # MySQL integration code
+│  ├─ lightwood_handler/               # Lightwood integration code
+│  ├─  .../                            # Other handlers
+├─ libs/
+│  ├─ base_handler.py                  # Base class that each handler inherit from
+│  ├─ storage_handler.py               # Storage classes for each handler
+└─ utilities                           # Handlers utilities dir
+│  ├─ install.py                       # Installs all handlers dependencies
 </code></pre></div>
-<p><img alt="AI_Tables-income_table" src="/assets/sql/tutorials/snowflake-superset/3-AI_Tables-income_table.jpg" /></p>
-<p>A simple visualization of the data present in the income table is as follows.</p>
-<p><img alt="Income vs Debt" src="/assets/sql/tutorials/snowflake-superset/4-AI_Tables-income-debt-query.jpg" /></p>
-<p>Querying the income table to get the debt value for a particular income value results in the following.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">income</span><span class="p">,</span><span class="w"> </span><span class="n">debt</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">income</span><span class="w"></span>
-<span class="k">WHERE</span><span class="w"> </span><span class="n">income</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">80000</span><span class="p">;</span><span class="w"></span>
+<h3 id="new-integration-steps">New integration steps<a class="headerlink" href="#new-integration-steps" title="Permanent link">&para;</a></h3>
+<p>If you are adding new data integration you need to extend the <a href="https://github.com/mindsdb/mindsdb/blob/staging/mindsdb/integrations/libs/base_handler.py#L106"><code>DatabaseHandler</code></a>. In a case of adding a predictive framework integration extend <a href="https://github.com/mindsdb/mindsdb/blob/staging/mindsdb/integrations/libs/base_handler.py#L114"><code>PredictiveHandler</code></a>. 
+Each integration needs 7 core methods:</p>
+<ol>
+<li><code>connect</code> – Setup storage and connection</li>
+<li><code>disconnect</code> – Terminate connection</li>
+<li><code>check_connection</code> – Health check</li>
+<li><code>native_query</code>  – Act upon a raw SQL-like command</li>
+<li><code>query</code> – Act upon a parsed SQL-like command</li>
+<li><code>get_tables</code> – List all accessible entities within handler</li>
+<li><code>get_columns</code> – Column info for a specific table entity</li>
+<li><code>join</code> – Call other handlers to merge data with predictions. Predictive handlers only</li>
+</ol>
+<p>Bellow, you can find list of entitiles required to create database handler.</p>
+<h3 id="step-1-create-handler-class">Step 1: Create <code>Handler</code> class:<a class="headerlink" href="#step-1-create-handler-class" title="Permanent link">&para;</a></h3>
+<p>Each DatabaseHandler should inherit from <code>DatabaseHandler</code> class.</p>
+<h4 id="set-class-property-name">Set class property <code>name</code>:<a class="headerlink" href="#set-class-property-name" title="Permanent link">&para;</a></h4>
+<p>It will be used inside MindsDB as name of handler. For example, the name is used use an <code>ENGINE</code> in <code>CREATE DATABASE</code> statement:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">integration_name</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">ENGINE</span><span class="o">=</span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span><span class="w"> </span><span class="o">+</span><span class="w"></span>
+<span class="w">    </span><span class="k">PARAMETERS</span><span class="o">=</span><span class="err">{</span><span class="s1">&#39;host&#39;</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;user&#39;</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;root&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;password&#39;</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;password&#39;</span><span class="err">}</span><span class="w"></span>
 </code></pre></div>
-<p><img alt="Income vs Debt table" src="/assets/sql/tutorials/snowflake-superset/5-debt-income-query-table.jpg" /></p>
-<p><img alt="Income vs Debt chart" src="/assets/sql/tutorials/snowflake-superset/5-debt-income-query.jpg" /></p>
-<p>But what happens when we query the table for income value that is not present?</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">income</span><span class="p">,</span><span class="w"> </span><span class="n">debt</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">income</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">income</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">90000</span><span class="p">;</span><span class="w"></span>
+<h4 id="step-11-implement-__init__">Step 1.1: Implement <code>__init__</code><a class="headerlink" href="#step-11-implement-__init__" title="Permanent link">&para;</a></h4>
+<p>This method should initialize the handler. the <code>connection_data</code> argument will contain <code>PARAMETERS</code> from <code>CREATE DATABASE</code> statement as <code>user</code>, <code>password</code> etc.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">connection_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot; Initialize the handler</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): name of particular handler instance</span>
+<span class="sd">            connection_data (dict): parameters for connecting to the database</span>
+<span class="sd">            **kwargs: arbitrary keyword arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 </code></pre></div>
-<p><img alt="Income vs Debt table" src="/assets/sql/tutorials/snowflake-superset/6-debt-income-query-null-table.jpg" /></p>
-<p><img alt="Income vs Debt query" src="/assets/sql/tutorials/snowflake-superset/6-debt-income-query-null.jpg" /></p>
-<p>When a table doesn’t have an exact match the query will return a null value. This is where the AI Tables come into play!</p>
-<p>Let’s create a debt model that allows us to approximate the debt value for any income value. We’ll train this debt model using the income table’s data.</p>
-<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">debt_model</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">income_table</span><span class="w"> </span><span class="n">PREDICT</span><span class="w"> </span><span class="n">debt</span><span class="p">;</span><span class="w"></span>
+<h4 id="step-12-implement-connect">Step 1.2: Implement <code>connect</code><a class="headerlink" href="#step-12-implement-connect" title="Permanent link">&para;</a></h4>
+<p>The connect method should set up the connection as:</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HandlerStatusResponse</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Set up any connections required by the handler</span>
+<span class="sd">        Should return output of check_connection() method after attempting</span>
+<span class="sd">        connection. Should switch self.is_connected.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            HandlerStatusResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 </code></pre></div>
-<p>MindsDB provides the <strong>CREATE PREDICTOR</strong> statement. When we execute this statement, the predictive model works in the background, automatically creating a vector representation of the data that can be visualized as follows.</p>
-<p><img alt="Income vs Debt model" src="/assets/sql/tutorials/snowflake-superset/7-debt-income-query-ml.jpg" /></p>
-<p>Let’s now look for the debt value of some random income value. To get the approximated debt value, we query the debt_model and not the income table.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">income</span><span class="p">,</span><span class="w"> </span><span class="n">debt</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">debt_model</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">income</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">90120</span><span class="p">;</span><span class="w"></span>
+<h4 id="step-13-implement-disconnect">Step 1.3: Implement <code>disconnect</code><a class="headerlink" href="#step-13-implement-disconnect" title="Permanent link">&para;</a></h4>
+<p>The disconnect method should close the existing connection as:</p>
+<div class="highlight"><pre><span></span><code>  <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Close any existing connections</span>
+<span class="sd">        Should switch self.is_connected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_connected</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_connected</span>
 </code></pre></div>
-<p><img alt="Income vs Debt model" src="/assets/sql/tutorials/snowflake-superset/7-debt-income-query-ml-table.jpg" /></p>
+<h4 id="step-14-implement-check_connection">Step 1.4: Implement <code>check_connection</code><a class="headerlink" href="#step-14-implement-check_connection" title="Permanent link">&para;</a></h4>
+<p>The check_connection method is used to perform the health check for the connection:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HandlerStatusResponse</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Cehck connection to the handler</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            HandlerStatusResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</code></pre></div>
+<h4 id="step-15-implement-native_query">Step 1.5: Implement <code>native_query</code><a class="headerlink" href="#step-15-implement-native_query" title="Permanent link">&para;</a></h4>
+<p>The native_query method is used to run command on native database language:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">native_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HandlerStatusResponse</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Receive raw query and act upon it somehow.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query (Any): query in native format (str for sql databases,</span>
+<span class="sd">                dict for mongo, etc)</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            HandlerResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</code></pre></div>
+<h4 id="step-16-implement-query">Step 1.6: Implement <code>query</code><a class="headerlink" href="#step-16-implement-query" title="Permanent link">&para;</a></h4>
+<p>The query method is used to run parsed SQL command:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="n">ASTNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HandlerStatusResponse</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Receive query as AST (abstract syntax tree) and act upon it somehow.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            query (ASTNode): sql query represented as AST. May be any kind</span>
+<span class="sd">                of query: SELECT, INTSERT, DELETE, etc</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            HandlerResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</code></pre></div>
+<h4 id="step-17-implement-get_tables">Step 1.7: Implement <code>get_tables</code><a class="headerlink" href="#step-17-implement-get_tables" title="Permanent link">&para;</a></h4>
+<p>The get_tables method is used to list tables:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HandlerStatusResponse</span><span class="p">:</span>
+       <span class="sd">&quot;&quot;&quot; Return list of entities</span>
+<span class="sd">        Return list of entities that will be accesible as tables.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            HandlerResponse: shoud have same columns as information_schema.tables</span>
+<span class="sd">                (https://dev.mysql.com/doc/refman/8.0/en/information-schema-tables-table.html)</span>
+<span class="sd">                Column &#39;TABLE_NAME&#39; is mandatory, other is optional.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</code></pre></div>
+<h4 id="step-18-implement-get_columns">Step 1.8: Implement <code>get_columns</code><a class="headerlink" href="#step-18-implement-get_columns" title="Permanent link">&para;</a></h4>
+<p>The get_tables method is used to list tables:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HandlerStatusResponse</span><span class="p">:</span>
+      <span class="sd">&quot;&quot;&quot; Returns a list of entity columns</span>
+<span class="sd">        Args:</span>
+<span class="sd">            table_name (str): name of one of tables returned by self.get_tables()</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            HandlerResponse: shoud have same columns as information_schema.columns</span>
+<span class="sd">                (https://dev.mysql.com/doc/refman/8.0/en/information-schema-columns-table.html)</span>
+<span class="sd">                Column &#39;COLUMN_NAME&#39; is mandatory, other is optional. Hightly</span>
+<span class="sd">                recomended to define also &#39;DATA_TYPE&#39;: it should be one of</span>
+<span class="sd">                python data types (by default it str).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</code></pre></div>
+<h3 id="step-2-create-connection_args-dict">Step 2: Create <code>connection_args</code> dict:<a class="headerlink" href="#step-2-create-connection_args-dict" title="Permanent link">&para;</a></h3>
+<p>The <code>connection_arg</code> dictinonary should contain all required arguments to establish the connection.</p>
+<h3 id="step-3-create-connection_args_example-dict">Step 3: Create <code>connection_args_example</code> dict:<a class="headerlink" href="#step-3-create-connection_args_example-dict" title="Permanent link">&para;</a></h3>
+<p>The <code>connection_args_example</code> dictinonary should contain an example of all required arguments to establish the connection.</p>
+<h3 id="step-4-export-all-required-variables">Step 4: Export all required variables:<a class="headerlink" href="#step-4-export-all-required-variables" title="Permanent link">&para;</a></h3>
+<p>In <code>__init__</code> file export:</p>
+<ul>
+<li><code>Handler</code> - handler class</li>
+<li><code>version</code> - version of handler</li>
+<li><code>name</code> - name of the handler (same as Handler.name)</li>
+<li><code>type</code> - type of the handler (is it DATA of ML handler)</li>
+<li><code>icon_path</code> - path to file with database icon</li>
+<li><code>title</code> - short description of handler</li>
+<li><code>description</code> - description of handler</li>
+<li><code>connection_args</code> - dict with connection args</li>
+<li><code>connection_args_example</code> - example of connection args</li>
+<li><code>import_error</code> - error message, in case if is not possible to import <code>Handler</code> class</li>
+</ul>
+<p>E.g:</p>
+<div class="highlight"><pre><span></span><code><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Trino&#39;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Integration for connection to TrinoDB&#39;</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;trino&#39;</span>
+<span class="nb">type</span> <span class="o">=</span> <span class="n">HANDLER_TYPE</span><span class="o">.</span><span class="n">DATA</span>
+<span class="n">icon_path</span> <span class="o">=</span> <span class="s1">&#39;icon.png&#39;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Handler&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;connection_args_example&#39;</span>
+    <span class="s1">&#39;Handler&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;icon_path&#39;</span>
+<span class="p">]</span>
+</code></pre></div>
 
               
             </article>
@@ -1757,10 +2142,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["search.suggest", "search.highlight", "header.autohide"], "search": "../../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["search.suggest", "search.highlight", "header.autohide"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.ed9748b7.min.js"></script>
+      <script src="../../assets/javascripts/bundle.ed9748b7.min.js"></script>
       
     
   </body>
