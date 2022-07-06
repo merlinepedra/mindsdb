@@ -895,8 +895,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#usingdescription" class="md-nav__link">
-    ... USINGDescription
+  <a href="#using-description" class="md-nav__link">
+    ... USING Description
   </a>
   
 </li>
@@ -1877,8 +1877,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#usingdescription" class="md-nav__link">
-    ... USINGDescription
+  <a href="#using-description" class="md-nav__link">
+    ... USING Description
   </a>
   
 </li>
@@ -2043,12 +2043,15 @@
 </table>
 <div class="admonition tip">
 <p class="admonition-title">Checking the status of the model</p>
+</div>
 <p>After you run the <code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code> statement, you can check the status of the training model, by selecting from the <code class="highlight"><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictors</span><span class="w"></span></code></p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="err">```</span><span class="k">sql</span><span class="w"></span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">predictors</span><span class="w"></span>
 <span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;[predictor_name]&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="err">```</span><span class="w"></span>
 </code></pre></div>
-</div>
+
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
 <p>This example shows how you can train a Machine Learning model called home_rentals_model to predict the rental prices for real estate properties inside the dataset.</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_model</span><span class="w"></span>
@@ -2069,8 +2072,8 @@
 <span class="o">+</span><span class="c1">-----------------+----------+--------------------+--------------+---------------+-----------------+-------+-------------------+------------------+</span>
 </code></pre></div>
 <h2 id="using-statement"><code class="highlight"><span class="p">...</span><span class="w"> </span><span class="k">USING</span><span class="w"></span></code> Statement<a class="headerlink" href="#using-statement" title="Permanent link">&para;</a></h2>
-<h3 id="usingdescription"><code class="highlight"><span class="p">...</span><span class="w"> </span><span class="k">USING</span><span class="w"></span></code>Description<a class="headerlink" href="#usingdescription" title="Permanent link">&para;</a></h3>
-<p>In MindsDB, the underlying AutoML models are based on Lightwood. This library generates models automatically based on the data and a declarative problem definition, but the default configuration can be overridden. The <code class="highlight"><span class="k">USING</span><span class="w"> </span><span class="p">...</span><span class="w"></span></code> statement provides the option to configure a model to be trained with specific options.</p>
+<h3 id="using-description"><code class="highlight"><span class="p">...</span><span class="w"> </span><span class="k">USING</span><span class="w"></span></code> Description<a class="headerlink" href="#using-description" title="Permanent link">&para;</a></h3>
+<p>In MindsDB, the underlying AutoML models are based on <a href="https://lightwood.io/">Lightwood</a>. This library generates models automatically based on the data and a declarative problem definition, but the default configuration can be overridden. The <code class="highlight"><span class="k">USING</span><span class="w"> </span><span class="p">...</span><span class="w"></span></code> statement provides the option to configure a model to be trained with specific options.</p>
 <h3 id="using-statement-syntax"><code class="highlight"><span class="p">...</span><span class="w"> </span><span class="k">USING</span><span class="w"></span></code> Statement Syntax<a class="headerlink" href="#using-statement-syntax" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.[</span><span class="n">predictor_name</span><span class="p">]</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="p">[</span><span class="n">integration_name</span><span class="p">]</span><span class="w"></span>
@@ -2110,12 +2113,60 @@
 <p class="admonition-title">By default, the AutoML engine will try to get the best match for the data.</p>
 </div>
 <h3 id="using-model-key"><code class="highlight"><span class="p">...</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">model</span><span class="w"></span></code> Key<a class="headerlink" href="#using-model-key" title="Permanent link">&para;</a></h3>
-<p>Allows you to specify what type of Machine Learning algorithm to learn from the encoder data. To learn more about all the model options, go <a href="https://lightwood.io/mixer.html">here</a></p>
+<p>Allows you to specify what type of Machine Learning algorithm to learn from the encoder data.</p>
 <div class="highlight"><pre><span></span><code><span class="p">...</span><span class="w"></span>
 <span class="k">USING</span><span class="w"></span>
 <span class="n">model</span><span class="p">.</span><span class="n">args</span><span class="o">=</span><span class="s1">&#39;{&quot;key&quot;: value}&#39;</span><span class="w"></span>
 <span class="p">;</span><span class="w"></span>
 </code></pre></div>
+<p>Module options:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.BaseMixer"><strong>BaseMixer</strong></a></td>
+<td>Base class for all mixers.</td>
+</tr>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.LightGBM"><strong>LightGBM</strong></a></td>
+<td>This mixer configures and uses LightGBM for regression or classification tasks depending on the problem definition.</td>
+</tr>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.LightGBMArray"><strong>LightGBMArray</strong></a></td>
+<td>This mixer is composed of several LightGBM mixers in regression mode aimed at time series forecasting tasks.</td>
+</tr>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.NHitsMixer"><strong>NHitsMixer</strong></a></td>
+<td>Wrapper around a MQN-HITS deep learning model.</td>
+</tr>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.Neural"><strong>Neural</strong></a></td>
+<td>The Neural mixer trains a fully connected dense network from concatenated encoded outputs of each of the features in the dataset to predicted the encoded output.</td>
+</tr>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.ProphetMixer"><strong>ProphetMixer</strong></a></td>
+<td>This mixer is a wrapper around the popular time series library sktime.</td>
+</tr>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.Regression"><strong>Regression</strong></a></td>
+<td>The Regression mixer inherits from <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html">scikit-learn’s Ridge class</a></td>
+</tr>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.SkTime"><strong>SkTime</strong></a></td>
+<td>This mixer is a wrapper around the popular time series library sktime.</td>
+</tr>
+<tr>
+<td><a href="https://lightwood.io/mixer.html#mixer.Unit"><strong>Unit</strong></a></td>
+<td>Special mixer that passes along whatever prediction is made by the target encoder without modifications. This is useful for single-column predictive scenarios that may involve complex and/or expensive encoders (e.g. free-form text classification with transformers).</td>
+</tr>
+</tbody>
+</table>
+<p>To learn more about all the model options, please refer to <a href="https://lightwood.io/mixer.html">Lightwood's documentation here.</a></p>
 <h3 id="using-example"><code class="highlight"><span class="p">...</span><span class="w"> </span><span class="k">USING</span><span class="w"></span></code> Example<a class="headerlink" href="#using-example" title="Permanent link">&para;</a></h3>
 <p>We will use the home rentals dataset, specifying particular encoders for some of the columns and a LightGBM model.</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">home_rentals_predictor</span><span class="w"></span>
@@ -2227,8 +2278,8 @@
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Getting a prediction of a Time Series model</p>
-<p>Due to the nature of Time Series Forecasting you will need to use the <a href="/sql/api/join"><code class="highlight"><span class="k">JOIN</span><span class="w"></span></code></a> statement to get results.</p>
 </div>
+<p>Due to the nature of Time Series Forecasting you will need to use the <a href="/sql/api/join"><code class="highlight"><span class="k">JOIN</span><span class="w"></span></code></a> statement to get results.</p>
 <h3 id="create-predictor-for-time-series-models-example"><code class="highlight"><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"></span></code> For Time Series Models Example<a class="headerlink" href="#create-predictor-for-time-series-models-example" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">PREDICTOR</span><span class="w"> </span><span class="n">mindsdb</span><span class="p">.</span><span class="n">inventory_model</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="n">db_integration</span><span class="w"></span>
