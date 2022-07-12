@@ -1568,22 +1568,84 @@
     Prerequisite
   </a>
   
-    <nav class="md-nav" aria-label="Prerequisite">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-handlers" class="md-nav__link">
+    What are handlers?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structure-of-a-handler" class="md-nav__link">
+    Structure of a handler
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure of a handler">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
-    Structure
+  <a href="#structure-within-the-mindsdb-repository" class="md-nav__link">
+    Structure within the MindsDB repository
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#new-integration-steps" class="md-nav__link">
-    New integration steps
+  <a href="#core-methods" class="md-nav__link">
+    Core methods
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#predictor-specific-behavior" class="md-nav__link">
+    Predictor-specific behavior
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parsing-sql" class="md-nav__link">
+    Parsing SQL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storing-internal-state" class="md-nav__link">
+    Storing internal state
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formatting-output" class="md-nav__link">
+    Formatting output
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-common-methods" class="md-nav__link">
+    Other common methods
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-write-a-handler" class="md-nav__link">
+    How to write a handler
+  </a>
+  
+    <nav class="md-nav" aria-label="How to write a handler">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#step-1-create-handler-class" class="md-nav__link">
@@ -1837,22 +1899,84 @@
     Prerequisite
   </a>
   
-    <nav class="md-nav" aria-label="Prerequisite">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-handlers" class="md-nav__link">
+    What are handlers?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structure-of-a-handler" class="md-nav__link">
+    Structure of a handler
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure of a handler">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
-    Structure
+  <a href="#structure-within-the-mindsdb-repository" class="md-nav__link">
+    Structure within the MindsDB repository
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#new-integration-steps" class="md-nav__link">
-    New integration steps
+  <a href="#core-methods" class="md-nav__link">
+    Core methods
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#predictor-specific-behavior" class="md-nav__link">
+    Predictor-specific behavior
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parsing-sql" class="md-nav__link">
+    Parsing SQL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storing-internal-state" class="md-nav__link">
+    Storing internal state
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formatting-output" class="md-nav__link">
+    Formatting output
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-common-methods" class="md-nav__link">
+    Other common methods
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-write-a-handler" class="md-nav__link">
+    How to write a handler
+  </a>
+  
+    <nav class="md-nav" aria-label="How to write a handler">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#step-1-create-handler-class" class="md-nav__link">
@@ -1978,7 +2102,15 @@
 <p>This section will walk you through adding a new integration to MindsDB as data layers or predictive frameworks.</p>
 <h2 id="prerequisite">Prerequisite<a class="headerlink" href="#prerequisite" title="Permanent link">&para;</a></h2>
 <p>Make sure you have cloned and installed the latest staging version of MindsDB repository locally. </p>
-<h3 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h3>
+<h2 id="what-are-handlers">What are handlers?<a class="headerlink" href="#what-are-handlers" title="Permanent link">&para;</a></h2>
+<p>At the heart of the MindsDB philosophy lies the belief that predictive insights are best leveraged when produced as close as possible to the data layer. Usually, this "layer" is a SQL-compatible database, but it could also be a non-SQL database, data stream, or any other tool that interacts with data stored somewhere else.</p>
+<p>The above description fits an enormous set of tools that people use across the software industry. The complexity increases further by bringing Machine Learning into the equation, as the set of popular ML tools is similarly huge. We aim to support most technology stacks, requiring a simple integration procedure so that anyone is able to easily contribute the necessary "glue" to enable any predictive system for usage within data layers.</p>
+<p>This motivates the concept of <em>handlers</em>, which is an abstraction for the two types of entities mentioned above: data layers and predictive systems. Handlers are meant to enforce a common and sufficient set of behaviors that all MindsDB-compatible entities should support. By creating a handler, the target system is effectively integrated into the wider MindsDB ecosystem.</p>
+<h2 id="structure-of-a-handler">Structure of a handler<a class="headerlink" href="#structure-of-a-handler" title="Permanent link">&para;</a></h2>
+<p>Technically speaking, a handler is a self-contained Python package that will have everything required for MindsDB to interact with it, including aspects like dependencies, unit tests, and continuous integration logic. It is up to the author to determine the nature of the package (e.g. close or open source, version control, etc.), although we encourage opening pull requests to expand the default set of supported tools.</p>
+<p>The entrypoint is a class definition that should inherit from either <code>integrations.libs.base_handler.DatabaseHandler</code> or <code>integrations.libs.base_handler.PredictiveHandler</code> depending on the type of system that is integrated. <code>integrations.libs.base_handler.BaseHandler</code> defines all the common methods that have to be overwritten in order to achieve a functional implementation.</p>
+<p>Apart from the above, structure is not enforced and the package can be built arranged into whatever design is preferred by the author.</p>
+<h3 id="structure-within-the-mindsdb-repository">Structure within the MindsDB repository<a class="headerlink" href="#structure-within-the-mindsdb-repository" title="Permanent link">&para;</a></h3>
 <p>The code for integrations is located in the main MindsDB repository under <a href="https://github.com/mindsdb/mindsdb/tree/staging/mindsdb/integrations">/integrations</a> directory.</p>
 <div class="highlight"><pre><span></span><code>integrations                           # Contains integrations source code
 ├─ handlers/                           # Each integration has its own handler dir
@@ -1991,9 +2123,38 @@
 └─ utilities                           # Handlers utilities dir
 │  ├─ install.py                       # Installs all handlers dependencies
 </code></pre></div>
-<h3 id="new-integration-steps">New integration steps<a class="headerlink" href="#new-integration-steps" title="Permanent link">&para;</a></h3>
-<p>If you are adding new data integration you need to extend the <a href="https://github.com/mindsdb/mindsdb/blob/staging/mindsdb/integrations/libs/base_handler.py#L106"><code>DatabaseHandler</code></a>. In a case of adding a predictive framework integration extend <a href="https://github.com/mindsdb/mindsdb/blob/staging/mindsdb/integrations/libs/base_handler.py#L114"><code>PredictiveHandler</code></a>. 
-Each integration needs 7 core methods:</p>
+<h3 id="core-methods">Core methods<a class="headerlink" href="#core-methods" title="Permanent link">&para;</a></h3>
+<p>Apart from <code>__init__()</code>, there are seven core methods that the handler class has to implement, these are: <code>connect(), disconnect(), check_connection(), native_query(), query(), get_tables(), get_columns()</code>. It is recommended to check actual examples in the codebase to get an idea of what may go into each of these methods, as they can change a bit depending on the nature of the system being integrated. Respectively, their main purpose is:</p>
+<ol>
+<li><code>connect</code>: perform any necessary steps to connect to the underlying system</li>
+<li><code>disconnect</code>: if needed, gracefully close connections established in <code>connect</code></li>
+<li><code>check_connection</code>: evaluate if the connection is alive and healthy. Will be frequently called.</li>
+<li><code>native_query</code>: should parse any <em>native</em> statement string and act upon it (e.g. raw SQL-like commands).</li>
+<li><code>query</code>: takes a parsed SQL-like command (in the form of an abstract syntax tree) and executes it. An example would be a <code>CREATE PREDICTOR</code> statement for predictive handlers, which is <em>not</em> native syntax as databases have no notion of a <code>PREDICTOR</code> entity.</li>
+<li><code>get_tables</code>: All available <code>tables</code>s should be listed and returned. Each handler should decide what a <code>table</code> will mean for the underlying system when interacting with it from the data layer. Typically, this means actual tables for data handlers, and machine learning models (or predictive handlers.</li>
+<li><code>get_columns</code>: Each table registered in the handler will have one or more columns (with their respective data types) that will be returned when calling this method.</li>
+</ol>
+<p>As stated in the above section, authors can opt for adding private methods, new files, folders, or any combination of these to structure all the necessary work that will enable the methods above to work as intended.</p>
+<h3 id="predictor-specific-behavior">Predictor-specific behavior<a class="headerlink" href="#predictor-specific-behavior" title="Permanent link">&para;</a></h3>
+<p>For predictive handlers, there is an additional method that is fundamental:</p>
+<ul>
+<li><code>join()</code>: triggers a specific model to generate predictions given some input data. This behavior manifests in the SQL API when doing any type of <code>JOIN</code> operation between tables from a predictive and data handler.</li>
+</ul>
+<h3 id="parsing-sql">Parsing SQL<a class="headerlink" href="#parsing-sql" title="Permanent link">&para;</a></h3>
+<p>Whenever a string that contains SQL needs to be parsed, it is heavily recommended to opt for using the <code>mindsdb_sql</code> package, which contains its own parser that fully supports the MindsDB SQL dialect and partially supports the common SQL dialect. There is also a "render" feature to map other dialects into the already supported ones.</p>
+<h3 id="storing-internal-state">Storing internal state<a class="headerlink" href="#storing-internal-state" title="Permanent link">&para;</a></h3>
+<p>Most handlers need to store internal metadata, ranging from a list of registered tables to implementation-specific details that will greatly vary from one case to another.</p>
+<p>The recommendation for storing these bits of information is to opt for storage handlers (located in <code>integrations.libs.storage_handler</code>). We currently support two options, either a Sqlite or a Redis backend. In both cases, the premise is the same: a key-value store system is setup so that interfaces are kept simple and clean, exposing only <code>get()</code> and <code>set()</code> methods for usage within the data and predictive handlers.</p>
+<blockquote>
+<p>Note: for ML frameworks, opt for storing the path to your model weights inside the KV storage, saving weights in optimized formats preferred by the system, like <code>.h5</code>)</p>
+</blockquote>
+<h3 id="formatting-output">Formatting output<a class="headerlink" href="#formatting-output" title="Permanent link">&para;</a></h3>
+<p>When it comes to building the response of the public methods, the output should be wrapped by the <code>HandlerResponse</code> and <code>HandlerStatusResponse</code> classes (located in <code>mindsdb.integrations.libs.response</code>), which are used by MindsDB executioner to orchestrate and coordinate multiple handler instances in parallel.</p>
+<h2 id="other-common-methods">Other common methods<a class="headerlink" href="#other-common-methods" title="Permanent link">&para;</a></h2>
+<p>Under <code>mindsdb.integrations.libs.utils</code>, contributors can find various methods that may be useful while implementing new handlers, with a focus on predictive handlers.</p>
+<h2 id="how-to-write-a-handler">How to write a handler<a class="headerlink" href="#how-to-write-a-handler" title="Permanent link">&para;</a></h2>
+<p>We wrap up this page by going through all the above information step by step. Remember, if you are adding new data integration you need to extend the <a href="https://github.com/mindsdb/mindsdb/blob/staging/mindsdb/integrations/libs/base_handler.py#L106"><code>DatabaseHandler</code></a>. In a case of adding a predictive framework integration extend <a href="https://github.com/mindsdb/mindsdb/blob/staging/mindsdb/integrations/libs/base_handler.py#L114"><code>PredictiveHandler</code></a>. 
+In both cases we need 7 core methods:</p>
 <ol>
 <li><code>connect</code> – Setup storage and connection</li>
 <li><code>disconnect</code> – Terminate connection</li>
@@ -2002,9 +2163,10 @@ Each integration needs 7 core methods:</p>
 <li><code>query</code> – Act upon a parsed SQL-like command</li>
 <li><code>get_tables</code> – List all accessible entities within handler</li>
 <li><code>get_columns</code> – Column info for a specific table entity</li>
-<li><code>join</code> – Call other handlers to merge data with predictions. Predictive handlers only</li>
 </ol>
-<p>Bellow, you can find list of entitiles required to create database handler.</p>
+<p>And additionally for predictive handlers:
+8. <code>join</code> – Call other handlers to merge data with predictions. </p>
+<p>Below, you can find a list of entities required to create a database handler.</p>
 <h3 id="step-1-create-handler-class">Step 1: Create <code>Handler</code> class:<a class="headerlink" href="#step-1-create-handler-class" title="Permanent link">&para;</a></h3>
 <p>Each DatabaseHandler should inherit from <code>DatabaseHandler</code> class.</p>
 <h4 id="set-class-property-name">Set class property <code>name</code>:<a class="headerlink" href="#set-class-property-name" title="Permanent link">&para;</a></h4>
@@ -2128,6 +2290,11 @@ Each integration needs 7 core methods:</p>
     <span class="s1">&#39;Handler&#39;</span><span class="p">,</span> <span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;icon_path&#39;</span>
 <span class="p">]</span>
 </code></pre></div>
+<p>For real examples, we encourage you to inspect the following handlers inside the MindsDB repository:
+* MySQL
+* Postgres
+* MLflow
+* Lightwood</p>
 
               
             </article>
