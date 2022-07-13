@@ -38,11 +38,12 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        #python -m pip install --upgrade pip==21.0.1
-        pip install 'pymssql >= 2.1.4'
-        pip install boto3
-        pip install --no-cache-dir .
-        pip install -r requirements_test.txt
+        echo -e "deps are installed"
+        # #python -m pip install --upgrade pip==21.0.1
+        # pip install 'pymssql >= 2.1.4'
+        # pip install boto3
+        # pip install --no-cache-dir .
+        # pip install -r requirements_test.txt
       shell: bash
       env:
         ACCESS_KEY:  ${{ secrets.GH_ACCESS_KEY }}
@@ -58,48 +59,50 @@ jobs:
     - name: Install lightwood/staging if it's not mindsdb/stable
       if: ${{ github.ref != 'refs/heads/stable' }}
       run: |
-          pip install git+https://github.com/mindsdb/lightwood.git@staging --upgrade --no-cache-dir
+          echo - e 'LW is installed'
+          # pip install git+https://github.com/mindsdb/lightwood.git@staging --upgrade --no-cache-dir
     - name: Run integration api and flow tests
       run: |
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          mkdir -p ~/.ssh/
-          echo "$DB_MACHINE_KEY" > ~/.ssh/db_machine
-          sudo chmod 600 ~/.ssh/db_machine
-          echo "$DB_MACHINE_MS_KEY" > ~/.ssh/db_machine_ms
-          sudo chmod 600 ~/.ssh/db_machine_ms
-          echo "$DATABASE_CREDENTIALS" > ~/.mindsdb_credentials.json
-          sudo chmod 644 ~/.mindsdb_credentials.json
+        echo -e "tests ate done"
+        # if [ "$RUNNER_OS" == "Linux" ]; then
+        #   mkdir -p ~/.ssh/
+        #   echo "$DB_MACHINE_KEY" > ~/.ssh/db_machine
+        #   sudo chmod 600 ~/.ssh/db_machine
+        #   echo "$DB_MACHINE_MS_KEY" > ~/.ssh/db_machine_ms
+        #   sudo chmod 600 ~/.ssh/db_machine_ms
+        #   echo "$DATABASE_CREDENTIALS" > ~/.mindsdb_credentials.json
+        #   sudo chmod 644 ~/.mindsdb_credentials.json
 
-          export USE_EXTERNAL_DB_SERVER="1"
+        #   export USE_EXTERNAL_DB_SERVER="1"
 
-          # MySQL API
-          echo -e "\n===============\ntest MySQL API\n===============\n"
-          python tests/integration_tests/flows/test_mysql_api.py
+        #   # MySQL API
+        #   echo -e "\n===============\ntest MySQL API\n===============\n"
+        #   python tests/integration_tests/flows/test_mysql_api.py
         
-          # MySQL binary API
-          echo -e "\n===============\ntest MySQL binary API\n===============\n"
-          python tests/integration_tests/flows/test_mysql_bin_api.py
+        #   # MySQL binary API
+        #   echo -e "\n===============\ntest MySQL binary API\n===============\n"
+        #   python tests/integration_tests/flows/test_mysql_bin_api.py
 
-          # Company independent
-          echo -e "\n===============\ntest company independent\n===============\n"
-          python tests/integration_tests/flows/test_company_independent.py
+        #   # Company independent
+        #   echo -e "\n===============\ntest company independent\n===============\n"
+        #   python tests/integration_tests/flows/test_company_independent.py
 
-          # HTTP
-          echo -e "\n===============\ntest HTTP\n===============\n"
-          python tests/integration_tests/flows/test_http.py
+        #   # HTTP
+        #   echo -e "\n===============\ntest HTTP\n===============\n"
+        #   python tests/integration_tests/flows/test_http.py
 
-          # user flow 1
-          echo -e "\n===============\ntest user flow 1\n===============\n"
-          python tests/integration_tests/flows/test_user_flow_1.py
+        #   # user flow 1
+        #   echo -e "\n===============\ntest user flow 1\n===============\n"
+        #   python tests/integration_tests/flows/test_user_flow_1.py
 
-          # # Kafka Stream
-          # echo -e "\n===============\ntest Kafka Stream\n===============\n"
-          # python tests/integration_tests/flows/test_kafka.py
+        #   # # Kafka Stream
+        #   # echo -e "\n===============\ntest Kafka Stream\n===============\n"
+        #   # python tests/integration_tests/flows/test_kafka.py
 
-          # # Redis Stream
-          # echo -e "\n===============\ntest Redis Stream\n===============\n"
-          # python tests/integration_tests/flows/test_redis.py
-        fi
+        #   # # Redis Stream
+        #   # echo -e "\n===============\ntest Redis Stream\n===============\n"
+        #   # python tests/integration_tests/flows/test_redis.py
+        # fi
       shell: bash
       env:
         CHECK_FOR_UPDATES: False
@@ -121,20 +124,23 @@ jobs:
         python-version: '3.7'
     - name: Install dependencies
       run: |
-        echo ${{ github.ref }}
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
+        echo -e "!!! deploy"
+        # echo ${{ github.ref }}
+        # python -m pip install --upgrade pip
+        # pip install setuptools wheel twine
     - name: Build and publish
       env:
         TWINE_USERNAME:  __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
-        python setup.py sdist
-        twine upload dist/*
+        echo -e "!!! deploy"
+        # python setup.py sdist
+        # twine upload dist/*
     - name: Install latest version from pypi to see that all is working
       run: |
-        sleep 90
-        pip install mindsdb
+        echo -e "!!! deploy"
+        # sleep 90
+        # pip install mindsdb
 
   create_version_file:
     runs-on: ubuntu-latest
@@ -148,17 +154,18 @@ jobs:
         python-version: '3.7'
     - name: Create version files
       run: |
-        python create_version_file.py beta
+        echo -e "!!! deploy"
+        # python create_version_file.py beta
 
-    - name: Sync version file to s3
-      uses: jakejarvis/s3-sync-action@master
-      with:
-        args: --acl public-read --follow-symlinks
-      env:
-        AWS_S3_BUCKET: 'mindsdb-installer'
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'us-west-2'
-        SOURCE_DIR: 'distributions/ver/dist'
-        DEST_DIR: 'mindsdb-installer/ver'
+    # - name: Sync version file to s3
+    #   uses: jakejarvis/s3-sync-action@master
+    #   with:
+    #     args: --acl public-read --follow-symlinks
+    #   env:
+    #     AWS_S3_BUCKET: 'mindsdb-installer'
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     AWS_REGION: 'us-west-2'
+    #     SOURCE_DIR: 'distributions/ver/dist'
+    #     DEST_DIR: 'mindsdb-installer/ver'
 
